@@ -1,46 +1,46 @@
 "use client";
-import * as Dialog from "@radix-ui/react-dialog";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Box, Button, Flex, Portal } from "@radix-ui/themes";
-import { Menu, XCircle } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import NextLink from "../NextLink";
+import { Box, Button, Flex } from "@radix-ui/themes";
 import LanguageSwitcher from "./LanguageSwitcher";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Menu, XCircle } from "lucide-react";
 import ThemeSwitcher from "./ThemeSwitcher";
+import NextLink from "../NextLink";
+import { Session } from "@/types/sharedTypes";
+import { useSetAtom } from "jotai";
+import { sessionAtom } from "@/atoms/atoms";
+import ProfileDropdown from "./ProfileDropdown";
 
-const Navbar = () => {
+type Props = { session: Session | null };
+
+const Navbar = ({ session }: Props) => {
+  const setSessionAtom = useSetAtom(sessionAtom);
+  setSessionAtom(session);
   const t = useTranslations("navbar");
   const locale = useLocale();
   return (
-    <Flex
-      className="shadow-1"
-      justify="between"
-      width="100%"
-      gap="4"
-      py="4"
-      px="6"
-      mb="6"
-    >
+    <Flex className="shadow-1" justify="between" gap="4" py="4" px="6" mb="6">
       <NavigationMenu.Root>
         <Box display={{ initial: "none", md: "block" }}>
           <NavigationMenu.List className="text-4">
-            <Flex display={{ initial: "none", md: "flex" }} gap="4">
+            <Box className="flex flex-row rtl:flex-row-reverse">
               <NextLink href="/">
-                <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 p-1 rounded-3">
+                <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                   {t("home")}
                 </NavigationMenu.Item>
               </NextLink>
               <NextLink href={`/${locale}/store`}>
-                <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 p-1 rounded-3">
+                <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                   {t("store")}
                 </NavigationMenu.Item>
               </NextLink>
               <NextLink href={`/${locale}/blog`}>
-                <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 p-1 rounded-3">
+                <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                   {t("blog")}
                 </NavigationMenu.Item>
               </NextLink>
-            </Flex>
+            </Box>
           </NavigationMenu.List>
         </Box>
         <Box display={{ initial: "block", md: "none" }}>
@@ -54,24 +54,24 @@ const Navbar = () => {
                   <XCircle />
                 </Dialog.Close>
                 <Dialog.Title>Logo</Dialog.Title>
-                <NavigationMenu.List className="ml-4 mt-4 ">
+                <NavigationMenu.List className="ml-4 rtl:mr-4 mt-4 ">
                   <NextLink href="/">
                     <Dialog.Close asChild>
-                      <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 p-1 rounded-3">
+                      <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                         {t("home")}
                       </NavigationMenu.Item>
                     </Dialog.Close>
                   </NextLink>
                   <NextLink href={`/${locale}/store`}>
                     <Dialog.Close asChild>
-                      <NavigationMenu.Item className=" active:bg-crimson-9 hover:bg-crimson-9 text-4 p-1 rounded-3">
+                      <NavigationMenu.Item className=" active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                         {t("store")}
                       </NavigationMenu.Item>
                     </Dialog.Close>
                   </NextLink>
                   <NextLink href={`/${locale}/blog`}>
                     <Dialog.Close asChild>
-                      <NavigationMenu.Item className=" active:bg-crimson-9 hover:bg-crimson-9 text-4 p-1 rounded-3">
+                      <NavigationMenu.Item className=" active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                         {t("blog")}
                       </NavigationMenu.Item>
                     </Dialog.Close>
@@ -85,7 +85,13 @@ const Navbar = () => {
       <Flex gap="2">
         <ThemeSwitcher />
         <LanguageSwitcher />
-        <Button>{t("signin")}</Button>
+        {session ? (
+          <ProfileDropdown />
+        ) : (
+          <Button asChild>
+            <NextLink href={`/api/auth/signin`}>{t("signin")}</NextLink>
+          </Button>
+        )}
       </Flex>
     </Flex>
   );

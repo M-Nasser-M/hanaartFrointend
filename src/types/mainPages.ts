@@ -26,9 +26,22 @@ export const StoreMainPageSchema = object({
 
 export type StoreMainPage = Input<typeof StoreMainPageSchema>;
 
-export const MainPageSchema = object({
-  data: MainPageDataSchema,
+export const HomePageDataSchema = object({
+  id: number(),
+  header: string(),
+  subheader: string(),
+  createdAt: coerce(string(), Date),
+  updatedAt: coerce(string(), Date),
+  publishedAt: coerce(string(), Date),
+  locale: string(),
+  seo: SeoSchema,
+});
+
+export type HomePageData = Input<typeof HomePageDataSchema>;
+
+export const HomePageSchema = object({
+  data: HomePageDataSchema,
   meta: MetaSchema,
 });
 
-export type MainPage = Input<typeof MainPageSchema>;
+export type MainPage = Input<typeof HomePageSchema>;

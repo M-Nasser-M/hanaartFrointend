@@ -1,1 +1,1 @@
-{"store":{"currency":"L.E","addtocart":"Add To Cart"},"common":{},"navbar":{"blog":"Blog","home":"Home","store":"Store","signin":"Sign In","aboutus":"About Us","profile":"Profile","signout":"Sign Out"}}
+{"navbar":{"aboutus":"About Us","blog":"Blog","home":"Home","profile":"Profile","signin":"Sign In","signout":"Sign Out","store":"Store"},"store":{"addtocart":"Add To Cart","currency":"L.E"},"common":{},"profile":{"addresses":"Addresses","email":"Email","orderno":"Order No","orders":"Orders","orderstatus":"Order Status","total":"Total","username":"UserName"}}

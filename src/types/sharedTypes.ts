@@ -1,7 +1,9 @@
+import { type } from "os";
 import {
   Input,
   array,
   coerce,
+  email,
   enumType,
   nullType,
   number,
@@ -45,6 +47,13 @@ export const FormatsSchema = object({
 });
 export type Formats = Input<typeof FormatsSchema>;
 
+export const ProviderMetadataSchema = object({
+  public_id: string(),
+  resource_type: string(),
+});
+
+export type ProviderMetadata = Input<typeof ProviderMetadataSchema>;
+
 export const ImageSchema = object({
   id: optional(union([number(), nullType()])),
   name: optional(union([string(), nullType()])),
@@ -60,7 +69,7 @@ export const ImageSchema = object({
   url: optional(union([string(), nullType()])),
   previewUrl: optional(union([string(), nullType()])),
   provider: optional(union([string(), nullType()])),
-  provider_metadata: optional(union([string(), nullType()])),
+  provider_metadata: optional(union([ProviderMetadataSchema, nullType()])),
   createdAt: optional(union([coerce(string(), Date), nullType()])),
   updatedAt: optional(union([coerce(string(), Date), nullType()])),
   placeholder: optional(union([string(), nullType()])),
@@ -91,3 +100,34 @@ export type Seo = Input<typeof SeoSchema>;
 
 export const LocaleSchema = enumType(["en", "ar"]);
 export type Locale = Input<typeof LocaleSchema>;
+
+export const ColorSchema = object({
+  id: number(),
+  color: string(),
+});
+
+export type Color = Input<typeof ColorSchema>;
+
+export const SellerSchema = object({
+  id: number(),
+  name: string(),
+  info: string(),
+});
+
+export type Seller = Input<typeof SellerSchema>;
+
+export const SessionUserSchema = object({
+  name: string(),
+  email: string([email()]),
+  image: string(),
+  id: number(),
+});
+
+export type SessionUser = Input<typeof SessionUserSchema>;
+
+export const SessionSchema = object({
+  user: SessionUserSchema,
+  jwt: string(),
+});
+
+export type Session = Input<typeof SessionSchema>;

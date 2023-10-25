@@ -1,6 +1,7 @@
 "use client";
 
 import { Direction, DirectionProvider } from "@radix-ui/react-direction";
+import { Provider as JotaiProvider } from "jotai";
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
 import { ReactNode } from "react";
@@ -12,7 +13,7 @@ const Providers = ({ children, dir }: Props) => {
     <DirectionProvider dir={dir}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <Theme appearance="inherit" accentColor="crimson" grayColor="slate">
-          {children}
+          <JotaiProvider>{children}</JotaiProvider>
         </Theme>
       </ThemeProvider>
     </DirectionProvider>

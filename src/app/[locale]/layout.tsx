@@ -6,8 +6,11 @@ import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import { locales } from "@/i18n";
 
-import "@radix-ui/themes/styles.css";
 import "./globals.css";
+import { getServerSession } from "next-auth";
+import { options } from "../api/auth/[...nextauth]/authOtions";
+import { parse, safeParse } from "valibot";
+import { SessionSchema } from "@/types/sharedTypes";
 
 type Props = {
   children: ReactNode;
@@ -27,21 +30,28 @@ export default async function RootLayout({
     notFound();
   }
 
+  const session = await getServerSession(options);
+  const validatedSession = safeParse(SessionSchema, session);
+
   const dir = locale == "ar" ? "rtl" : "ltr";
 
   return (
     <html lang={locale} dir={dir}>
       <body>
-        <Providers dir={dir}>
-          <NextIntlClientProvider
-            timeZone="Africa/Cairo"
-            locale={locale}
-            messages={messages}
-          >
-            <Navbar />
+        <NextIntlClientProvider
+          timeZone="Africa/Cairo"
+          locale={locale}
+          messages={messages}
+        >
+          <Providers dir={dir}>
+            <Navbar
+              session={
+                validatedSession.success ? validatedSession.output : null
+              }
+            />
             <Container size="4">{children}</Container>
-          </NextIntlClientProvider>
-        </Providers>
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

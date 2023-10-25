@@ -4,9 +4,18 @@ import { serverApi } from "./Api";
 import qs from "qs";
 
 export async function getHomeData(locale: Locale) {
-  const queryString = qs.stringify({ populate: { seo: true }, locale });
+  const queryString = qs.stringify({
+    populate: { seo: { populate: ["metaImage"] } },
+    locale,
+  });
 
-  const response = await serverApi<MainPage>(`/home?${queryString}`);
+  try {
+    const response = await serverApi<MainPage>(`/home?${queryString}`);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.error(error);
+
+    return null;
+  }
 }
