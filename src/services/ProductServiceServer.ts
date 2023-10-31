@@ -1,7 +1,7 @@
+import { Product, Products } from "@/types/product";
 import { StoreMainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
-import { Product, Products } from "@/types/product";
-import { serverApi } from "./Api";
+import { serverApi } from "./ServerApi";
 import qs from "qs";
 
 export async function getStoreMainPage(locale: Locale) {

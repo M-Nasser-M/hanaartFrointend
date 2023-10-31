@@ -4,13 +4,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { Box, Button, Flex } from "@radix-ui/themes";
 import LanguageSwitcher from "./LanguageSwitcher";
 import * as Dialog from "@radix-ui/react-dialog";
+import ProfileDropdown from "./ProfileDropdown";
+import { Session } from "@/types/sharedTypes";
 import { Menu, XCircle } from "lucide-react";
 import ThemeSwitcher from "./ThemeSwitcher";
-import NextLink from "../NextLink";
-import { Session } from "@/types/sharedTypes";
-import { useSetAtom } from "jotai";
 import { sessionAtom } from "@/atoms/atoms";
-import ProfileDropdown from "./ProfileDropdown";
+import NextLink from "../NextLink";
+import { useSetAtom } from "jotai";
 
 type Props = { session: Session | null };
 
@@ -24,7 +24,7 @@ const Navbar = ({ session }: Props) => {
       <NavigationMenu.Root>
         <Box display={{ initial: "none", md: "block" }}>
           <NavigationMenu.List className="text-4">
-            <Box className="flex flex-row rtl:flex-row-reverse">
+            <Flex>
               <NextLink href="/">
                 <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                   {t("home")}
@@ -40,7 +40,7 @@ const Navbar = ({ session }: Props) => {
                   {t("blog")}
                 </NavigationMenu.Item>
               </NextLink>
-            </Box>
+            </Flex>
           </NavigationMenu.List>
         </Box>
         <Box display={{ initial: "block", md: "none" }}>
@@ -48,8 +48,8 @@ const Navbar = ({ session }: Props) => {
             <Dialog.Trigger>
               <Menu />
             </Dialog.Trigger>
-            <Dialog.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
-              <Dialog.Content className=" fixed z-50 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm">
+            <Dialog.Overlay className="fixed inset-0 z-50  backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+              <Dialog.Content className=" fixed z-50  p-6 bg-panel-translucent shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm">
                 <Dialog.Close className="absolute top-2 right-2">
                   <XCircle />
                 </Dialog.Close>

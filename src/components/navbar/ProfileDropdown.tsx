@@ -17,14 +17,14 @@ const ProfileDropdown = () => {
           <Avatar radius="full" fallback={`${session?.user.name[0]}`} />
         </Box>
       </DropdownMenu.Trigger>
-      <DropdownMenu.Content>
+      <DropdownMenu.Content variant="soft">
         <DropdownMenu.Item>
           <NextLink href={`/${locale}/profile`}>{t("profile")}</NextLink>
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
         <DropdownMenu.Item>
           <Button
-            className="w-full"
+            variant="ghost"
             onClick={() => {
               setSession(null);
               signOut();

@@ -1,9 +1,9 @@
-import { getHomeData } from "@/services/HomeService";
 import { MainPageDataSchema } from "@/types/mainPages";
+import { getHomeData } from "@/services/HomeService";
 import { Locale } from "@/types/sharedTypes";
+import { Metadata, Viewport } from "next";
 import Home from "@/components/home/Home";
 import { locales } from "@/i18n";
-import { Metadata } from "next";
 import { parse } from "valibot";
 
 export const revalidate = 3600;
@@ -25,9 +25,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: seo.metaTitle,
     description: seo.metaDescription,
     keywords: seo.keywords,
-    viewport: seo.metaViewport,
     robots: seo.metaRobots,
   };
+}
+
+export async function generateViewport({ params }: Props): Promise<Viewport> {
+  const homeData = await getHomeData(params.locale);
+
+  const { seo } = parse(MainPageDataSchema, homeData?.data);
+  return {};
 }
 
 export default function Page({ params: { locale } }: Props) {

@@ -10,13 +10,13 @@ type Props = { children: ReactNode; dir: Direction };
 
 const Providers = ({ children, dir }: Props) => {
   return (
-    <DirectionProvider dir={dir}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <Theme appearance="inherit" accentColor="crimson" grayColor="slate">
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <Theme appearance="inherit" accentColor="crimson" grayColor="slate">
+        <DirectionProvider dir={dir}>
           <JotaiProvider>{children}</JotaiProvider>
-        </Theme>
-      </ThemeProvider>
-    </DirectionProvider>
+        </DirectionProvider>
+      </Theme>
+    </ThemeProvider>
   );
 };
 

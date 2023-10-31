@@ -1,16 +1,17 @@
+import { options } from "../api/auth/[...nextauth]/authOtions";
 import Providers from "@/components/providers/Providers";
+import { SessionSchema } from "@/types/sharedTypes";
 import { NextIntlClientProvider } from "next-intl";
+import { GeistSans, GeistMono } from "geist/font";
 import Navbar from "@/components/navbar/Navbar";
 import { Container } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { safeParse } from "valibot";
 import { ReactNode } from "react";
 import { locales } from "@/i18n";
 
 import "./globals.css";
-import { getServerSession } from "next-auth";
-import { options } from "../api/auth/[...nextauth]/authOtions";
-import { parse, safeParse } from "valibot";
-import { SessionSchema } from "@/types/sharedTypes";
 
 type Props = {
   children: ReactNode;
@@ -36,7 +37,11 @@ export default async function RootLayout({
   const dir = locale == "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir}>
+    <html
+      lang={locale}
+      dir={dir}
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+    >
       <body>
         <NextIntlClientProvider
           timeZone="Africa/Cairo"

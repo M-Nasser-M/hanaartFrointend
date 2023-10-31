@@ -1,4 +1,4 @@
-import { getProductUsingSlug } from "@/services/ProductService";
+import { getProductUsingSlug } from "@/services/ProductServiceServer";
 
 type Props = { params: { slug: string } };
 

@@ -1,7 +1,7 @@
 import { BlogMainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
 import { Blog, Blogs } from "@/types/blog";
-import { serverApi } from "./Api";
+import { serverApi } from "./ServerApi";
 import qs from "qs";
 
 export async function getBlogMainPage(locale: Locale) {

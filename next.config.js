@@ -3,7 +3,11 @@ const withNextIntl = require("next-intl/plugin")();
 
 const nextConfig = {
   images: {
-    domains: ["images.unsplash.com", "images.pexels.com", "res.cloudinary.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
+    ],
   },
 };
 

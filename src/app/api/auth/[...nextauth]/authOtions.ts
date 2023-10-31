@@ -5,22 +5,22 @@ import GoogleProvider from "next-auth/providers/google";
 import { AdapterUser } from "next-auth/adapters";
 
 import { JWT } from "next-auth/jwt";
-import { serverApi } from "@/services/Api";
-import { envVariables } from "@/types/envVars";
+import { serverApi } from "@/services/ServerApi";
+import { ENV } from "@/types/envVarsServer";
 
 export const options: AuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: envVariables.GOOGLE_CLIENT_ID,
-      clientSecret: envVariables.GOOGLE_CLIENT_SECRET,
+      clientId: ENV.GOOGLE_CLIENT_ID,
+      clientSecret: ENV.GOOGLE_CLIENT_SECRET,
     }),
     FacebookProvider({
-      clientId: envVariables.FACEBOOK_CLIENT_ID,
-      clientSecret: envVariables.FACEBOOK_CLIENT_SECRET,
+      clientId: ENV.FACEBOOK_CLIENT_ID,
+      clientSecret: ENV.FACEBOOK_CLIENT_SECRET,
     }),
     InstagramProvider({
-      clientId: envVariables.INSTAGRAM_CLIENT_ID,
-      clientSecret: envVariables.INSTAGRAM_CLIENT_SECRET,
+      clientId: ENV.INSTAGRAM_CLIENT_ID,
+      clientSecret: ENV.INSTAGRAM_CLIENT_SECRET,
     }),
   ],
   session: { strategy: "jwt" },
