@@ -1,10 +1,10 @@
 import InstagramProvider from "next-auth/providers/instagram";
 import FacebookProvider from "next-auth/providers/facebook";
-import { AuthOptions, User } from "next-auth";
+import type { AuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { AdapterUser } from "next-auth/adapters";
+import type { AdapterUser } from "next-auth/adapters";
 
-import { JWT } from "next-auth/jwt";
+import type { JWT } from "next-auth/jwt";
 import { serverApi } from "@/services/ServerApi";
 import { ENV } from "@/types/envVarsServer";
 

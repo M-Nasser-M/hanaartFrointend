@@ -3,7 +3,7 @@ import {
   Output,
   array,
   coerce,
-  nullType,
+  null_,
   number,
   object,
   optional,
@@ -24,20 +24,20 @@ export const ProductDataSchema = object({
   name: string(),
   price: number(),
   description: string(),
-  details: optional(union([nullType(), string()])),
-  offer_price: optional(union([nullType(), number()])),
+  details: optional(union([null_(), string()])),
+  offer_price: optional(union([null_(), number()])),
   availableStock: string(),
-  onholdStock: optional(union([nullType(), string()])),
-  soldStock: optional(union([nullType(), string()])),
+  onholdStock: optional(union([null_(), string()])),
+  soldStock: optional(union([null_(), string()])),
   createdAt: coerce(string(), Date),
   updatedAt: coerce(string(), Date),
   publishedAt: coerce(string(), Date),
   locale: LocaleSchema,
-  category: optional(union([nullType(), string()])),
+  category: optional(union([null_(), string()])),
   slug: string(),
   images: optional(array(ImageSchema)),
   cover: optional(ImageSchema),
-  colors: optional(union([nullType(), ColorSchema])),
+  colors: optional(union([null_(), ColorSchema])),
   seller: optional(SellerSchema),
   seo: optional(SeoSchema),
 });
@@ -61,7 +61,7 @@ export type Product = Output<typeof ProductSchema>;
 export const ProductSearchRequestBodySchema = object({
   q: string(), //Query string
   filter: optional(array(string())), //Filter queries by an attribute's value
-  sort: optional(array(string())), //Sort search results by an attribute's value
+  sort: optional(union([null_(), array(string())])), //Sort search results by an attribute's value
   attributesToRetrieve: optional(array(string())), //Attributes to display in the returned documents
   offset: optional(number()), //Number of documents to skip
   limit: optional(number()), //Maximum number of documents returned
@@ -77,7 +77,7 @@ export const ProductSearchResponseElementSchema = object({
   name: string(),
   price: number(),
   description: string(),
-  offer_price: union([nullType(), number()]),
+  offer_price: union([null_(), number()]),
   availableStock: string(),
   slug: string(),
   cover: ImageSchema,
@@ -97,6 +97,8 @@ export const ProductSearchResponseSchema = object({
   limit: optional(number()),
   offset: optional(number()),
   estimatedTotalHits: optional(number()),
+  totalPages: number(),
+  totalHits: number(),
 });
 
 export type ProductSearchResponse = Input<typeof ProductSearchResponseSchema>;
@@ -150,4 +152,14 @@ export const categories = [
   { key: Category.Clearance, subCategories: [] },
 ] as const;
 
-export type CategoriesKeys = keyof typeof categories;
+export const defaultAttributesToRetrieve = [
+  "name",
+  "price",
+  "description",
+  "offer_price",
+  "availableStock",
+  "slug",
+  "cover",
+];
+
+export const defaultPageSize = 9;

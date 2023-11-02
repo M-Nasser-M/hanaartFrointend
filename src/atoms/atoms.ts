@@ -1,13 +1,19 @@
-import { Session } from "@/types/sharedTypes";
-import { atom } from "jotai";
+import { ProductSearchResponse, defaultPageSize } from "@/types/product";
+import type { Session } from "@/types/sharedTypes";
 import atomWithDebounce from "./atomWithDebounce";
-import { ProductSearchResponse } from "@/types/product";
+import { atom } from "jotai";
 
-export const sessionAtom = atom<Session | null>(null);
-export const sortAtom = atom<string>("''");
-export const filterAtom = atom<string[]>([]);
-export const searchQueryAtom = atomWithDebounce<string>("");
-export const productListAtom = atom<ProductSearchResponse>({
-  hits: [],
-  query: "''",
+export const storeProductListAtom = atom<ProductSearchResponse | null>(null);
+export const storeSearchQueryAtom = atomWithDebounce<string>("");
+export const pageSizeAtom = atom<number>(defaultPageSize);
+
+export const storeSortAtom = atom<string | null>(null);
+export const readStoreSortAtom = atom<string[] | []>((get) => {
+  const currentStoreSortValue = get(storeSortAtom);
+  return currentStoreSortValue === null ? [] : [currentStoreSortValue];
 });
+
+export const storeNumberOfPagesAtom = atom<number>(0);
+export const sessionAtom = atom<Session | null>(null);
+export const currentStorePageAtom = atom<number>(1);
+export const storeFilterAtom = atom<string[]>([]);

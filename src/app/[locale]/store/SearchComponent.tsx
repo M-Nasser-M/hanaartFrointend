@@ -1,13 +1,12 @@
 "use client";
-import { filterAtom, productListAtom, searchQueryAtom } from "@/atoms/atoms";
-import { searchProducts } from "@/services/ProductServiceClient";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useDidUpdate } from "@/lib/hooks/use-did-update";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Pagination from "@/components/pagination/Pagination";
 import { ProductSearchResponse } from "@/types/product";
-import { useTranslations } from "next-intl";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
-import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import FilterSort from "./FilterSort";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import {
   AspectRatio,
@@ -20,29 +19,42 @@ import {
   Text,
   TextField,
 } from "@radix-ui/themes";
+import {
+  storeFilterAtom,
+  currentStorePageAtom,
+  storeProductListAtom,
+  storeSearchQueryAtom,
+  storeSortAtom,
+  storeNumberOfPagesAtom,
+} from "@/atoms/atoms";
+import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
 
 type Props = {
   products: ProductSearchResponse;
+  filter: string[];
+  sort: string | null;
+  searchQuery: string;
+  page: number;
+  numberOfpages: number;
 };
 
-const SearchComponent = ({ products }: Props) => {
-  useHydrateAtoms([[productListAtom, products]]);
-  const [producctList, setProducctList] = useAtom(productListAtom);
-  const searchQuery = useAtomValue(searchQueryAtom.currentValueAtom);
-  const setSearchQuery = useSetAtom(searchQueryAtom.debouncedValueAtom);
-  const searchFilter = useAtomValue(filterAtom);
+const SearchComponent = (props: Props) => {
+  useHydrateAtoms([
+    [storeSearchQueryAtom.debouncedValueAtom, props.searchQuery],
+    [storeNumberOfPagesAtom, props.numberOfpages],
+    [storeProductListAtom, props.products],
+    [currentStorePageAtom, props.page],
+    [storeFilterAtom, props.filter],
+    [storeSortAtom, props.sort],
+  ]);
+  const setSearchQuery = useSetAtom(storeSearchQueryAtom.debouncedValueAtom);
+  const producctList = useAtomValue(storeProductListAtom);
+  const setCurrentPage = useSetAtom(currentStorePageAtom);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const t = useTranslations("store");
-
-  useDidUpdate(() => {
-    async function Search(query: string) {
-      const res = await searchProducts({ q: query });
-      console.log(res);
-      setProducctList(res);
-    }
-    Search(searchQuery);
-  }, [searchQuery, setProducctList]);
-
   return (
     <>
       <TextField.Root mb="9">
@@ -50,17 +62,29 @@ const SearchComponent = ({ products }: Props) => {
           <Search height="16" />
         </TextField.Slot>
         <TextField.Input
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            handleAddClientParamsRoute(
+              searchParams,
+              router,
+              pathname,
+              "searchquery",
+              e.target.value
+            );
+          }}
           placeholder="Search our store"
         />
+        {/* <TextField.Slot p="0">
+          <Button>Search</Button>
+        </TextField.Slot> */}
       </TextField.Root>
       <FilterSort />
       <Grid
         columns={{ initial: "1", md: "2", lg: "3" }}
         gap="3"
-        mb="9"
+        mb="4"
         width="100%"
-        px={{ initial: "9", md: "4", lg: "0" }}
+        px={{ initial: "4", md: "2", lg: "0" }}
       >
         {producctList?.hits.map((product) => (
           <Card key={product.slug}>
@@ -89,6 +113,19 @@ const SearchComponent = ({ products }: Props) => {
           </Card>
         ))}
       </Grid>
+      <Pagination
+        handleNavigation={(pageNo) => {
+          setCurrentPage(pageNo);
+          handleAddClientParamsRoute(
+            searchParams,
+            router,
+            pathname,
+            "page",
+            String(pageNo)
+          );
+        }}
+        numberOfPages={props.numberOfpages}
+      />
     </>
   );
 };

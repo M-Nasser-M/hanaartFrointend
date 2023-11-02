@@ -1,27 +1,42 @@
 "use client";
 import { Button, Flex, ScrollArea, Select, Text } from "@radix-ui/themes";
-import { filterAtom, sortAtom } from "@/atoms/atoms";
-import * as Checkbox from "@radix-ui/react-checkbox";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
+import { storeFilterAtom, storeSortAtom } from "@/atoms/atoms";
+import { searchEffectAtom } from "@/atoms/searchEffectAtom";
 import { Check, ListFilter, XCircle } from "lucide-react";
+import * as Checkbox from "@radix-ui/react-checkbox";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useAtom } from "jotai";
-import React from "react";
 import { categories } from "@/types/product";
+import { useAtom, useSetAtom } from "jotai";
+import React from "react";
 
 const FilterSort = () => {
-  const [sortValue, setSortValue] = useAtom(sortAtom);
-  const [filterValue, setFilterValue] = useAtom(filterAtom);
+  useAtom(searchEffectAtom);
+  const setFilterValue = useSetAtom(storeFilterAtom);
+  const setSortValue = useSetAtom(storeSortAtom);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleSort = (value: string) => {
-    setSortValue(value);
+    const atomValue = value !== "null" ? value : null;
+    setSortValue(atomValue);
+    handleAddClientParamsRoute(
+      searchParams,
+      router,
+      pathname,
+      "sort",
+      atomValue
+    );
   };
 
   const handleFilter = (checked: Checkbox.CheckedState, filter: string) => {
     if (checked) {
       setFilterValue((prev) => [...prev, filter]);
-    } else {
-      setFilterValue((prev) => prev.filter((item) => item !== filter));
+      return;
     }
+    setFilterValue((prev) => prev.filter((item) => item !== filter));
   };
 
   return (
@@ -45,7 +60,7 @@ const FilterSort = () => {
                   <Flex mt="4" gap="2">
                     <Checkbox.Root
                       onCheckedChange={(checked) =>
-                        handleFilter(checked, `category = ${category.key}`)
+                        handleFilter(checked, `category = '${category.key}'`)
                       }
                       className=" data-[state=unchecked]:border-2 data-[state=unchecked]:border-accent-9 data-[state=checked]:bg-accent-9  flex h-6 w-6   items-center justify-center rounded-3 "
                     >
@@ -64,7 +79,7 @@ const FilterSort = () => {
                           onCheckedChange={(checked) =>
                             handleFilter(
                               checked,
-                              `subcategory = ${subcategory.key}`
+                              `subcategory = '${subcategory.key}'`
                             )
                           }
                           className=" data-[state=unchecked]:border-2 data-[state=unchecked]:border-accent-9 data-[state=checked]:bg-accent-9  flex h-6 w-6   items-center justify-center rounded-3 "
@@ -89,12 +104,12 @@ const FilterSort = () => {
           </Dialog.Content>
         </Dialog.Overlay>
       </Dialog.Root>
-      <Select.Root onValueChange={handleSort} defaultValue={sortValue}>
+      <Select.Root onValueChange={handleSort} defaultValue={"null"}>
         <Select.Trigger />
         <Select.Content>
           <Select.Group>
             <Select.Label>Sort</Select.Label>
-            <Select.Item value="''">Relevant</Select.Item>
+            <Select.Item value="null">Relevant</Select.Item>
             <Select.Item value="price:desc">Price High to Low</Select.Item>
             <Select.Item value="price:asc">Price Low to High</Select.Item>
             <Select.Item value="updatedat:asc">Most Recent</Select.Item>

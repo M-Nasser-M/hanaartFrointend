@@ -1,4 +1,4 @@
-import { Product, Products } from "@/types/product";
+import { Product, Products, defaultPageSize } from "@/types/product";
 import { StoreMainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
 import { serverApi } from "./ServerApi";
@@ -26,7 +26,7 @@ export async function getStoreMainPage(locale: Locale) {
 export async function getProductPage(
   locale: Locale,
   page: number = 1,
-  pageSize: number = 9
+  pageSize: number = defaultPageSize
 ) {
   const queryString = qs.stringify({
     populate: { cover: true },

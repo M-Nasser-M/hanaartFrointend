@@ -9,6 +9,7 @@ const nextConfig = {
       { protocol: "https", hostname: "res.cloudinary.com" },
     ],
   },
+  transpilePackages: ["jotai-devtools"],
 };
 
 module.exports = withNextIntl(nextConfig);

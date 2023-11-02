@@ -54,7 +54,9 @@ export default async function RootLayout({
                 validatedSession.success ? validatedSession.output : null
               }
             />
-            <Container size="4">{children}</Container>
+            <Container size="4" mb="9">
+              {children}
+            </Container>
           </Providers>
         </NextIntlClientProvider>
       </body>

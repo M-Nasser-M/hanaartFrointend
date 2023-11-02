@@ -6,17 +6,16 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import * as Dialog from "@radix-ui/react-dialog";
 import ProfileDropdown from "./ProfileDropdown";
 import { Session } from "@/types/sharedTypes";
+import { useHydrateAtoms } from "jotai/utils";
 import { Menu, XCircle } from "lucide-react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { sessionAtom } from "@/atoms/atoms";
 import NextLink from "../NextLink";
-import { useSetAtom } from "jotai";
 
 type Props = { session: Session | null };
 
 const Navbar = ({ session }: Props) => {
-  const setSessionAtom = useSetAtom(sessionAtom);
-  setSessionAtom(session);
+  useHydrateAtoms([[sessionAtom, session]]);
   const t = useTranslations("navbar");
   const locale = useLocale();
   return (

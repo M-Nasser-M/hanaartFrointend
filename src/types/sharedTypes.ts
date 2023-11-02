@@ -1,11 +1,10 @@
-import { type } from "os";
 import {
   Input,
   array,
   coerce,
   email,
   enumType,
-  nullType,
+  null_,
   number,
   object,
   optional,
@@ -14,36 +13,36 @@ import {
 } from "valibot";
 
 export const PaginationSchema = object({
-  page: optional(union([nullType(), number()])),
-  pageSize: optional(union([nullType(), number()])),
-  pageCount: optional(union([nullType(), number()])),
-  total: optional(union([nullType(), number()])),
+  page: optional(union([null_(), number()])),
+  pageSize: optional(union([null_(), number()])),
+  pageCount: optional(union([null_(), number()])),
+  total: optional(union([null_(), number()])),
 });
 export type Pagination = Input<typeof PaginationSchema>;
 
 export const MetaSchema = object({
-  pagination: optional(union([nullType(), PaginationSchema])),
+  pagination: optional(union([null_(), PaginationSchema])),
 });
 export type Meta = Input<typeof MetaSchema>;
 
 export const SizesSchema = object({
-  ext: optional(union([string(), nullType()])),
-  url: optional(union([nullType(), string()])),
-  hash: optional(union([string(), nullType()])),
-  mime: optional(union([string(), nullType()])),
-  name: optional(union([string(), nullType()])),
-  path: optional(union([string(), nullType()])),
-  size: optional(union([number(), nullType()])),
-  width: optional(union([number(), nullType()])),
-  height: optional(union([number(), nullType()])),
+  ext: optional(union([string(), null_()])),
+  url: optional(union([null_(), string()])),
+  hash: optional(union([string(), null_()])),
+  mime: optional(union([string(), null_()])),
+  name: optional(union([string(), null_()])),
+  path: optional(union([string(), null_()])),
+  size: optional(union([number(), null_()])),
+  width: optional(union([number(), null_()])),
+  height: optional(union([number(), null_()])),
 });
 export type Large = Input<typeof SizesSchema>;
 
 export const FormatsSchema = object({
-  large: optional(union([SizesSchema, nullType()])),
-  small: optional(union([SizesSchema, nullType()])),
-  medium: optional(union([SizesSchema, nullType()])),
-  thumbnail: optional(union([SizesSchema, nullType()])),
+  large: optional(union([SizesSchema, null_()])),
+  small: optional(union([SizesSchema, null_()])),
+  medium: optional(union([SizesSchema, null_()])),
+  thumbnail: optional(union([SizesSchema, null_()])),
 });
 export type Formats = Input<typeof FormatsSchema>;
 
@@ -55,46 +54,46 @@ export const ProviderMetadataSchema = object({
 export type ProviderMetadata = Input<typeof ProviderMetadataSchema>;
 
 export const ImageSchema = object({
-  id: optional(union([number(), nullType()])),
-  name: optional(union([string(), nullType()])),
-  alternativeText: optional(union([string(), nullType()])),
-  caption: optional(union([string(), nullType()])),
-  width: optional(union([number(), nullType()])),
-  height: optional(union([number(), nullType()])),
-  formats: optional(union([FormatsSchema, nullType()])),
-  hash: optional(union([string(), nullType()])),
-  ext: optional(union([string(), nullType()])),
-  mime: optional(union([string(), nullType()])),
-  size: optional(union([number(), nullType()])),
-  url: optional(union([string(), nullType()])),
-  previewUrl: optional(union([string(), nullType()])),
-  provider: optional(union([string(), nullType()])),
-  provider_metadata: optional(union([ProviderMetadataSchema, nullType()])),
-  createdAt: optional(union([coerce(string(), Date), nullType()])),
-  updatedAt: optional(union([coerce(string(), Date), nullType()])),
-  placeholder: optional(union([string(), nullType()])),
+  id: optional(union([number(), null_()])),
+  name: optional(union([string(), null_()])),
+  alternativeText: optional(union([string(), null_()])),
+  caption: optional(union([string(), null_()])),
+  width: optional(union([number(), null_()])),
+  height: optional(union([number(), null_()])),
+  formats: optional(union([FormatsSchema, null_()])),
+  hash: optional(union([string(), null_()])),
+  ext: optional(union([string(), null_()])),
+  mime: optional(union([string(), null_()])),
+  size: optional(union([number(), null_()])),
+  url: optional(union([string(), null_()])),
+  previewUrl: optional(union([string(), null_()])),
+  provider: optional(union([string(), null_()])),
+  provider_metadata: optional(union([ProviderMetadataSchema, null_()])),
+  createdAt: optional(union([coerce(string(), Date), null_()])),
+  updatedAt: optional(union([coerce(string(), Date), null_()])),
+  placeholder: optional(union([string(), null_()])),
 });
 export type Cover = Input<typeof ImageSchema>;
 
 export const MetaSocialSchema = object({
-  id: optional(union([number(), nullType()])),
-  socialNetwork: optional(union([nullType(), string()])),
-  title: optional(union([nullType(), string()])),
-  description: optional(union([nullType(), string()])),
+  id: optional(union([number(), null_()])),
+  socialNetwork: optional(union([null_(), string()])),
+  title: optional(union([null_(), string()])),
+  description: optional(union([null_(), string()])),
 });
 export type MetaSocial = Input<typeof MetaSocialSchema>;
 
 export const SeoSchema = object({
-  id: optional(union([number(), nullType()])),
-  metaTitle: optional(union([nullType(), string()])),
-  metaDescription: optional(union([nullType(), string()])),
-  keywords: optional(union([nullType(), string()])),
-  metaRobots: optional(union([string(), nullType()])),
-  structuredData: optional(union([string(), nullType()])),
-  metaViewport: optional(union([string(), nullType()])),
-  canonicalURL: optional(union([string(), nullType()])),
-  metaImage: optional(union([ImageSchema, nullType()])),
-  metaSocial: optional(union([array(MetaSocialSchema), nullType()])),
+  id: optional(union([number(), null_()])),
+  metaTitle: optional(union([null_(), string()])),
+  metaDescription: optional(union([null_(), string()])),
+  keywords: optional(union([null_(), string()])),
+  metaRobots: optional(union([string(), null_()])),
+  structuredData: optional(union([string(), null_()])),
+  metaViewport: optional(union([string(), null_()])),
+  canonicalURL: optional(union([string(), null_()])),
+  metaImage: optional(union([ImageSchema, null_()])),
+  metaSocial: optional(union([array(MetaSocialSchema), null_()])),
 });
 export type Seo = Input<typeof SeoSchema>;
 
