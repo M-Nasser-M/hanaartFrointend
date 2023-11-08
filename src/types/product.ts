@@ -35,11 +35,11 @@ export const ProductDataSchema = object({
   locale: LocaleSchema,
   category: optional(union([null_(), string()])),
   slug: string(),
-  images: optional(array(ImageSchema)),
-  cover: optional(ImageSchema),
+  images: optional(union([null_(), array(ImageSchema)])),
+  cover: ImageSchema,
   colors: optional(union([null_(), ColorSchema])),
-  seller: optional(SellerSchema),
-  seo: optional(SeoSchema),
+  seller: optional(union([null_(), SellerSchema])),
+  seo: optional(union([null_(), SeoSchema])),
 });
 
 export type ProductData = Output<typeof ProductDataSchema>;
@@ -123,33 +123,47 @@ export enum SubCategory {
   Wax_Boxes_and_Tools = "Wax Boxes and Tools",
 }
 
+export const filterDefaultCheckStatus = [
+  ...Object.values(SubCategory),
+  ...Object.values(Category),
+].reduce(
+  (obj, key) => {
+    const filter = Object.values(Category).includes(key as any)
+      ? `category = '${key}'`
+      : `subcategory = '${key}'`;
+    return {
+      ...obj,
+      [key]: { checked: false, filter },
+    };
+  },
+  {} as Record<SubCategory | Category, { checked: boolean; filter: string }>
+);
+
+function createCategory(key: Category, subCategories: SubCategory[] = []) {
+  return {
+    key,
+    subCategories: subCategories.map((subKey) => ({ key: subKey })),
+  };
+}
+
 export const categories = [
-  {
-    key: Category.Art_Supplies,
-    subCategories: [
-      { key: SubCategory.Pens_Pencils_and_Paints },
-      { key: SubCategory.Brushes_and_Tools },
-      { key: SubCategory.Canvas_and_Sketchbooks },
-    ],
-  },
-  {
-    key: Category.Hobbies,
-    subCategories: [
-      { key: SubCategory.Diamond_Painting },
-      { key: SubCategory.Coloring_Books },
-      { key: SubCategory.Puzzles },
-    ],
-  },
-  {
-    key: Category.Art_Journaling,
-    subCategories: [
-      { key: SubCategory.Washi_Tapes_and_Stickers },
-      { key: SubCategory.Paper_Packs_and_Ephemra },
-      { key: SubCategory.Wax_Boxes_and_Tools },
-    ],
-  },
-  { key: Category.Handmade_Gifts, subCategories: [] },
-  { key: Category.Clearance, subCategories: [] },
+  createCategory(Category.Art_Supplies, [
+    SubCategory.Pens_Pencils_and_Paints,
+    SubCategory.Brushes_and_Tools,
+    SubCategory.Canvas_and_Sketchbooks,
+  ]),
+  createCategory(Category.Hobbies, [
+    SubCategory.Diamond_Painting,
+    SubCategory.Coloring_Books,
+    SubCategory.Puzzles,
+  ]),
+  createCategory(Category.Art_Journaling, [
+    SubCategory.Washi_Tapes_and_Stickers,
+    SubCategory.Paper_Packs_and_Ephemra,
+    SubCategory.Wax_Boxes_and_Tools,
+  ]),
+  createCategory(Category.Handmade_Gifts),
+  createCategory(Category.Clearance),
 ] as const;
 
 export const defaultAttributesToRetrieve = [

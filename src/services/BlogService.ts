@@ -17,7 +17,7 @@ export async function getBlogMainPage(locale: Locale) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
 }
@@ -38,7 +38,7 @@ export async function getBlogPage(
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
 }
@@ -53,7 +53,7 @@ export async function getBlogPostUsingID(id: number) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
 }
@@ -76,7 +76,7 @@ export async function getBlogPostUsingSlug(slug: string) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
 }

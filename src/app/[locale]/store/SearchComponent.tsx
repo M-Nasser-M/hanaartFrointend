@@ -1,12 +1,13 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
 import Pagination from "@/components/pagination/Pagination";
 import { ProductSearchResponse } from "@/types/product";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import { useTranslations } from "next-intl";
-import FilterSort from "./FilterSort";
 import { Search } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   AspectRatio,
@@ -20,14 +21,17 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import {
-  storeFilterAtom,
   currentStorePageAtom,
   storeProductListAtom,
   storeSearchQueryAtom,
   storeSortAtom,
   storeNumberOfPagesAtom,
+  storeActiveFilterAtom,
+  writeStoreSelectedFiltersAtom,
 } from "@/atoms/atoms";
-import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
+import NextLink from "@/components/NextLink";
+
+const FilterSort = dynamic(() => import("./FilterSort"));
 
 type Props = {
   products: ProductSearchResponse;
@@ -44,11 +48,12 @@ const SearchComponent = (props: Props) => {
     [storeNumberOfPagesAtom, props.numberOfpages],
     [storeProductListAtom, props.products],
     [currentStorePageAtom, props.page],
-    [storeFilterAtom, props.filter],
+    [storeActiveFilterAtom, props.filter],
     [storeSortAtom, props.sort],
+    [writeStoreSelectedFiltersAtom, props.filter],
   ]);
   const setSearchQuery = useSetAtom(storeSearchQueryAtom.debouncedValueAtom);
-  const producctList = useAtomValue(storeProductListAtom);
+  const productList = useAtomValue(storeProductListAtom);
   const setCurrentPage = useSetAtom(currentStorePageAtom);
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -78,7 +83,9 @@ const SearchComponent = (props: Props) => {
           <Button>Search</Button>
         </TextField.Slot> */}
       </TextField.Root>
+
       <FilterSort />
+
       <Grid
         columns={{ initial: "1", md: "2", lg: "3" }}
         gap="3"
@@ -86,7 +93,7 @@ const SearchComponent = (props: Props) => {
         width="100%"
         px={{ initial: "4", md: "2", lg: "0" }}
       >
-        {producctList?.hits.map((product) => (
+        {productList?.hits.map((product) => (
           <Card key={product.slug}>
             <Inset clip="padding-box" side="top" pb="current">
               <AspectRatio ratio={16 / 9}>
@@ -97,9 +104,11 @@ const SearchComponent = (props: Props) => {
                 />
               </AspectRatio>
             </Inset>
-            <Heading size="6" as="h3">
-              {product.name}
-            </Heading>
+            <NextLink href={`/store/${product.slug}`}>
+              <Heading size="6" as="h3">
+                {product.name}
+              </Heading>
+            </NextLink>
             <Text size="4" as="p">
               description
             </Text>
@@ -113,19 +122,21 @@ const SearchComponent = (props: Props) => {
           </Card>
         ))}
       </Grid>
-      <Pagination
-        handleNavigation={(pageNo) => {
-          setCurrentPage(pageNo);
-          handleAddClientParamsRoute(
-            searchParams,
-            router,
-            pathname,
-            "page",
-            String(pageNo)
-          );
-        }}
-        numberOfPages={props.numberOfpages}
-      />
+      {props.numberOfpages > 1 && (
+        <Pagination
+          handleNavigation={(pageNo) => {
+            setCurrentPage(pageNo);
+            handleAddClientParamsRoute(
+              searchParams,
+              router,
+              pathname,
+              "page",
+              String(pageNo)
+            );
+          }}
+          numberOfPages={props.numberOfpages}
+        />
+      )}
     </>
   );
 };

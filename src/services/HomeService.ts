@@ -14,7 +14,7 @@ export async function getHomeData(locale: Locale) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
 
     return null;
   }

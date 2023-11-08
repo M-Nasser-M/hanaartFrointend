@@ -17,7 +17,7 @@ export async function getStoreMainPage(locale: Locale) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
 
     return null;
   }
@@ -39,7 +39,7 @@ export async function getProductPage(
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
 
     return null;
   }
@@ -57,7 +57,7 @@ export async function getProductUsingID(id: number) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
 
     return null;
   }
@@ -82,7 +82,7 @@ export async function getProductUsingSlug(slug: string) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
 
     return null;
   }

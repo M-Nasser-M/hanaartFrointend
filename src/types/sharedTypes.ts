@@ -65,7 +65,7 @@ export const ImageSchema = object({
   ext: optional(union([string(), null_()])),
   mime: optional(union([string(), null_()])),
   size: optional(union([number(), null_()])),
-  url: optional(union([string(), null_()])),
+  url: string(),
   previewUrl: optional(union([string(), null_()])),
   provider: optional(union([string(), null_()])),
   provider_metadata: optional(union([ProviderMetadataSchema, null_()])),

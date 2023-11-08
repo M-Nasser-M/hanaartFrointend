@@ -19,7 +19,7 @@ const ProfileDropdown = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content variant="soft">
         <DropdownMenu.Item>
-          <NextLink href={`/${locale}/profile`}>{t("profile")}</NextLink>
+          <NextLink href="/profile">{t("profile")}</NextLink>
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
         <DropdownMenu.Item>

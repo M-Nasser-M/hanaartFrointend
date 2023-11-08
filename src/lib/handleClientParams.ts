@@ -12,5 +12,5 @@ export const handleAddClientParamsRoute = (
   if (paramValue !== null && paramValue.length > 0)
     params.set(paramName, paramValue);
   else params.delete(paramName);
-  router.replace(`${pathname}?${params.toString()}`);
+  router.push(`${pathname}?${params.toString()}`);
 };

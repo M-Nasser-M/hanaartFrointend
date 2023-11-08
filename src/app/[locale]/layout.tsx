@@ -1,6 +1,6 @@
 import { options } from "../api/auth/[...nextauth]/authOtions";
+import { Locale, SessionSchema } from "@/types/sharedTypes";
 import Providers from "@/components/providers/Providers";
-import { SessionSchema } from "@/types/sharedTypes";
 import { NextIntlClientProvider } from "next-intl";
 import { GeistSans, GeistMono } from "geist/font";
 import Navbar from "@/components/navbar/Navbar";
@@ -15,7 +15,7 @@ import "./globals.css";
 
 type Props = {
   children: ReactNode;
-  params: { locale: string };
+  params: { locale: Locale };
 };
 
 export default async function RootLayout({
@@ -41,6 +41,7 @@ export default async function RootLayout({
       lang={locale}
       dir={dir}
       className={`${GeistSans.variable} ${GeistMono.variable}`}
+      suppressHydrationWarning
     >
       <body>
         <NextIntlClientProvider

@@ -35,7 +35,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
       ? Number(searchParams.page)
       : 1;
   const filter: string[] = searchParams.filter
-    ? [`locale = ${locale}`, ...JSON.parse(searchParams.filter)]
+    ? [...JSON.parse(searchParams.filter)]
     : [`locale = ${locale}`];
 
   const products = await searchProducts({

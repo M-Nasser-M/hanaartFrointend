@@ -1,5 +1,7 @@
 "use client";
+import { currentStorePageAtom } from "@/atoms/atoms";
 import { Button, Flex, IconButton } from "@radix-ui/themes";
+import { useAtomValue } from "jotai";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React from "react";
 
@@ -8,12 +10,17 @@ type Props = {
   numberOfPages: number;
 };
 
-const Pagination = (props: Props) => {
+const Pagination = ({ numberOfPages, handleNavigation }: Props) => {
+  const currentPage = useAtomValue(currentStorePageAtom);
   const pageButtons = () => {
     const buttons = [];
-    for (let i = 1; i <= props.numberOfPages; i++) {
+    for (let i = 1; i <= numberOfPages; i++) {
       buttons.push(
-        <Button key={i} onClick={() => props.handleNavigation(i)}>
+        <Button
+          highContrast={currentPage == i}
+          key={i}
+          onClick={() => handleNavigation(i)}
+        >
           {i}
         </Button>
       );
@@ -21,17 +28,10 @@ const Pagination = (props: Props) => {
     return buttons;
   };
   return (
-    <Flex direction="row" justify="between">
-      <IconButton>
-        <ArrowLeft />{" "}
-      </IconButton>
+    <Flex direction="row" justify="center">
       <Flex direction="row" gap="4" justify="center">
         {pageButtons()}
       </Flex>
-      <IconButton>
-        {" "}
-        <ArrowRight />
-      </IconButton>
     </Flex>
   );
 };

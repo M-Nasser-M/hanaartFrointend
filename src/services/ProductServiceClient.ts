@@ -27,7 +27,7 @@ export async function searchProducts(reqObject: ProductSearchRequestBody) {
 
     return products.data;
   } catch (error) {
-    console.error(error);
+    console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
 }
