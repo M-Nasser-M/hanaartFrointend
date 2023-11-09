@@ -71,7 +71,7 @@ export const ImageSchema = object({
   provider_metadata: optional(union([ProviderMetadataSchema, null_()])),
   createdAt: optional(union([coerce(string(), Date), null_()])),
   updatedAt: optional(union([coerce(string(), Date), null_()])),
-  placeholder: optional(union([string(), null_()])),
+  placeholder: string(),
 });
 export type Cover = Input<typeof ImageSchema>;
 

@@ -9,7 +9,6 @@ import React from "react";
 const ProfileDropdown = () => {
   const [session, setSession] = useAtom(sessionAtom);
   const t = useTranslations("navbar");
-  const locale = useLocale();
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>

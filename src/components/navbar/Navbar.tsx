@@ -1,15 +1,15 @@
 "use client";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Locale, Session } from "@/types/sharedTypes";
 import { Box, Button, Flex } from "@radix-ui/themes";
 import LanguageSwitcher from "./LanguageSwitcher";
 import * as Dialog from "@radix-ui/react-dialog";
 import ProfileDropdown from "./ProfileDropdown";
 import { useHydrateAtoms } from "jotai/utils";
+import { Session } from "@/types/sharedTypes";
 import { Menu, XCircle } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { sessionAtom } from "@/atoms/atoms";
+import { useTranslations } from "next-intl";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { sessionAtom } from "@/atoms/atoms";
 import CartButton from "./CartButton";
 import NextLink from "../NextLink";
 
@@ -18,7 +18,6 @@ type Props = { session: Session | null };
 const Navbar = ({ session }: Props) => {
   useHydrateAtoms([[sessionAtom, session]]);
   const t = useTranslations("navbar");
-  const locale = useLocale();
   return (
     <Flex className="shadow-1" justify="between" gap="4" py="4" px="6" mb="6">
       <NavigationMenu.Root>

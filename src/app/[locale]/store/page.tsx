@@ -9,8 +9,6 @@ import {
   defaultPageSize,
 } from "@/types/product";
 
-export const revalidate = 3600;
-
 type Props = {
   params: { locale: Locale };
   searchParams: {

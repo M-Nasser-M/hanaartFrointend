@@ -22,7 +22,7 @@ export const BlogDataSchema = object({
   description: string(),
   article: string(),
   cover: ImageSchema,
-  seo: optional(SeoSchema),
+  seo: optional(union([null_(), SeoSchema])),
   slug: string(),
   categories: union([null_(), string()]),
   createdAt: coerce(string(), Date),
