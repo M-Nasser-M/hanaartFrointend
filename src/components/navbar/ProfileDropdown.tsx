@@ -1,14 +1,19 @@
+"use client";
 import { Avatar, Box, Button, DropdownMenu } from "@radix-ui/themes";
-import { useLocale, useTranslations } from "next-intl";
 import { sessionAtom } from "@/atoms/atoms";
 import { signOut } from "next-auth/react";
 import NextLink from "../NextLink";
 import { useAtom } from "jotai";
 import React from "react";
 
-const ProfileDropdown = () => {
+type Props = {
+  profile: string;
+  signout: string;
+};
+
+const ProfileDropdown = ({ profile, signout }: Props) => {
   const [session, setSession] = useAtom(sessionAtom);
-  const t = useTranslations("navbar");
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -18,7 +23,7 @@ const ProfileDropdown = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content variant="soft">
         <DropdownMenu.Item>
-          <NextLink href="/profile">{t("profile")}</NextLink>
+          <NextLink href="/profile">{profile}</NextLink>
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
         <DropdownMenu.Item>
@@ -29,7 +34,7 @@ const ProfileDropdown = () => {
               signOut();
             }}
           >
-            {t("signout")}
+            {signout}
           </Button>
         </DropdownMenu.Item>
       </DropdownMenu.Content>

@@ -1,7 +1,7 @@
 import { BlogMainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
 import { Blog, Blogs } from "@/types/blog";
-import { serverApi } from "./ServerApi";
+import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 
 export async function getBlogMainPage(locale: Locale) {
@@ -11,7 +11,7 @@ export async function getBlogMainPage(locale: Locale) {
   });
 
   try {
-    const response = await serverApi.get<BlogMainPage>(
+    const response = await serverApiAuth.get<BlogMainPage>(
       `/blog-main-page?${queryString}`
     );
 
@@ -34,7 +34,7 @@ export async function getBlogPage(
   });
 
   try {
-    const response = await serverApi.get<Blogs>(`/blogs?${queryString}`);
+    const response = await serverApiAuth.get<Blogs>(`/blogs?${queryString}`);
 
     return response.data;
   } catch (error) {
@@ -49,7 +49,9 @@ export async function getBlogPostUsingID(id: number) {
   });
 
   try {
-    const response = await serverApi.get<Blog>(`/blogs/${id}?${queryString}`);
+    const response = await serverApiAuth.get<Blog>(
+      `/blogs/${id}?${queryString}`
+    );
 
     return response.data;
   } catch (error) {
@@ -72,7 +74,7 @@ export async function getBlogPostUsingSlug(slug: string) {
   });
 
   try {
-    const response = await serverApi.get<Blogs>(`/blogs?${queryString}`);
+    const response = await serverApiAuth.get<Blogs>(`/blogs?${queryString}`);
 
     return response.data;
   } catch (error) {

@@ -1,7 +1,7 @@
 import { Product, Products, defaultPageSize } from "@/types/product";
 import { StoreMainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
-import { serverApi } from "./ServerApi";
+import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 
 export async function getStoreMainPage(locale: Locale) {
@@ -11,7 +11,7 @@ export async function getStoreMainPage(locale: Locale) {
   });
 
   try {
-    const response = await serverApi.get<StoreMainPage>(
+    const response = await serverApiAuth.get<StoreMainPage>(
       `/store?${queryString}`
     );
 
@@ -35,7 +35,9 @@ export async function getProductPage(
   });
 
   try {
-    const response = await serverApi.get<Products>(`/products?${queryString}`);
+    const response = await serverApiAuth.get<Products>(
+      `/products?${queryString}`
+    );
 
     return response.data;
   } catch (error) {
@@ -51,7 +53,7 @@ export async function getProductUsingID(id: number) {
   });
 
   try {
-    const response = await serverApi.get<Product>(
+    const response = await serverApiAuth.get<Product>(
       `/products/${id}?${queryString}`
     );
 
@@ -78,7 +80,9 @@ export async function getProductUsingSlug(slug: string) {
   });
 
   try {
-    const response = await serverApi.get<Products>(`/products?${queryString}`);
+    const response = await serverApiAuth.get<Products>(
+      `/products?${queryString}`
+    );
 
     return response.data;
   } catch (error) {

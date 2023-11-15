@@ -1,3 +1,4 @@
+import { unstable_setRequestLocale } from "next-intl/server";
 import { MainPageDataSchema } from "@/types/mainPages";
 import { getHomeData } from "@/services/HomeService";
 import { Locale } from "@/types/sharedTypes";
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function Page({ params: { locale } }: Props) {
+  unstable_setRequestLocale(locale);
   return (
     <main>
       <Home />

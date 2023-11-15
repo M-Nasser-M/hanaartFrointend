@@ -5,7 +5,6 @@ import Pagination from "@/components/pagination/Pagination";
 import { ProductSearchResponse } from "@/types/product";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
-import { useTranslations } from "next-intl";
 import { Search } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -40,6 +39,7 @@ type Props = {
   searchQuery: string;
   page: number;
   numberOfpages: number;
+  translations: { currency: string; addtocart: string };
 };
 
 const SearchComponent = (props: Props) => {
@@ -59,7 +59,6 @@ const SearchComponent = (props: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const t = useTranslations("store");
   return (
     <>
       <TextField.Root mb="9">
@@ -115,9 +114,9 @@ const SearchComponent = (props: Props) => {
             <Flex justify="between">
               <Heading as="h3">
                 {product.offer_price ? product.offer_price : product.price}{" "}
-                {t("currency")}
+                {props.translations.currency}
               </Heading>
-              <Button variant="outline">{t("addtocart")}</Button>
+              <Button variant="outline">{props.translations.addtocart}</Button>
             </Flex>
           </Card>
         ))}

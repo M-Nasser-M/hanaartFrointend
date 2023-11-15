@@ -1,6 +1,6 @@
 import { MainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
-import { serverApi } from "./ServerApi";
+import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 
 export async function getHomeData(locale: Locale) {
@@ -10,7 +10,7 @@ export async function getHomeData(locale: Locale) {
   });
 
   try {
-    const response = await serverApi<MainPage>(`/home?${queryString}`);
+    const response = await serverApiAuth<MainPage>(`/home?${queryString}`);
 
     return response.data;
   } catch (error) {

@@ -1,5 +1,8 @@
 import createMiddleware from "next-intl/middleware";
 import { locales } from "./i18n";
+import { generateMatcherLocales } from "./lib/utils";
+
+const formattedLocales = generateMatcherLocales(locales);
 
 export default createMiddleware({
   locales: locales,
@@ -11,5 +14,5 @@ export default createMiddleware({
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/", `/(en|ar)/:path*`],
 };

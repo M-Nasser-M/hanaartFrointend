@@ -1,13 +1,16 @@
 import {
   Input,
+  Output,
   array,
   coerce,
   email,
   enumType,
+  enum_,
   null_,
   number,
   object,
   optional,
+  startsWith,
   string,
   union,
 } from "valibot";
@@ -18,12 +21,12 @@ export const PaginationSchema = object({
   pageCount: optional(union([null_(), number()])),
   total: optional(union([null_(), number()])),
 });
-export type Pagination = Input<typeof PaginationSchema>;
+export type Pagination = Output<typeof PaginationSchema>;
 
 export const MetaSchema = object({
   pagination: optional(union([null_(), PaginationSchema])),
 });
-export type Meta = Input<typeof MetaSchema>;
+export type Meta = Output<typeof MetaSchema>;
 
 export const SizesSchema = object({
   ext: optional(union([string(), null_()])),
@@ -36,7 +39,7 @@ export const SizesSchema = object({
   width: optional(union([number(), null_()])),
   height: optional(union([number(), null_()])),
 });
-export type Large = Input<typeof SizesSchema>;
+export type Large = Output<typeof SizesSchema>;
 
 export const FormatsSchema = object({
   large: optional(union([SizesSchema, null_()])),
@@ -44,22 +47,34 @@ export const FormatsSchema = object({
   medium: optional(union([SizesSchema, null_()])),
   thumbnail: optional(union([SizesSchema, null_()])),
 });
-export type Formats = Input<typeof FormatsSchema>;
+export type Formats = Output<typeof FormatsSchema>;
 
 export const ProviderMetadataSchema = object({
   public_id: string(),
   resource_type: string(),
 });
 
-export type ProviderMetadata = Input<typeof ProviderMetadataSchema>;
+export type ProviderMetadata = Output<typeof ProviderMetadataSchema>;
+
+enum placeholderEnum {
+  blur = "blur",
+  empty = "empty",
+}
+
+export const placeholderValueSchema = union([
+  enum_(placeholderEnum),
+  string([startsWith("data:image/")]),
+]);
+
+export type placeholderValue = Output<typeof placeholderValueSchema>;
 
 export const ImageSchema = object({
   id: optional(union([number(), null_()])),
   name: optional(union([string(), null_()])),
   alternativeText: optional(union([string(), null_()])),
   caption: optional(union([string(), null_()])),
-  width: optional(union([number(), null_()])),
-  height: optional(union([number(), null_()])),
+  width: number(),
+  height: number(),
   formats: optional(union([FormatsSchema, null_()])),
   hash: optional(union([string(), null_()])),
   ext: optional(union([string(), null_()])),
@@ -71,9 +86,11 @@ export const ImageSchema = object({
   provider_metadata: optional(union([ProviderMetadataSchema, null_()])),
   createdAt: optional(union([coerce(string(), Date), null_()])),
   updatedAt: optional(union([coerce(string(), Date), null_()])),
-  placeholder: string(),
+  placeholder: placeholderValueSchema,
 });
-export type Cover = Input<typeof ImageSchema>;
+export type Image = Input<typeof ImageSchema>;
+
+export type Cover = Output<typeof ImageSchema>;
 
 export const MetaSocialSchema = object({
   id: optional(union([number(), null_()])),
@@ -81,7 +98,7 @@ export const MetaSocialSchema = object({
   title: optional(union([null_(), string()])),
   description: optional(union([null_(), string()])),
 });
-export type MetaSocial = Input<typeof MetaSocialSchema>;
+export type MetaSocial = Output<typeof MetaSocialSchema>;
 
 export const SeoSchema = object({
   id: optional(union([number(), null_()])),
@@ -95,17 +112,17 @@ export const SeoSchema = object({
   metaImage: optional(union([ImageSchema, null_()])),
   metaSocial: optional(union([array(MetaSocialSchema), null_()])),
 });
-export type Seo = Input<typeof SeoSchema>;
+export type Seo = Output<typeof SeoSchema>;
 
 export const LocaleSchema = enumType(["en", "ar"]);
-export type Locale = Input<typeof LocaleSchema>;
+export type Locale = Output<typeof LocaleSchema>;
 
 export const ColorSchema = object({
   id: number(),
   color: string(),
 });
 
-export type Color = Input<typeof ColorSchema>;
+export type Color = Output<typeof ColorSchema>;
 
 export const SellerSchema = object({
   id: number(),
@@ -113,7 +130,7 @@ export const SellerSchema = object({
   info: string(),
 });
 
-export type Seller = Input<typeof SellerSchema>;
+export type Seller = Output<typeof SellerSchema>;
 
 export const SessionUserSchema = object({
   name: string(),
@@ -122,11 +139,11 @@ export const SessionUserSchema = object({
   id: number(),
 });
 
-export type SessionUser = Input<typeof SessionUserSchema>;
+export type SessionUser = Output<typeof SessionUserSchema>;
 
 export const SessionSchema = object({
   user: SessionUserSchema,
   jwt: string(),
 });
 
-export type Session = Input<typeof SessionSchema>;
+export type Session = Output<typeof SessionSchema>;

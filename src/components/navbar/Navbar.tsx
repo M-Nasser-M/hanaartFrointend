@@ -7,17 +7,25 @@ import ProfileDropdown from "./ProfileDropdown";
 import { useHydrateAtoms } from "jotai/utils";
 import { Session } from "@/types/sharedTypes";
 import { Menu, XCircle } from "lucide-react";
-import { useTranslations } from "next-intl";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { sessionAtom } from "@/atoms/atoms";
 import CartButton from "./CartButton";
 import NextLink from "../NextLink";
 
-type Props = { session: Session | null };
+type Props = {
+  session: Session | null;
+  translations: {
+    home: string;
+    store: string;
+    blog: string;
+    signin: string;
+    signout: string;
+    profile: string;
+  };
+};
 
-const Navbar = ({ session }: Props) => {
+const Navbar = ({ session, translations }: Props) => {
   useHydrateAtoms([[sessionAtom, session]]);
-  const t = useTranslations("navbar");
   return (
     <Flex className="shadow-1" justify="between" gap="4" py="4" px="6" mb="6">
       <NavigationMenu.Root>
@@ -26,17 +34,17 @@ const Navbar = ({ session }: Props) => {
             <Flex>
               <NextLink href="/">
                 <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
-                  {t("home")}
+                  {translations.home}
                 </NavigationMenu.Item>
               </NextLink>
               <NextLink href="/store">
                 <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
-                  {t("store")}
+                  {translations.store}
                 </NavigationMenu.Item>
               </NextLink>
               <NextLink href="/blog">
                 <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
-                  {t("blog")}
+                  {translations.blog}
                 </NavigationMenu.Item>
               </NextLink>
             </Flex>
@@ -57,21 +65,21 @@ const Navbar = ({ session }: Props) => {
                   <NextLink href="/">
                     <Dialog.Close asChild>
                       <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
-                        {t("home")}
+                        {translations.home}
                       </NavigationMenu.Item>
                     </Dialog.Close>
                   </NextLink>
                   <NextLink href="/store">
                     <Dialog.Close asChild>
                       <NavigationMenu.Item className=" active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
-                        {t("store")}
+                        {translations.store}
                       </NavigationMenu.Item>
                     </Dialog.Close>
                   </NextLink>
                   <NextLink href="/blog">
                     <Dialog.Close asChild>
                       <NavigationMenu.Item className=" active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
-                        {t("blog")}
+                        {translations.blog}
                       </NavigationMenu.Item>
                     </Dialog.Close>
                   </NextLink>
@@ -86,10 +94,13 @@ const Navbar = ({ session }: Props) => {
         <ThemeSwitcher />
         <LanguageSwitcher />
         {session ? (
-          <ProfileDropdown />
+          <ProfileDropdown
+            profile={translations.profile}
+            signout={translations.signout}
+          />
         ) : (
           <Button asChild>
-            <NextLink href="/api/auth/signin">{t("signin")}</NextLink>
+            <NextLink href="/api/auth/signin">{translations.signin}</NextLink>
           </Button>
         )}
       </Flex>

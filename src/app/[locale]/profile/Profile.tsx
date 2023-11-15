@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { sessionAtom } from "@/atoms/atoms";
-import { useAtomValue } from "jotai";
+import { Session } from "@/types/sharedTypes";
+import type { User } from "@/types/user";
 import React from "react";
 import {
   Avatar,
@@ -13,8 +13,9 @@ import {
   Text,
 } from "@radix-ui/themes";
 
-const Profile = () => {
-  const session = useAtomValue(sessionAtom);
+type Props = { session: Session; userData: User };
+
+const Profile = ({ session }: Props) => {
   const t = useTranslations("profile");
 
   return (

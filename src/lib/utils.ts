@@ -24,3 +24,12 @@ export const changeFilterCheckPure = (
     [filter]: { ...storeSelectedFilters[filter], checked },
   };
 };
+
+export const generateMatcherLocales = (localesArr: string[]) => {
+  const lastIndex = localesArr.length - 1;
+  const matcherArrray = localesArr.map((locale, index) => {
+    if (index !== lastIndex) return `${locale}|`;
+    return locale;
+  });
+  return `/(${matcherArrray.join("")})/:path*`;
+};

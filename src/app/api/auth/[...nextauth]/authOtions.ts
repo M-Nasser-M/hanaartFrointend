@@ -5,8 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import type { AdapterUser } from "next-auth/adapters";
 
 import type { JWT } from "next-auth/jwt";
-import { serverApi } from "@/services/ServerApi";
 import { ENV } from "@/types/envVarsServer";
+import { serverApiAuth } from "@/services/ServerApi";
 
 export const options: AuthOptions = {
   providers: [
@@ -37,7 +37,7 @@ export const options: AuthOptions = {
     jwt: async ({ token, user, account }) => {
       const isSignIn = user ? true : false;
       if (isSignIn) {
-        const response = await serverApi.get<{
+        const response = await serverApiAuth.get<{
           jwt: JWT;
           user: User | AdapterUser;
         }>(

@@ -8,6 +8,7 @@ import {
   defaultAttributesToRetrieve,
   defaultPageSize,
 } from "@/types/product";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 
 type Props = {
   params: { locale: Locale };
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const Page = async ({ params: { locale }, searchParams }: Props) => {
+  unstable_setRequestLocale(locale);
   const searchQuery = searchParams.searchquery ? searchParams.searchquery : "";
   const sort: string[] =
     searchParams.sort &&
@@ -46,7 +48,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
   });
 
   const validatedData = safeParse(ProductSearchResponseSchema, products);
-
+  const t = await getTranslations("store");
   if (validatedData.success) {
     return (
       <SearchComponent
@@ -56,6 +58,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
         searchQuery={searchQuery}
         page={page}
         numberOfpages={validatedData.output.totalPages}
+        translations={{ currency: t("currency"), addtocart: t("addtocart") }}
       />
     );
   }
