@@ -1,16 +1,17 @@
-import { getProductUsingSlug } from "@/services/ProductServiceServer";
+import { getProductUsingSlug } from "@/services/server/ProductServiceServer";
 import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { DataValidationError } from "@/lib/exceptions";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import type { Locale } from "@/types/sharedTypes";
 import { ProductsSchema } from "@/types/product";
 import { safeParse } from "valibot";
 import Carousel from "./Carousel";
 
-type Props = { params: { slug: string } };
+type Props = { params: { slug: string; locale: Locale } };
 
-const Page = async ({ params: { slug } }: Props) => {
+const Page = async ({ params: { slug, locale } }: Props) => {
   const product = await getProductUsingSlug(slug);
-
+  unstable_setRequestLocale(locale);
   const validatedData = safeParse(ProductsSchema, product);
   if (!validatedData.success) throw new DataValidationError(`Product ${slug}`);
 
@@ -47,7 +48,7 @@ const Page = async ({ params: { slug } }: Props) => {
             __html: validatedData.output.data[0].details!,
           }}
           size="7"
-          as="p"
+          as="div"
         />
       </Flex>
     </Flex>

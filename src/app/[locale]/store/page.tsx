@@ -1,4 +1,4 @@
-import { searchProducts } from "@/services/ProductServiceClient";
+import { searchProducts } from "@/services/client/ProductServiceClient";
 import SearchComponent from "./SearchComponent";
 import { Locale } from "@/types/sharedTypes";
 import { safeParse } from "valibot";

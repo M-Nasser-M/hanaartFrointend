@@ -6,7 +6,7 @@ import type { AdapterUser } from "next-auth/adapters";
 
 import type { JWT } from "next-auth/jwt";
 import { ENV } from "@/types/envVarsServer";
-import { serverApiAuth } from "@/services/ServerApi";
+import { serverApiAuth } from "@/services/client/ServerApi";
 
 export const options: AuthOptions = {
   providers: [

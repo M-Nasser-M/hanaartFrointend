@@ -7,6 +7,7 @@ import {
   enumType,
   enum_,
   null_,
+  nullable,
   number,
   object,
   optional,
@@ -16,36 +17,36 @@ import {
 } from "valibot";
 
 export const PaginationSchema = object({
-  page: optional(union([null_(), number()])),
-  pageSize: optional(union([null_(), number()])),
-  pageCount: optional(union([null_(), number()])),
-  total: optional(union([null_(), number()])),
+  page: optional(nullable(number())),
+  pageSize: optional(nullable(number())),
+  pageCount: optional(nullable(number())),
+  total: optional(nullable(number())),
 });
 export type Pagination = Output<typeof PaginationSchema>;
 
 export const MetaSchema = object({
-  pagination: optional(union([null_(), PaginationSchema])),
+  pagination: optional(nullable(PaginationSchema)),
 });
 export type Meta = Output<typeof MetaSchema>;
 
 export const SizesSchema = object({
-  ext: optional(union([string(), null_()])),
-  url: optional(union([null_(), string()])),
-  hash: optional(union([string(), null_()])),
-  mime: optional(union([string(), null_()])),
-  name: optional(union([string(), null_()])),
-  path: optional(union([string(), null_()])),
-  size: optional(union([number(), null_()])),
-  width: optional(union([number(), null_()])),
-  height: optional(union([number(), null_()])),
+  ext: optional(nullable(string())),
+  url: optional(nullable(string())),
+  hash: optional(nullable(string())),
+  mime: optional(nullable(string())),
+  name: optional(nullable(string())),
+  path: optional(nullable(string())),
+  size: optional(nullable(number())),
+  width: optional(nullable(number())),
+  height: optional(nullable(number())),
 });
 export type Large = Output<typeof SizesSchema>;
 
 export const FormatsSchema = object({
-  large: optional(union([SizesSchema, null_()])),
-  small: optional(union([SizesSchema, null_()])),
-  medium: optional(union([SizesSchema, null_()])),
-  thumbnail: optional(union([SizesSchema, null_()])),
+  large: optional(nullable(SizesSchema)),
+  small: optional(nullable(SizesSchema)),
+  medium: optional(nullable(SizesSchema)),
+  thumbnail: optional(nullable(SizesSchema)),
 });
 export type Formats = Output<typeof FormatsSchema>;
 
@@ -69,23 +70,23 @@ export const placeholderValueSchema = union([
 export type placeholderValue = Output<typeof placeholderValueSchema>;
 
 export const ImageSchema = object({
-  id: optional(union([number(), null_()])),
-  name: optional(union([string(), null_()])),
-  alternativeText: optional(union([string(), null_()])),
-  caption: optional(union([string(), null_()])),
+  id: optional(nullable(number())),
+  name: optional(nullable(string())),
+  alternativeText: optional(nullable(string())),
+  caption: optional(nullable(string())),
   width: number(),
   height: number(),
-  formats: optional(union([FormatsSchema, null_()])),
-  hash: optional(union([string(), null_()])),
-  ext: optional(union([string(), null_()])),
-  mime: optional(union([string(), null_()])),
-  size: optional(union([number(), null_()])),
+  formats: optional(nullable(FormatsSchema)),
+  hash: optional(nullable(string())),
+  ext: optional(nullable(string())),
+  mime: optional(nullable(string())),
+  size: optional(nullable(number())),
   url: string(),
-  previewUrl: optional(union([string(), null_()])),
-  provider: optional(union([string(), null_()])),
-  provider_metadata: optional(union([ProviderMetadataSchema, null_()])),
-  createdAt: optional(union([coerce(string(), Date), null_()])),
-  updatedAt: optional(union([coerce(string(), Date), null_()])),
+  previewUrl: optional(nullable(string())),
+  provider: optional(nullable(string())),
+  provider_metadata: optional(nullable(ProviderMetadataSchema)),
+  updatedAt: optional(nullable(coerce(string(), Date))),
+  createdAt: optional(nullable(coerce(string(), Date))),
   placeholder: placeholderValueSchema,
 });
 export type Image = Input<typeof ImageSchema>;
@@ -93,28 +94,33 @@ export type Image = Input<typeof ImageSchema>;
 export type Cover = Output<typeof ImageSchema>;
 
 export const MetaSocialSchema = object({
-  id: optional(union([number(), null_()])),
-  socialNetwork: optional(union([null_(), string()])),
-  title: optional(union([null_(), string()])),
-  description: optional(union([null_(), string()])),
+  id: optional(nullable(number())),
+  socialNetwork: optional(nullable(string())),
+  title: optional(nullable(string())),
+  description: optional(nullable(string())),
 });
 export type MetaSocial = Output<typeof MetaSocialSchema>;
 
 export const SeoSchema = object({
-  id: optional(union([number(), null_()])),
-  metaTitle: optional(union([null_(), string()])),
-  metaDescription: optional(union([null_(), string()])),
-  keywords: optional(union([null_(), string()])),
-  metaRobots: optional(union([string(), null_()])),
-  structuredData: optional(union([string(), null_()])),
-  metaViewport: optional(union([string(), null_()])),
-  canonicalURL: optional(union([string(), null_()])),
-  metaImage: optional(union([ImageSchema, null_()])),
-  metaSocial: optional(union([array(MetaSocialSchema), null_()])),
+  id: optional(nullable(number())),
+  metaTitle: optional(nullable(string())),
+  metaDescription: optional(nullable(string())),
+  keywords: optional(nullable(string())),
+  metaRobots: optional(nullable(string())),
+  structuredData: optional(nullable(string())),
+  metaViewport: optional(nullable(string())),
+  canonicalURL: optional(nullable(string())),
+  metaImage: optional(nullable(ImageSchema)),
+  metaSocial: optional(nullable(array(MetaSocialSchema))),
 });
 export type Seo = Output<typeof SeoSchema>;
 
-export const LocaleSchema = enumType(["en", "ar"]);
+enum locale {
+  en = "en",
+  ar = "ar",
+}
+
+export const LocaleSchema = enum_(locale);
 export type Locale = Output<typeof LocaleSchema>;
 
 export const ColorSchema = object({

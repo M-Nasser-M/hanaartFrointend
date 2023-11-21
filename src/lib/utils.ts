@@ -1,4 +1,4 @@
-import { Category, SubCategory } from "@/types/product";
+import type { Category, SubCategory } from "@/types/product";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -23,13 +23,4 @@ export const changeFilterCheckPure = (
     ...storeSelectedFilters,
     [filter]: { ...storeSelectedFilters[filter], checked },
   };
-};
-
-export const generateMatcherLocales = (localesArr: string[]) => {
-  const lastIndex = localesArr.length - 1;
-  const matcherArrray = localesArr.map((locale, index) => {
-    if (index !== lastIndex) return `${locale}|`;
-    return locale;
-  });
-  return `/(${matcherArrray.join("")})/:path*`;
 };

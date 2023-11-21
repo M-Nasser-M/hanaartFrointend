@@ -1,6 +1,6 @@
 import { MainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
-import { serverApiAuth } from "./ServerApi";
+import { serverApiAuth } from "../client/ServerApi";
 import qs from "qs";
 
 export async function getHomeData(locale: Locale) {

@@ -4,6 +4,7 @@ import {
   array,
   coerce,
   null_,
+  nullable,
   number,
   object,
   optional,
@@ -24,22 +25,22 @@ export const ProductDataSchema = object({
   name: string(),
   price: number(),
   description: string(),
-  details: optional(union([null_(), string()])),
-  offer_price: optional(union([null_(), number()])),
+  details: optional(nullable(string())),
+  offer_price: optional(nullable(number())),
   availableStock: string(),
-  onholdStock: optional(union([null_(), string()])),
-  soldStock: optional(union([null_(), string()])),
+  onholdStock: optional(nullable(string())),
+  soldStock: optional(nullable(string())),
   createdAt: coerce(string(), Date),
   updatedAt: coerce(string(), Date),
   publishedAt: coerce(string(), Date),
   locale: LocaleSchema,
-  category: optional(union([null_(), string()])),
+  category: optional(nullable(string())),
   slug: string(),
-  images: optional(union([null_(), array(ImageSchema)])),
-  cover: ImageSchema,
-  colors: optional(union([null_(), ColorSchema])),
-  seller: optional(union([null_(), SellerSchema])),
-  seo: optional(union([null_(), SeoSchema])),
+  images: optional(nullable(array(ImageSchema))),
+  cover: optional(ImageSchema),
+  colors: optional(nullable(ColorSchema)),
+  seller: optional(nullable(SellerSchema)),
+  seo: optional(nullable(SeoSchema)),
 });
 
 export type ProductData = Output<typeof ProductDataSchema>;
@@ -61,7 +62,7 @@ export type Product = Output<typeof ProductSchema>;
 export const ProductSearchRequestBodySchema = object({
   q: string(), //Query string
   filter: optional(array(string())), //Filter queries by an attribute's value
-  sort: optional(union([null_(), array(string())])), //Sort search results by an attribute's value
+  sort: optional(nullable(array(string()))), //Sort search results by an attribute's value
   attributesToRetrieve: optional(array(string())), //Attributes to display in the returned documents
   offset: optional(number()), //Number of documents to skip
   limit: optional(number()), //Maximum number of documents returned
@@ -77,7 +78,7 @@ export const ProductSearchResponseElementSchema = object({
   name: string(),
   price: number(),
   description: string(),
-  offer_price: union([null_(), number()]),
+  offer_price: nullable(number()),
   availableStock: string(),
   slug: string(),
   cover: ImageSchema,

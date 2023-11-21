@@ -1,7 +1,7 @@
 import { Product, Products, defaultPageSize } from "@/types/product";
 import { StoreMainPage } from "@/types/mainPages";
 import { Locale } from "@/types/sharedTypes";
-import { serverApiAuth } from "./ServerApi";
+import { serverApiAuth } from "../client/ServerApi";
 import qs from "qs";
 
 export async function getStoreMainPage(locale: Locale) {

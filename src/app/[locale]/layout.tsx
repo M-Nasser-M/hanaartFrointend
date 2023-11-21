@@ -14,6 +14,7 @@ import { locales } from "@/i18n";
 
 import "./globals.css";
 import { getTranslationObject } from "@/lib/translation";
+import { Toaster } from "@/components/ui/toaster";
 
 type Props = {
   children: ReactNode;
@@ -56,6 +57,7 @@ export default async function RootLayout({
           />
           <Container size="4" mb="9">
             {children}
+            <Toaster />
           </Container>
         </Providers>
       </body>

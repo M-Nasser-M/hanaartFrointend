@@ -1,6 +1,6 @@
 import { unstable_setRequestLocale } from "next-intl/server";
 import { MainPageDataSchema } from "@/types/mainPages";
-import { getHomeData } from "@/services/HomeService";
+import { getHomeData } from "@/services/server/HomeServiceServer";
 import { Locale } from "@/types/sharedTypes";
 import Home from "@/components/home/Home";
 import { locales } from "@/i18n";

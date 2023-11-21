@@ -1,5 +1,5 @@
 import { changeFilterCheckPure } from "@/lib/utils";
-import type { Locale, Session } from "@/types/sharedTypes";
+import type { Session } from "@/types/sharedTypes";
 import atomWithDebounce from "./atomWithDebounce";
 import { atom } from "jotai";
 import {

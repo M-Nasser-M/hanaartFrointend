@@ -1,14 +1,16 @@
 "use client";
 import { AspectRatio, Box, Flex } from "@radix-ui/themes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Cover, Image } from "@/types/sharedTypes";
+import type { Image } from "@/types/sharedTypes";
+import { useHydrateAtoms } from "jotai/utils";
 import React, { ReactNode } from "react";
+import { atom, useAtom } from "jotai";
 import NextImage from "next/image";
 import Glider from "react-glider";
 
 import "glider-js/glider.min.css";
 
-type Props = { images: Image[] | [] | null | undefined; cover: Cover };
+type Props = { images: Image[] | [] | null | undefined; cover: Image };
 
 const GliderContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -18,16 +20,28 @@ const GliderContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const defaultImage: Image = {
+  width: 0,
+  height: 0,
+  url: "",
+  placeholder: "",
+};
+
+const currentImageAtom = atom<Image>(defaultImage);
+
 const Carousel = ({ images, cover }: Props) => {
+  useHydrateAtoms([[currentImageAtom, cover]]);
+  const [currentImage, setCurrentImage] = useAtom(currentImageAtom);
+
   return (
     <>
       <AspectRatio ratio={16 / 9}>
         <NextImage
-          src={cover.url}
-          alt={cover.alternativeText || ""}
+          src={currentImage.url}
+          alt={currentImage.alternativeText || ""}
           fill
           placeholder="blur"
-          blurDataURL={cover.placeholder}
+          blurDataURL={currentImage.placeholder}
         />
       </AspectRatio>
       {images && images.length > 0 && (
@@ -35,10 +49,10 @@ const Carousel = ({ images, cover }: Props) => {
           className="glider"
           containerElement={GliderContainer}
           iconRight={
-            <ChevronRight className="h-[2.5rem] w-[2.5rem] text-crimsonA-11" />
+            <ChevronRight className="h-[2.5rem] w-[2.5rem] text-crimsonA-11 cursor-pointer" />
           }
           iconLeft={
-            <ChevronLeft className="h-[2.5rem] w-[2.5rem] text-crimsonA-11" />
+            <ChevronLeft className="h-[2.5rem] w-[2.5rem] text-crimsonA-11 cursor-pointer" />
           }
           hasArrows
           slidesToShow={3}
@@ -49,11 +63,13 @@ const Carousel = ({ images, cover }: Props) => {
             {images.map((image) => (
               <Flex key={image.id} position="relative">
                 <NextImage
+                  className="cursor-pointer"
                   src={image.formats?.thumbnail?.url || ""}
                   alt={image.alternativeText || ""}
                   fill
                   placeholder="blur"
                   blurDataURL={image.placeholder}
+                  onClick={() => setCurrentImage(image)}
                 />
               </Flex>
             ))}
