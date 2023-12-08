@@ -10,6 +10,10 @@ import { getServerSession } from "next-auth";
 import ProfileTabs from "./ProfileTabs";
 import { safeParse } from "valibot";
 import dynamic from "next/dynamic";
+import {
+  profileKeys,
+  type profileTranslations,
+} from "../../../../messages/messagesKeys";
 
 const EditUserEmailForm = dynamic(() => import("./EditUserEmailForm"));
 const EditUserPhoneForm = dynamic(() => import("./EditUserPhoneForm"));
@@ -35,27 +39,10 @@ const Page = async ({ params: { locale } }: Props) => {
 
   const t = await getTranslations("profile");
 
-  const translations = {
-    addresses: t("addresses"),
-    orderno: t("orderno"),
-    orders: t("orders"),
-    orderstatus: t("orderstatus"),
-    total: t("total"),
-    governorate: t("governorate"),
-    city: t("city"),
-    street: t("street"),
-    apartmentno: t("apartmentno"),
-    username: t("username"),
-    building: t("building"),
-    details: t("details"),
-    firstname: t("firstname"),
-    lastname: t("lastname"),
-    floor: t("floor"),
-    editaddress: t("editaddress"),
-    edituserinfo: t("edituserinfo"),
-    phone: t("phone"),
-    email: t("email"),
-  };
+  const translations = profileKeys.reduce((obj, curr) => {
+    obj[curr] = t(curr);
+    return obj;
+  }, {} as profileTranslations);
 
   return (
     <Flex gap="2" px="4" direction={{ initial: "column", md: "row" }}>

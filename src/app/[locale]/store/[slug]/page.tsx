@@ -1,7 +1,7 @@
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { getProductUsingSlug } from "@/services/server/ProductServiceServer";
 import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { DataValidationError } from "@/lib/exceptions";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/types/sharedTypes";
 import { ProductsSchema } from "@/types/product";
 import { safeParse } from "valibot";

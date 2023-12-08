@@ -30,7 +30,6 @@ const ProfileDropdown = ({ profile, signout }: Props) => {
           <Button
             variant="ghost"
             onClick={() => {
-              setSession(null);
               signOut();
             }}
           >

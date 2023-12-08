@@ -6,7 +6,8 @@ import type { AdapterUser } from "next-auth/adapters";
 
 import type { JWT } from "next-auth/jwt";
 import { ENV } from "@/types/envVarsServer";
-import { serverApiAuth } from "@/services/client/ServerApi";
+import { serverApi } from "@/services/server/ServerApi";
+import type { Cart, UserData } from "@/types/user";
 
 export const options: AuthOptions = {
   providers: [
@@ -28,24 +29,30 @@ export const options: AuthOptions = {
     session: async ({ session, token }) => {
       const extendedSession = {
         ...session,
-        user: { ...session.user, id: token.id },
+        user: { ...session.user, id: token.id, cartId: token.cartId },
         jwt: token.jwt,
       };
-
       return extendedSession;
     },
     jwt: async ({ token, user, account }) => {
       const isSignIn = user ? true : false;
       if (isSignIn) {
-        const response = await serverApiAuth.get<{
+        const response = await serverApi.get<{
           jwt: JWT;
           user: User | AdapterUser;
         }>(
           `/auth/${account?.provider}/callback?access_token=${account?.access_token}`
         );
+        const userData = await serverApi.get<UserData & { cart: Cart }>(
+          "/users/me?populate=cart",
+          {
+            headers: { Authorization: `Bearer ${response.data.jwt}` },
+          }
+        );
 
         token.jwt = response.data.jwt;
         token.id = response.data.user.id;
+        token.cartId = userData.data.cart.id;
       }
       return token;
     },

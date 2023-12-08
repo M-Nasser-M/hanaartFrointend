@@ -2,15 +2,17 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
 import Pagination from "@/components/pagination/Pagination";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import AddToCartButton from "@/components/AddToCartButton";
 import { ProductSearchResponse } from "@/types/product";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
+import NextLink from "@/components/NextLink";
 import { Search } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   AspectRatio,
-  Button,
   Card,
   Flex,
   Grid,
@@ -28,7 +30,7 @@ import {
   storeActiveFilterAtom,
   writeStoreSelectedFiltersAtom,
 } from "@/atoms/atoms";
-import NextLink from "@/components/NextLink";
+import type { storeTranslations } from "../../../../messages/messagesKeys";
 
 const FilterSort = dynamic(() => import("./FilterSort"));
 
@@ -39,7 +41,7 @@ type Props = {
   searchQuery: string;
   page: number;
   numberOfpages: number;
-  translations: { currency: string; addtocart: string };
+  translations: storeTranslations;
 };
 
 const SearchComponent = (props: Props) => {
@@ -52,12 +54,14 @@ const SearchComponent = (props: Props) => {
     [storeSortAtom, props.sort],
     [writeStoreSelectedFiltersAtom, props.filter],
   ]);
+
   const setSearchQuery = useSetAtom(storeSearchQueryAtom.debouncedValueAtom);
-  const productList = useAtomValue(storeProductListAtom);
   const setCurrentPage = useSetAtom(currentStorePageAtom);
+  const productList = useAtomValue(storeProductListAtom);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const [parent] = useAutoAnimate();
 
   return (
     <>
@@ -78,9 +82,6 @@ const SearchComponent = (props: Props) => {
           }}
           placeholder="Search our store"
         />
-        {/* <TextField.Slot p="0">
-          <Button>Search</Button>
-        </TextField.Slot> */}
       </TextField.Root>
 
       <FilterSort />
@@ -91,6 +92,7 @@ const SearchComponent = (props: Props) => {
         mb="4"
         width="100%"
         px={{ initial: "4", md: "2", lg: "0" }}
+        ref={parent}
       >
         {productList?.hits.map((product) => (
           <Card key={product.slug}>
@@ -99,7 +101,7 @@ const SearchComponent = (props: Props) => {
                 <Image
                   alt={product.cover?.alternativeText || ""}
                   fill
-                  src={product.cover?.url!}
+                  src={product.cover?.url || ""}
                 />
               </AspectRatio>
             </Inset>
@@ -116,7 +118,11 @@ const SearchComponent = (props: Props) => {
                 {product.offer_price ? product.offer_price : product.price}{" "}
                 {props.translations.currency}
               </Heading>
-              <Button variant="outline">{props.translations.addtocart}</Button>
+              <AddToCartButton
+                translation={props.translations.addtocart}
+                product={product}
+                quantity={1}
+              />
             </Flex>
           </Card>
         ))}

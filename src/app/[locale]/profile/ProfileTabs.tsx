@@ -10,32 +10,12 @@ import {
   Text,
 } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
+import type { profileTranslations } from "../../../../messages/messagesKeys";
+
 const EditAddressForm = dynamic(() => import("./EditAddressForm"));
 
-export type Translations = {
-  orders: string;
-  addresses: string;
-  orderno: string;
-  total: string;
-  orderstatus: string;
-  governorate: string;
-  city: string;
-  street: string;
-  apartmentno: string;
-  username: string;
-  building: string;
-  details: string;
-  firstname: string;
-  lastname: string;
-  floor: string;
-  editaddress: string;
-  edituserinfo: string;
-  phone: string;
-  email: string;
-};
-
 type Props = {
-  translations: Translations;
+  translations: profileTranslations;
   user: UserProfile;
 };
 

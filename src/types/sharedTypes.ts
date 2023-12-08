@@ -4,9 +4,7 @@ import {
   array,
   coerce,
   email,
-  enumType,
   enum_,
-  null_,
   nullable,
   number,
   object,
@@ -15,6 +13,14 @@ import {
   string,
   union,
 } from "valibot";
+
+enum locale {
+  en = "en",
+  ar = "ar",
+}
+
+export const LocaleSchema = enum_(locale);
+export type Locale = Output<typeof LocaleSchema>;
 
 export const PaginationSchema = object({
   page: optional(nullable(number())),
@@ -25,7 +31,7 @@ export const PaginationSchema = object({
 export type Pagination = Output<typeof PaginationSchema>;
 
 export const MetaSchema = object({
-  pagination: optional(nullable(PaginationSchema)),
+  pagination: optional(PaginationSchema),
 });
 export type Meta = Output<typeof MetaSchema>;
 
@@ -115,14 +121,6 @@ export const SeoSchema = object({
 });
 export type Seo = Output<typeof SeoSchema>;
 
-enum locale {
-  en = "en",
-  ar = "ar",
-}
-
-export const LocaleSchema = enum_(locale);
-export type Locale = Output<typeof LocaleSchema>;
-
 export const ColorSchema = object({
   id: number(),
   color: string(),
@@ -142,6 +140,7 @@ export const SessionUserSchema = object({
   name: string(),
   email: string([email()]),
   image: string(),
+  cartId: number(),
   id: number(),
 });
 

@@ -1,6 +1,7 @@
 import { unstable_setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/types/sharedTypes";
-import React from "react";
+import CartList from "./CartList";
+import { useTranslations } from "next-intl";
 
 type Props = {
   params: { locale: Locale };
@@ -8,7 +9,10 @@ type Props = {
 
 const Page = ({ params: { locale } }: Props) => {
   unstable_setRequestLocale(locale);
-  return <div>Cart Page</div>;
+  const t = useTranslations("cart");
+  console.log(t("continueshopping"));
+
+  return <CartList />;
 };
 
 export default Page;

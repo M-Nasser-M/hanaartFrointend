@@ -1,16 +1,18 @@
+import type { ProductSearchResponse } from "@/types/product";
+import type { localStorageCartItem } from "@/types/user";
 import { changeFilterCheckPure } from "@/lib/utils";
 import type { Session } from "@/types/sharedTypes";
 import atomWithDebounce from "./atomWithDebounce";
+import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
 import {
-  Category,
-  ProductSearchResponse,
   SubCategory,
   defaultPageSize,
   filterDefaultCheckStatus,
+  Category,
 } from "@/types/product";
 
-export const cartAtom = atom(null);
+export const cartAtom = atomWithStorage<localStorageCartItem[]>("cart", []);
 
 export const storeProductListAtom = atom<ProductSearchResponse | null>(null);
 

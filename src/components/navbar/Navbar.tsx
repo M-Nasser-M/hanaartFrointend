@@ -1,4 +1,5 @@
 "use client";
+import type { navbarTranslations } from "../../../messages/messagesKeys";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Box, Button, Flex } from "@radix-ui/themes";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -14,18 +15,12 @@ import NextLink from "../NextLink";
 
 type Props = {
   session: Session | null;
-  translations: {
-    home: string;
-    store: string;
-    blog: string;
-    signin: string;
-    signout: string;
-    profile: string;
-  };
+  translations: navbarTranslations;
 };
 
 const Navbar = ({ session, translations }: Props) => {
   useHydrateAtoms([[sessionAtom, session]]);
+
   return (
     <Flex className="shadow-1" justify="between" gap="4" py="4" px="6" mb="6">
       <NavigationMenu.Root>

@@ -9,6 +9,10 @@ import {
   defaultPageSize,
 } from "@/types/product";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import {
+  storeKeys,
+  type storeTranslations,
+} from "../../../../messages/messagesKeys";
 
 type Props = {
   params: { locale: Locale };
@@ -49,6 +53,11 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
 
   const validatedData = safeParse(ProductSearchResponseSchema, products);
   const t = await getTranslations("store");
+  const translations = storeKeys.reduce((obj, curr) => {
+    obj[curr] = t(curr);
+    return obj;
+  }, {} as storeTranslations);
+
   if (validatedData.success) {
     return (
       <SearchComponent
@@ -58,7 +67,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
         searchQuery={searchQuery}
         page={page}
         numberOfpages={validatedData.output.totalPages}
-        translations={{ currency: t("currency"), addtocart: t("addtocart") }}
+        translations={translations}
       />
     );
   }

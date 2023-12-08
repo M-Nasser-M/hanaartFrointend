@@ -3,7 +3,6 @@ import {
   Output,
   array,
   coerce,
-  null_,
   nullable,
   number,
   object,
@@ -37,7 +36,7 @@ export const ProductDataSchema = object({
   category: optional(nullable(string())),
   slug: string(),
   images: optional(nullable(array(ImageSchema))),
-  cover: optional(ImageSchema),
+  cover: ImageSchema,
   colors: optional(nullable(ColorSchema)),
   seller: optional(nullable(SellerSchema)),
   seo: optional(nullable(SeoSchema)),
@@ -75,6 +74,7 @@ export type ProductSearchRequestBody = Input<
 >;
 
 export const ProductSearchResponseElementSchema = object({
+  id: number(),
   name: string(),
   price: number(),
   description: string(),
@@ -129,7 +129,7 @@ export const filterDefaultCheckStatus = [
   ...Object.values(Category),
 ].reduce(
   (obj, key) => {
-    const filter = Object.values(Category).includes(key as any)
+    const filter = Object.values(Category).includes(key as never)
       ? `category = '${key}'`
       : `subcategory = '${key}'`;
     return {
@@ -168,6 +168,7 @@ export const categories = [
 ] as const;
 
 export const defaultAttributesToRetrieve = [
+  "id",
   "name",
   "price",
   "description",

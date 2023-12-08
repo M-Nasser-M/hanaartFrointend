@@ -11,3 +11,10 @@ export class DataValidationError extends Error {
     this.name = "DataValidationError";
   }
 }
+
+export class CreateCartError extends Error {
+  constructor(message: string = "Error Creating Cart") {
+    super(message);
+    this.name = "CreateCartError";
+  }
+}
