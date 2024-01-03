@@ -82,7 +82,7 @@ export const ImageSchema = object({
   caption: optional(nullable(string())),
   width: number(),
   height: number(),
-  formats: optional(nullable(FormatsSchema)),
+  formats: FormatsSchema,
   hash: optional(nullable(string())),
   ext: optional(nullable(string())),
   mime: optional(nullable(string())),

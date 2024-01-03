@@ -1,9 +1,9 @@
 "use client";
-import { AspectRatio, Box, Flex } from "@radix-ui/themes";
+import { AspectRatio, Box, Button } from "@radix-ui/themes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Image } from "@/types/sharedTypes";
 import { useHydrateAtoms } from "jotai/utils";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback, useRef, useState } from "react";
 import { atom, useAtom } from "jotai";
 import NextImage from "next/image";
 import Glider from "react-glider";
@@ -13,11 +13,7 @@ import "glider-js/glider.min.css";
 type Props = { images: Image[] | [] | null | undefined; cover: Image };
 
 const GliderContainer = ({ children }: { children: ReactNode }) => {
-  return (
-    <Box className="glider-contain h-32 relative my-0 mx-auto px-2">
-      {children}
-    </Box>
-  );
+  return <Box className="glider-contain  p-2">{children}</Box>;
 };
 
 const defaultImage: Image = {
@@ -25,6 +21,7 @@ const defaultImage: Image = {
   height: 0,
   url: "",
   placeholder: "",
+  formats: {},
 };
 
 const currentImageAtom = atom<Image>(defaultImage);
@@ -32,10 +29,27 @@ const currentImageAtom = atom<Image>(defaultImage);
 const Carousel = ({ images, cover }: Props) => {
   useHydrateAtoms([[currentImageAtom, cover]]);
   const [currentImage, setCurrentImage] = useAtom(currentImageAtom);
+  const previousButton = useRef<HTMLButtonElement | null>(null);
+  const nextButton = useRef<HTMLButtonElement | null>(null);
+  const [isReady, setIsReady] = useState(false);
+  const previousButtonCallbackRef = useCallback(
+    (element: HTMLButtonElement | null) => {
+      previousButton.current = element;
+      setIsReady(Boolean(previousButton.current && nextButton.current));
+    },
+    []
+  );
 
+  const nextButtonCallbackRef = useCallback(
+    (element: HTMLButtonElement | null) => {
+      nextButton.current = element;
+      setIsReady(Boolean(previousButton.current && nextButton.current));
+    },
+    []
+  );
   return (
-    <>
-      <AspectRatio ratio={16 / 9}>
+    <Box p="4" className="md:w-2/3">
+      <AspectRatio>
         <NextImage
           src={currentImage.url}
           alt={currentImage.alternativeText || ""}
@@ -44,39 +58,57 @@ const Carousel = ({ images, cover }: Props) => {
           blurDataURL={currentImage.placeholder}
         />
       </AspectRatio>
-      {images && images.length > 0 && (
-        <Glider
-          className="glider"
-          containerElement={GliderContainer}
-          iconRight={
-            <ChevronRight className="h-[2.5rem] w-[2.5rem] text-crimsonA-11 cursor-pointer" />
-          }
-          iconLeft={
-            <ChevronLeft className="h-[2.5rem] w-[2.5rem] text-crimsonA-11 cursor-pointer" />
-          }
-          hasArrows
-          slidesToShow={3}
-          slidesToScroll={1}
-          skipTrack
-        >
-          <Box className="glider-track h-32 gap-2">
-            {images.map((image) => (
-              <Flex key={image.id} position="relative">
+      <Box position="relative">
+        {images && images.length > 0 && isReady && (
+          <Glider
+            className="glider"
+            containerElement={GliderContainer}
+            hasArrows
+            arrows={{ next: nextButton.current, prev: previousButton.current }}
+            slidesToShow={2}
+            slidesToScroll={1}
+            responsive={[
+              { breakpoint: 1280, settings: { slidesToShow: 3 } },
+              { breakpoint: 768, settings: { slidesToShow: 2 } },
+              { breakpoint: 0, settings: { slidesToShow: 1 } },
+            ]}
+            skipTrack
+          >
+            <Box className="glider-track">
+              {images.map((image) => (
                 <NextImage
+                  key={image.id}
                   className="cursor-pointer"
-                  src={image.formats?.thumbnail?.url || ""}
+                  src={image.formats.thumbnail?.url || ""}
                   alt={image.alternativeText || ""}
-                  fill
+                  height={image.formats.thumbnail?.height || 0}
+                  width={image.formats.thumbnail?.width || 0}
                   placeholder="blur"
                   blurDataURL={image.placeholder}
                   onClick={() => setCurrentImage(image)}
                 />
-              </Flex>
-            ))}
-          </Box>
-        </Glider>
-      )}
-    </>
+              ))}
+            </Box>
+          </Glider>
+        )}
+        <Button
+          ref={previousButtonCallbackRef}
+          variant="ghost"
+          className="absolute top-[50%] left-4"
+          aria-label="Previous"
+        >
+          <ChevronLeft size={32} />
+        </Button>
+        <Button
+          ref={nextButtonCallbackRef}
+          variant="ghost"
+          className="absolute top-[50%] right-4"
+          aria-label="next"
+        >
+          <ChevronRight size={32} />
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

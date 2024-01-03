@@ -1,17 +1,22 @@
 import { unstable_setRequestLocale } from "next-intl/server";
 import { MainPageDataSchema } from "@/types/mainPages";
 import { getHomeData } from "@/services/server/HomeServiceServer";
-import { Locale } from "@/types/sharedTypes";
-import Home from "@/components/home/Home";
-import { locales } from "@/i18n";
-import { parse } from "valibot";
+import type { Locale } from "@/types/sharedTypes";
+import { AspectRatio, Card, Flex, Heading, Inset } from "@radix-ui/themes";
+import { parse, safeParse } from "valibot";
 import { Metadata } from "next";
+import NextImage from "next/image";
+import { getCategoriesData } from "@/services/server/CategoryService";
+import { getFeaturedProducts } from "@/services/server/ProductServiceServer";
+import { CategoriesSchema } from "@/types/categories";
+import CarouselHorizontal from "../../components/CarouselHorizontal";
+import {
+  type ProductSearchResponseElement,
+  ProductSearchResponseSchema,
+} from "@/types/product";
+import NextLink from "@/components/NextLink";
 
 export const revalidate = 3600;
-
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
 
 type Props = {
   params: { locale: Locale };
@@ -30,11 +35,76 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Page({ params: { locale } }: Props) {
+export default async function Page({ params: { locale } }: Props) {
   unstable_setRequestLocale(locale);
+
+  const [catResponse, featuredResponse] = await Promise.all([
+    getCategoriesData(),
+    getFeaturedProducts(),
+  ]);
+
+  const [validatedCat, validatedFeatured] = [
+    safeParse(CategoriesSchema, catResponse),
+    safeParse(ProductSearchResponseSchema, featuredResponse),
+  ];
+
+  if (!validatedCat.success || !validatedFeatured.success) return null;
+
+  const Products: ProductSearchResponseElement[] =
+    validatedFeatured.output.hits.filter(
+      (product) => Number(product.availableStock) > 0
+    );
+
   return (
-    <main>
-      <Home />
-    </main>
+    <Flex direction="column" gap="4">
+      <Heading
+        className="text-crimsonA-9 animate-bounce"
+        weight="bold"
+        size="9"
+        align="center"
+        mb="4"
+        as="h1"
+      >
+        Hana Store
+      </Heading>
+      <Flex px="4" gap="4" wrap="wrap" justify="center" align="center">
+        {validatedCat.output.data.map((category) => (
+          <Card asChild key={category.id}>
+            <Flex
+              className="md:w-1/4 sm:w-1/3 w-full text-center"
+              gap="4"
+              direction="column"
+              align="center"
+              justify="center"
+            >
+              {category.cover && (
+                <NextLink
+                  href={`/store?filter=["locale = ${locale}","categories.name_en = '${category.name_en}'"]`}
+                >
+                  <Inset mb="4">
+                    <AspectRatio ratio={4 / 3}>
+                      <NextImage
+                        fill
+                        src={category.cover.url}
+                        alt={category.cover.alternativeText || "category image"}
+                      />
+                    </AspectRatio>
+                  </Inset>
+                </NextLink>
+              )}
+              <NextLink
+                href={`/store?filter=["locale = ${locale}","categories.name_en = '${category.name_en}'"]`}
+              >
+                <Heading as="h3">{category[`name_${locale}`]}</Heading>
+              </NextLink>
+            </Flex>
+          </Card>
+        ))}
+      </Flex>
+      <Heading className="ml-4 rtl:mr-4" as="h2">
+        Featured Products
+      </Heading>
+      <CarouselHorizontal products={Products} />
+    </Flex>
   );
 }

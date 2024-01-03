@@ -8,7 +8,7 @@ import { Check, ListFilter, XCircle } from "lucide-react";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useAtom } from "jotai";
-import React from "react";
+
 import {
   storeActiveFilterAtom,
   storeSelectedFiltersAtom,
@@ -149,7 +149,7 @@ const FilterSort = () => {
         </Dialog.Overlay>
       </Dialog.Root>
       <Select.Root onValueChange={handleSort} value={sortValue || "null"}>
-        <Select.Trigger placeholder="Sort" />
+        <Select.Trigger />
         <Select.Content>
           <Select.Group>
             <Select.Label>Sort</Select.Label>

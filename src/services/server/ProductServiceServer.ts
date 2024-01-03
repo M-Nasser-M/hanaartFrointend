@@ -1,7 +1,14 @@
-import { Product, Products, defaultPageSize } from "@/types/product";
+import {
+  type Product,
+  type ProductSearchRequestBody,
+  type ProductSearchResponse,
+  type Products,
+  defaultAttributesToRetrieve,
+  defaultPageSize,
+} from "@/types/product";
 import { StoreMainPage } from "@/types/mainPages";
-import { Locale } from "@/types/sharedTypes";
-import { serverApiAuth } from "./ServerApi";
+import type { Locale } from "@/types/sharedTypes";
+import { meiliserverApiAuth, serverApiAuth } from "./ServerApi";
 import qs from "qs";
 
 export async function getStoreMainPage(locale: Locale) {
@@ -18,7 +25,6 @@ export async function getStoreMainPage(locale: Locale) {
     return response.data;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
-
     return null;
   }
 }
@@ -42,7 +48,6 @@ export async function getProductPage(
     return response.data;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
-
     return null;
   }
 }
@@ -60,7 +65,6 @@ export async function getProductUsingID(id: number) {
     return response.data;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
-
     return null;
   }
 }
@@ -76,6 +80,8 @@ export async function getProductUsingSlug(slug: string) {
       seo: { populate: ["metaImage"] },
       images: true,
       cover: true,
+      categories: true,
+      subcategories: true,
     },
   });
 
@@ -87,7 +93,34 @@ export async function getProductUsingSlug(slug: string) {
     return response.data;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
-
     return null;
   }
 }
+
+const defaultReqBodyFeatured: ProductSearchRequestBody = {
+  q: "",
+  attributesToRetrieve: defaultAttributesToRetrieve,
+  filter: ["featured = true"],
+  hitsPerPage: defaultPageSize,
+  page: 1,
+};
+
+export const getFeaturedProducts = async (
+  reqObject?: ProductSearchRequestBody
+) => {
+  const reqBody: ProductSearchRequestBody = {
+    ...defaultReqBodyFeatured,
+    ...reqObject,
+  };
+
+  try {
+    const products = await meiliserverApiAuth.post<ProductSearchResponse>(
+      "/indexes/product/search",
+      reqBody
+    );
+    return products.data;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : "error fetching");
+    return null;
+  }
+};

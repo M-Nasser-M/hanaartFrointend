@@ -1,6 +1,6 @@
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { getProductUsingSlug } from "@/services/server/ProductServiceServer";
-import { Button, Flex, Heading, Text } from "@radix-ui/themes";
+import { Badge, Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { DataValidationError } from "@/lib/exceptions";
 import type { Locale } from "@/types/sharedTypes";
 import { ProductsSchema } from "@/types/product";
@@ -19,26 +19,34 @@ const Page = async ({ params: { slug, locale } }: Props) => {
 
   return (
     <Flex gap="4" justify="center" direction={{ initial: "column", md: "row" }}>
-      <Flex
-        p="4"
-        align="center"
-        direction="column"
-        gap="4"
-        className="md:w-[70%]"
-      >
-        <Carousel
-          cover={validatedData.output.data[0].cover}
-          images={validatedData.output.data[0].images}
-        />
-      </Flex>
-      <Flex p="4" direction="column" gap="4" className="md:w-[30%]">
-        <Heading size="7" color="crimson" highContrast>
+      <Carousel
+        cover={validatedData.output.data[0].cover}
+        images={validatedData.output.data[0].images}
+      />
+
+      <Flex p="4" direction="column" gap="4" className="md:w-1/3">
+        <Heading className="col" size="7" color="crimson" highContrast>
           {validatedData.output.data[0].name}
         </Heading>
         <Heading size="7">{`${validatedData.output.data[0].price} ${t(
           "currency"
         )}`}</Heading>
         <Heading size="5">{validatedData.output.data[0].description}</Heading>
+        <Flex direction="row" gap="2" justify="between">
+          <Badge
+            size="2"
+            color={
+              Number(validatedData.output.data[0].availableStock) > 0
+                ? "green"
+                : "red"
+            }
+          >
+            {Number(validatedData.output.data[0].availableStock) > 0
+              ? t("instock")
+              : t("outofstock")}
+          </Badge>
+          <Text>{`${validatedData.output.data[0].availableStock} items remaining`}</Text>
+        </Flex>
         <Button size="4" variant="outline" className="w-full">
           {t("addtocart")}
         </Button>

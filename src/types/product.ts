@@ -2,7 +2,10 @@ import {
   Input,
   Output,
   array,
+  boolean,
   coerce,
+  keyof,
+  literal,
   nullable,
   number,
   object,
@@ -18,6 +21,14 @@ import {
   SellerSchema,
   SeoSchema,
 } from "./sharedTypes";
+import { CategorySchema, SubCategorySchema } from "./categories";
+
+export const FilterableFieldsSchema = union([
+  literal(`locale = ${string()}`),
+  literal(`categories.name_en = ${string()}`),
+  literal(`subcategories.name_en = ${string()}`),
+  literal(`featured = ${string()}`),
+]);
 
 export const ProductDataSchema = object({
   id: number(),
@@ -33,13 +44,15 @@ export const ProductDataSchema = object({
   updatedAt: coerce(string(), Date),
   publishedAt: coerce(string(), Date),
   locale: LocaleSchema,
-  category: optional(nullable(string())),
+  categories: union([array(CategorySchema), array(CategorySchema)]),
+  subcategories: union([array(SubCategorySchema), array(SubCategorySchema)]),
   slug: string(),
   images: optional(nullable(array(ImageSchema))),
   cover: ImageSchema,
   colors: optional(nullable(ColorSchema)),
   seller: optional(nullable(SellerSchema)),
   seo: optional(nullable(SeoSchema)),
+  featured: nullable(boolean()),
 });
 
 export type ProductData = Output<typeof ProductDataSchema>;
@@ -58,18 +71,24 @@ export const ProductSchema = object({
 
 export type Product = Output<typeof ProductSchema>;
 
+export const AttributesToRetrieveSchema = array(keyof(ProductDataSchema));
+
+export type AttributesToRetrieve = Output<typeof AttributesToRetrieveSchema>;
+
+export const filter = array;
+
 export const ProductSearchRequestBodySchema = object({
   q: string(), //Query string
-  filter: optional(array(string())), //Filter queries by an attribute's value
+  filter: optional(array(FilterableFieldsSchema)), //Filter queries by an attribute's value
   sort: optional(nullable(array(string()))), //Sort search results by an attribute's value
-  attributesToRetrieve: optional(array(string())), //Attributes to display in the returned documents
+  attributesToRetrieve: optional(AttributesToRetrieveSchema), //Attributes to display in the returned documents
   offset: optional(number()), //Number of documents to skip
   limit: optional(number()), //Maximum number of documents returned
   hitsPerPage: optional(number()), //Maximum number of documents returned for a page
   page: optional(number()), //Request a specific page of results
 });
 
-export type ProductSearchRequestBody = Input<
+export type ProductSearchRequestBody = Output<
   typeof ProductSearchRequestBodySchema
 >;
 
@@ -130,8 +149,8 @@ export const filterDefaultCheckStatus = [
 ].reduce(
   (obj, key) => {
     const filter = Object.values(Category).includes(key as never)
-      ? `category = '${key}'`
-      : `subcategory = '${key}'`;
+      ? `categories.name_en = '${key}'`
+      : `subcategories.name_en = '${key}'`;
     return {
       ...obj,
       [key]: { checked: false, filter },
@@ -167,7 +186,7 @@ export const categories = [
   createCategory(Category.Clearance),
 ] as const;
 
-export const defaultAttributesToRetrieve = [
+export const defaultAttributesToRetrieve: AttributesToRetrieve = [
   "id",
   "name",
   "price",
@@ -176,6 +195,8 @@ export const defaultAttributesToRetrieve = [
   "availableStock",
   "slug",
   "cover",
+  "categories",
+  "subcategories",
 ];
 
 export const defaultPageSize = 9;

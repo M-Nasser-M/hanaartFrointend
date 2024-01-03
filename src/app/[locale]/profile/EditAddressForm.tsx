@@ -4,7 +4,6 @@ import { useGetLocalFromPathname } from "@/lib/hooks/useGetLocaleFromPathname";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import type { Governorates } from "@/types/city-governorate";
 import { Controller, useForm } from "react-hook-form";
-import { Translations } from "./ProfileTabs";
 import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 import { Edit, XCircle } from "lucide-react";
@@ -13,7 +12,6 @@ import {
   EditAddressFormSchema,
 } from "@/lib/formSchemas/address";
 import {
-  Box,
   Button,
   Dialog,
   Flex,
@@ -22,9 +20,10 @@ import {
   TextArea,
   TextFieldInput,
 } from "@radix-ui/themes";
+import type { profileTranslations } from "../../../../messages/messagesKeys";
 
 type Props = {
-  translations: Translations;
+  translations: profileTranslations;
 };
 
 const governoratesAtom = atom<Governorates>([]);
@@ -100,7 +99,7 @@ const EditAddressForm = ({ translations }: Props) => {
               rules={{ required: true }}
               render={({ field }) => (
                 <Select.Root onValueChange={field.onChange} {...field}>
-                  <Select.Trigger placeholder="Pick a governorate" />
+                  <Select.Trigger />
                   <Select.Content>
                     {governorates &&
                       governorates.length > 0 &&

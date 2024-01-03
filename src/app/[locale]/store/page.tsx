@@ -2,7 +2,7 @@ import { searchProducts } from "@/services/client/ProductServiceClient";
 import SearchComponent from "./SearchComponent";
 import { Locale } from "@/types/sharedTypes";
 import { safeParse } from "valibot";
-import React from "react";
+
 import {
   ProductSearchResponseSchema,
   defaultAttributesToRetrieve,
@@ -43,7 +43,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
     : [`locale = ${locale}`];
 
   const products = await searchProducts({
-    q: searchQuery,
+    q: "",
     filter,
     page,
     attributesToRetrieve: defaultAttributesToRetrieve,

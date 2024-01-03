@@ -3,7 +3,6 @@
 import type { ProductSearchResponseElement } from "@/types/product";
 import { useCart } from "@/lib/hooks/useCart";
 import { Button } from "@radix-ui/themes";
-import React from "react";
 
 type Props = {
   translation: string;

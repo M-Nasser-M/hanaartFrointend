@@ -167,12 +167,16 @@ export const CartSchema = object({
 
 export type Cart = Output<typeof CartSchema>;
 
-export const LocalStorageCartItem = object({
+export const LocalStorageCartItemSchema = object({
   product: ProductSearchResponseElementSchema,
   quantity: number(),
 });
 
-export type localStorageCartItem = Output<typeof LocalStorageCartItem>;
+export const LocalStorageCartItemsSchema = array(LocalStorageCartItemSchema);
+
+export type localStorageCartItem = Output<typeof LocalStorageCartItemSchema>;
+
+export type localStorageCartItems = Output<typeof LocalStorageCartItemsSchema>;
 
 export const UserProfileSchema = object({
   id: number(),

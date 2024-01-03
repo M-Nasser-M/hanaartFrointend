@@ -3,7 +3,7 @@ import { getBlogPostUsingSlug } from "@/services/server/BlogServiceServer";
 import { blogsSchema } from "@/types/blog";
 import { safeParse } from "valibot";
 import Image from "next/image";
-import React from "react";
+
 import { DataValidationError } from "@/lib/exceptions";
 
 type Props = { params: { slug: string } };

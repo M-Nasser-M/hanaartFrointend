@@ -6,7 +6,7 @@ import NextLink from "@/components/NextLink";
 import { blogsSchema } from "@/types/blog";
 import { safeParse } from "valibot";
 import { locales } from "@/i18n";
-import React from "react";
+
 import {
   AspectRatio,
   Card,

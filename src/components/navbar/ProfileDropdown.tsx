@@ -2,9 +2,8 @@
 import { Avatar, Box, Button, DropdownMenu } from "@radix-ui/themes";
 import { sessionAtom } from "@/atoms/atoms";
 import { signOut } from "next-auth/react";
+import { useAtomValue } from "jotai";
 import NextLink from "../NextLink";
-import { useAtom } from "jotai";
-import React from "react";
 
 type Props = {
   profile: string;
@@ -12,7 +11,7 @@ type Props = {
 };
 
 const ProfileDropdown = ({ profile, signout }: Props) => {
-  const [session, setSession] = useAtom(sessionAtom);
+  const session = useAtomValue(sessionAtom);
 
   return (
     <DropdownMenu.Root>

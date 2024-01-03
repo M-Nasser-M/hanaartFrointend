@@ -1,36 +1,116 @@
 "use client";
+import {
+  Button,
+  Card,
+  Flex,
+  Heading,
+  Select,
+  Separator,
+  Text,
+} from "@radix-ui/themes";
 import { useCart } from "@/lib/hooks/useCart";
-import { AspectRatio, Flex, Heading } from "@radix-ui/themes";
 import Image from "next/image";
-import React from "react";
+import { arrayRange } from "@/lib/utils";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import type { cartTranslations } from "../../../../messages/messagesKeys";
+import NextLink from "@/components/NextLink";
 
-const CartList = () => {
-  const { cartValue } = useCart();
-  console.log(cartValue);
+type Props = { translations: cartTranslations };
+
+const CartList = ({ translations }: Props) => {
+  const { cartValue, removeFromCart, changeQuantity, total } = useCart();
+
+  const [parent] = useAutoAnimate();
+
   if (cartValue && cartValue.length > 0)
     return (
-      <Flex
-        direction={{ initial: "column", md: "row" }}
-        justify={{ initial: "center", md: "between" }}
-      >
-        <Flex direction="column" gap="4">
-          <Heading as="h3">Product 2</Heading>
-          <AspectRatio ratio={16 / 9}>
-            <Image
-              sizes="100vw"
-              alt="alt"
-              fill
-              src="https://images.unsplash.com/photo-1701352281550-4a7b283df099?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-          </AspectRatio>
+      <>
+        <Flex className="md:w-2/3">
+          <Flex ref={parent} width="100%" gap="4" direction="column">
+            {cartValue.map((item) => {
+              return (
+                <Card key={item.product.id}>
+                  <Flex width="100%" direction="row" gap="4">
+                    <Image
+                      src={item.product.cover.formats.thumbnail?.url || ""}
+                      alt={item.product.cover.alternativeText || ""}
+                      width={item.product.cover.formats.thumbnail?.width || 0}
+                      height={item.product.cover.formats.thumbnail?.height || 0}
+                    />
+                    <Flex direction="column" gap="4">
+                      <Heading color="crimson" as="h1">
+                        {item.product.name}
+                      </Heading>
+                      <Text>{item.product.description}</Text>
+                      <Text>{item.product.price} L.E</Text>
+                      <Flex direction="row" gap="4">
+                        <Select.Root
+                          onValueChange={(val) => {
+                            changeQuantity(item.product.id, Number(val));
+                          }}
+                          defaultValue={String(item.quantity)}
+                        >
+                          <Select.Trigger />
+                          <Select.Content position="popper">
+                            {arrayRange(
+                              1,
+                              Number(item.product.availableStock),
+                              1
+                            ).map((val) => (
+                              <Select.Item key={val} value={String(val)}>
+                                {val}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                        <Button onClick={() => removeFromCart(item.product.id)}>
+                          {translations.remove}
+                        </Button>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                </Card>
+              );
+            })}
+          </Flex>
         </Flex>
-        <Heading as="h4">Quantity</Heading>
-      </Flex>
+        <Card className="h-fit md:w-1/3">
+          <Flex direction="column" gap="4" justify="center">
+            {cartValue.map((item) => {
+              return (
+                <Flex key={item.product.id} direction="column" gap="4">
+                  <Flex direction="row" justify="between" gap="4">
+                    <Text as="label">Name:</Text>
+                    <Text>{item.product.name}</Text>
+                  </Flex>
+                  <Flex direction="row" justify="between" gap="4">
+                    <Text as="label">Quantity:</Text>
+                    <Text>{item.quantity}</Text>
+                  </Flex>
+                  <Flex direction="row" justify="between" gap="4">
+                    <Text as="label">Price:</Text>
+                    <Text>{item.product.price * item.quantity} L.E</Text>
+                  </Flex>
+                  <Separator className="w-full" />
+                </Flex>
+              );
+            })}
+            <Flex direction="row" justify="between" gap="4">
+              <Text as="label">Total:</Text>
+              <Text>{total} L.E</Text>
+            </Flex>
+            <NextLink className="self-center" href="/checkout">
+              <Button>Proceed To Checkout</Button>
+            </NextLink>
+          </Flex>
+        </Card>
+      </>
     );
+
   return (
     <Flex justify="center" align="center">
       <Heading color="crimson" as="h1">
-        your Cart is Empty
+        {translations.cartempty}
       </Heading>
     </Flex>
   );

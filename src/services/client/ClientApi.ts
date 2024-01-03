@@ -1,3 +1,4 @@
+import createFetchApi from "@/lib/CreateFetchApi";
 import axios from "axios";
 
 export const clientApi = axios.create({
@@ -10,3 +11,7 @@ export const meiliClientApi = axios.create({
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_MEILI_MASTER_KEY}`,
   },
 });
+
+export const clientFetchApi = createFetchApi(
+  process.env.NEXT_PUBLIC_STRAPI_API_URL!
+);

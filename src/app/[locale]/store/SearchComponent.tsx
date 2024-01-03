@@ -1,4 +1,5 @@
 "use client";
+import type { storeTranslations } from "../../../../messages/messagesKeys";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
 import Pagination from "@/components/pagination/Pagination";
@@ -13,6 +14,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   AspectRatio,
+  Badge,
   Card,
   Flex,
   Grid,
@@ -30,7 +32,6 @@ import {
   storeActiveFilterAtom,
   writeStoreSelectedFiltersAtom,
 } from "@/atoms/atoms";
-import type { storeTranslations } from "../../../../messages/messagesKeys";
 
 const FilterSort = dynamic(() => import("./FilterSort"));
 
@@ -111,8 +112,17 @@ const SearchComponent = (props: Props) => {
               </Heading>
             </NextLink>
             <Text size="4" as="p">
-              description
+              {product.description}
             </Text>
+            <Badge
+              size="2"
+              my="2"
+              color={Number(product.availableStock) > 0 ? "green" : "red"}
+            >
+              {Number(product.availableStock) > 0
+                ? props.translations.instock
+                : props.translations.outofstock}
+            </Badge>
             <Flex justify="between">
               <Heading as="h3">
                 {product.offer_price ? product.offer_price : product.price}{" "}

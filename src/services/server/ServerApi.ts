@@ -12,5 +12,5 @@ export const serverApi = axios.create({
 
 export const meiliserverApiAuth = axios.create({
   baseURL: ENV.MEILI_HOST,
-  headers: { Authorization: ENV.MEILI_MASTER_KEY },
+  headers: { Authorization: `Bearer ${ENV.MEILI_MASTER_KEY}` },
 });

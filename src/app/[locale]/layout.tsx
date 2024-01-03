@@ -16,6 +16,10 @@ import { locales } from "@/i18n";
 
 import "./globals.css";
 
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale: locale }));
+}
+
 type Props = {
   children: ReactNode;
   params: { locale: Locale };

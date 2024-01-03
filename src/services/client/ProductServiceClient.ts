@@ -5,6 +5,7 @@ import {
   defaultPageSize,
 } from "@/types/product";
 import { meiliClientApi } from "./ClientApi";
+import createFetchApi from "@/lib/CreateFetchApi";
 
 const defaultReqBody: ProductSearchRequestBody = {
   q: "",
@@ -24,10 +25,13 @@ export async function searchProducts(reqObject: ProductSearchRequestBody) {
       "/indexes/product/search",
       reqBody
     );
-
     return products.data;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
 }
+
+export const ClientApiAuthApiToken = createFetchApi(
+  process.env.NEXT_PUBLIC_STRAPI_API_URL || ""
+);
