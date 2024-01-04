@@ -2,9 +2,7 @@
 
 import { updatePhone } from "@/services/client/ProfileServiceClinet";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { useToast } from "@/components/ui/use-toast";
 import { Edit, XCircle } from "lucide-react";
-import { Translations } from "./ProfileTabs";
 import { useRouter } from "next/navigation";
 import { sessionAtom } from "@/atoms/atoms";
 import { PhoneSchema } from "@/types/user";
@@ -12,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { Output, object } from "valibot";
 import { useAtomValue } from "jotai";
 import { useRef } from "react";
+import { toast } from "sonner";
 import {
   Button,
   Dialog,
@@ -20,15 +19,15 @@ import {
   Text,
   TextFieldInput,
 } from "@radix-ui/themes";
+import type { profileTranslations } from "../../../../messages/messagesKeys";
 
-type Props = { translations: Translations };
+type Props = { translations: profileTranslations };
 
 const PhoneFormSchema = object({ phone: PhoneSchema });
 type PhoneForm = Output<typeof PhoneFormSchema>;
 
 const EditUserPhoneForm = ({ translations }: Props) => {
   const router = useRouter();
-  const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const {
@@ -45,12 +44,17 @@ const EditUserPhoneForm = ({ translations }: Props) => {
     const res = await updatePhone(data.phone, session!);
     if (!res) {
       if (closeRef.current) closeRef.current.click();
-      toast({ title: "error updating your phone pls try again later" });
+      toast("error updating your phone", {
+        description: " pls try again later",
+        action: { label: "dismiss", onClick: () => toast.dismiss() },
+      });
       return;
     }
 
     if (closeRef.current) closeRef.current.click();
-    toast({ title: "phone updated successfully" });
+    toast("phone updated successfully", {
+      action: { label: "dismiss", onClick: () => toast.dismiss() },
+    });
     router.refresh();
   };
 

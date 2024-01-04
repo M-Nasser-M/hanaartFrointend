@@ -2,8 +2,6 @@
 
 import { updateEmail } from "@/services/client/ProfileServiceClinet";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { useToast } from "@/components/ui/use-toast";
-import { Translations } from "./ProfileTabs";
 import { Edit, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { sessionAtom } from "@/atoms/atoms";
@@ -12,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { Output, object } from "valibot";
 import { useAtomValue } from "jotai";
 import { useRef } from "react";
+import { toast } from "sonner";
 import {
   Button,
   Dialog,
@@ -20,15 +19,15 @@ import {
   Text,
   TextFieldInput,
 } from "@radix-ui/themes";
+import type { profileTranslations } from "../../../../messages/messagesKeys";
 
-type Props = { translations: Translations };
+type Props = { translations: profileTranslations };
 
 const EmailFormSchema = object({ email: EmailSchema });
 type EmailForm = Output<typeof EmailFormSchema>;
 
 const EditUserEmailForm = ({ translations }: Props) => {
   const router = useRouter();
-  const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const {
@@ -45,11 +44,11 @@ const EditUserEmailForm = ({ translations }: Props) => {
     const res = await updateEmail(data.email, session!);
     if (!res) {
       if (closeRef.current) closeRef.current.click();
-      toast({ title: "error updating your email pls try again later" });
+      toast("error updating your email pls try again later");
       return;
     }
     if (closeRef.current) closeRef.current.click();
-    toast({ title: "email updated successfully" });
+    toast("email updated successfully");
     router.refresh();
   };
 

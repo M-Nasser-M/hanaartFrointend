@@ -1,17 +1,13 @@
+import { clientEnv } from "@/clientEnv";
 import createFetchApi from "@/lib/CreateFetchApi";
-import axios from "axios";
 
-export const clientApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL,
-});
-
-export const meiliClientApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_MEILI_HOST,
+export const meiliClientApi = createFetchApi(clientEnv.NEXT_PUBLIC_MEILI_HOST, {
   headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MEILI_MASTER_KEY}`,
+    Authorization: `Bearer ${clientEnv.NEXT_PUBLIC_MEILI_MASTER_KEY}`,
+    "Content-Type": "application/json",
   },
 });
 
-export const clientFetchApi = createFetchApi(
-  process.env.NEXT_PUBLIC_STRAPI_API_URL!
-);
+export const clienthApi = createFetchApi(clientEnv.NEXT_PUBLIC_STRAPI_API_URL, {
+  headers: { "Content-Type": "application/json" },
+});

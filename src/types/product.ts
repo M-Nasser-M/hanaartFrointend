@@ -30,6 +30,8 @@ export const FilterableFieldsSchema = union([
   literal(`featured = ${string()}`),
 ]);
 
+export type FilterableFields = Output<typeof FilterableFieldsSchema>;
+
 export const ProductDataSchema = object({
   id: number(),
   name: string(),

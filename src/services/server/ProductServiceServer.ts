@@ -118,7 +118,7 @@ export const getFeaturedProducts = async (
       "/indexes/product/search",
       reqBody
     );
-    return products.data;
+    return products;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;

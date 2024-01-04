@@ -1,4 +1,4 @@
-import { string, object, safeParse } from "valibot";
+import { string, object, parse } from "valibot";
 
 const clientEnvSchema = object({
   NEXT_PUBLIC_MEILI_HOST: string(),
@@ -14,10 +14,6 @@ const variables = {
   NEXT_PUBLIC_STRAPI_API_TOKEN: process.env.NEXT_PUBLIC_STRAPI_API_TOKEN,
 };
 
-const parsedEnv = safeParse(clientEnvSchema, variables);
+const parsedEnv = parse(clientEnvSchema, variables);
 
-if (!parsedEnv.success) {
-  console.error(parsedEnv.issues);
-}
-
-export const clientEnv = parsedEnv.output;
+export const clientEnv = parsedEnv;

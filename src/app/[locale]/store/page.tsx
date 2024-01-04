@@ -4,6 +4,7 @@ import { Locale } from "@/types/sharedTypes";
 import { safeParse } from "valibot";
 
 import {
+  type FilterableFields,
   ProductSearchResponseSchema,
   defaultAttributesToRetrieve,
   defaultPageSize,
@@ -38,7 +39,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
     Number(searchParams.page) > 0
       ? Number(searchParams.page)
       : 1;
-  const filter: string[] = searchParams.filter
+  const filter: FilterableFields[] = searchParams.filter
     ? [...JSON.parse(searchParams.filter)]
     : [`locale = ${locale}`];
 

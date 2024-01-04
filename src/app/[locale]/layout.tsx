@@ -3,7 +3,6 @@ import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { options } from "../api/auth/[...nextauth]/authOtions";
 import { Locale, SessionSchema } from "@/types/sharedTypes";
 import Providers from "@/components/providers/Providers";
-import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/navbar/Navbar";
 import { Container } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
@@ -15,6 +14,7 @@ import { ReactNode } from "react";
 import { locales } from "@/i18n";
 
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale: locale }));

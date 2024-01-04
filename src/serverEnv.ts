@@ -1,4 +1,4 @@
-import { string, object, safeParse } from "valibot";
+import { string, object, parse } from "valibot";
 
 const serverEnvSchema = object({
   I18NEXUS_API_KEY: string(),
@@ -17,10 +17,6 @@ const serverEnvSchema = object({
   MEILI_MASTER_KEY: string(),
 });
 
-const parsedEnv = safeParse(serverEnvSchema, process.env);
+const parsedEnv = parse(serverEnvSchema, process.env);
 
-if (!parsedEnv.success) {
-  console.error(parsedEnv.issues);
-}
-
-export const serverEnv = parsedEnv.output;
+export const serverEnv = parsedEnv;

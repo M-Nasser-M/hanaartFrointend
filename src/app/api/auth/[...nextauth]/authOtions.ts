@@ -5,23 +5,23 @@ import GoogleProvider from "next-auth/providers/google";
 import type { AdapterUser } from "next-auth/adapters";
 
 import type { JWT } from "next-auth/jwt";
-import { ENV } from "@/types/envVarsServer";
 import { serverApi } from "@/services/server/ServerApi";
-import type { Cart, UserData } from "@/types/user";
+import type { CartData, UserData } from "@/types/user";
+import { serverEnv } from "@/serverEnv";
 
 export const options: AuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: ENV.GOOGLE_CLIENT_ID,
-      clientSecret: ENV.GOOGLE_CLIENT_SECRET,
+      clientId: serverEnv.GOOGLE_CLIENT_ID,
+      clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
     }),
     FacebookProvider({
-      clientId: ENV.FACEBOOK_CLIENT_ID,
-      clientSecret: ENV.FACEBOOK_CLIENT_SECRET,
+      clientId: serverEnv.FACEBOOK_CLIENT_ID,
+      clientSecret: serverEnv.FACEBOOK_CLIENT_SECRET,
     }),
     InstagramProvider({
-      clientId: ENV.INSTAGRAM_CLIENT_ID,
-      clientSecret: ENV.INSTAGRAM_CLIENT_SECRET,
+      clientId: serverEnv.INSTAGRAM_CLIENT_ID,
+      clientSecret: serverEnv.INSTAGRAM_CLIENT_SECRET,
     }),
   ],
   session: { strategy: "jwt" },
@@ -43,16 +43,19 @@ export const options: AuthOptions = {
         }>(
           `/auth/${account?.provider}/callback?access_token=${account?.access_token}`
         );
-        const userData = await serverApi.get<UserData & { cart: Cart }>(
+        const userData = await serverApi.get<UserData & { cart: CartData }>(
           "/users/me?populate=cart",
           {
-            headers: { Authorization: `Bearer ${response.data.jwt}` },
+            headers: {
+              Authorization: `Bearer ${response.jwt}`,
+              "Content-Type": "application/json",
+            },
           }
         );
 
-        token.jwt = response.data.jwt;
-        token.id = response.data.user.id;
-        token.cartId = userData.data.cart.id;
+        token.jwt = response.jwt;
+        token.id = response.user.id;
+        token.cartId = userData.cart.id;
       }
       return token;
     },
