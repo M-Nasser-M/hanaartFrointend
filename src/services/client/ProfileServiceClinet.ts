@@ -11,7 +11,7 @@ export const updateEmail = async (email: Email, session: Session) => {
       },
       { headers: { Authorization: `Bearer ${session.jwt}` } }
     );
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);

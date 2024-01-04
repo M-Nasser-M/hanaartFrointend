@@ -11,7 +11,7 @@ export const getCart = async (session: Session) => {
     const response = await serverApiAuth.get<Cart>(
       `/carts/${session.user.cartId}?${queryString}`
     );
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     return null;
@@ -23,7 +23,7 @@ export const updateCartItem = async (cartItemId: number, quantity: number) => {
     const response = await serverApiAuth.put(`/cart-items/${cartItemId}`, {
       quantity,
     });
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     return null;
@@ -41,7 +41,7 @@ export const createCartItem = async (
       product: productId,
       quantity,
     });
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     return null;
@@ -53,7 +53,7 @@ export const createCart = async (userId: number) => {
     const response = await serverApiAuth.post<Cart>("/carts", {
       users_permissions_user: userId,
     });
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     return null;

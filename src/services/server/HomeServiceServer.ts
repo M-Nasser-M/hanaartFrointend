@@ -10,9 +10,9 @@ export async function getHomeData(locale: Locale) {
   });
 
   try {
-    const response = await serverApiAuth<MainPage>(`/home?${queryString}`);
+    const response = await serverApiAuth.get<MainPage>(`/home?${queryString}`);
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
 

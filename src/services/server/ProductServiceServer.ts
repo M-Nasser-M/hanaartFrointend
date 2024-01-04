@@ -22,7 +22,7 @@ export async function getStoreMainPage(locale: Locale) {
       `/store?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
@@ -45,7 +45,7 @@ export async function getProductPage(
       `/products?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
@@ -62,7 +62,7 @@ export async function getProductUsingID(id: number) {
       `/products/${id}?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
@@ -90,7 +90,7 @@ export async function getProductUsingSlug(slug: string) {
       `/products?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;

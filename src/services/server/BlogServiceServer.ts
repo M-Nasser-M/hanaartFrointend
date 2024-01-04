@@ -15,7 +15,7 @@ export async function getBlogMainPage(locale: Locale) {
       `/blog-main-page?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
@@ -36,7 +36,7 @@ export async function getBlogPage(
   try {
     const response = await serverApiAuth.get<Blogs>(`/blogs?${queryString}`);
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
@@ -53,7 +53,7 @@ export async function getBlogPostUsingID(id: number) {
       `/blogs/${id}?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
@@ -76,7 +76,7 @@ export async function getBlogPostUsingSlug(slug: string) {
   try {
     const response = await serverApiAuth.get<Blogs>(`/blogs?${queryString}`);
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;

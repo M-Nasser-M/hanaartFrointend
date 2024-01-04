@@ -1,11 +1,9 @@
 import createFetchApi from "@/lib/CreateFetchApi";
 import { serverEnv } from "@/serverEnv";
-import axios from "axios";
 
-export const serverApiAuth = axios.create({
-  baseURL: serverEnv.STRAPI_API_URL,
+export const serverApiAuth = createFetchApi(serverEnv.STRAPI_API_URL, {
   headers: {
-    Authorization: `bearer ${serverEnv.STRAPI_API_TOKEN}`,
+    Authorization: `Bearer ${serverEnv.STRAPI_API_TOKEN}`,
     "Content-Type": "application/json",
   },
 });

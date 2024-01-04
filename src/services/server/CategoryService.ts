@@ -8,11 +8,11 @@ export async function getCategoriesData() {
   });
 
   try {
-    const response = await serverApiAuth<Categories>(
+    const response = await serverApiAuth.get<Categories>(
       `/categories?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
 
@@ -26,11 +26,11 @@ export async function getCategoriesAndSubCategoriesData() {
   });
 
   try {
-    const response = await serverApiAuth<Categories>(
+    const response = await serverApiAuth.get<Categories>(
       `/categories?${queryString}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
 

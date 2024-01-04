@@ -15,7 +15,7 @@ export const getUserProfile = async (id: number) => {
     const response = await serverApiAuth.get<UserProfile>(
       `/users/${id}?${queryString}`
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error(
       error instanceof Error ? error.message : "error fetching data"

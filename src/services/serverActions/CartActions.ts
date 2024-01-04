@@ -38,7 +38,7 @@ export const addCartItem = async (
 export const removeCartItem = async (cartItemId: number) => {
   try {
     const response = await serverApiAuth.delete(`/cart-items/${cartItemId}`);
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     return null;
