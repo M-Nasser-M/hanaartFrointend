@@ -1,6 +1,6 @@
 "use client";
 
-import { Direction, DirectionProvider } from "@radix-ui/react-direction";
+import { type Direction, DirectionProvider } from "@radix-ui/react-direction";
 import { Provider as JotaiProvider } from "jotai";
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";

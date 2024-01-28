@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import {
   cartKeys,
   type cartTranslations,
-} from "../../../../messages/messagesKeys";
+} from "../../../../../messages/messagesKeys";
 
 const CartList = dynamic(() => import("./CartList"));
 

@@ -21,8 +21,9 @@ const AddToCartButton = ({ translation, product, quantity }: Props) => {
         +product.availableStock > 0
           ? addToCart({ product, quantity })
           : toast("Error Adding Product", {
-              description: "reason: out of stock",
+              description: "Reason: out of stock",
               action: { label: "dismiss", onClick: () => toast.dismiss() },
+              className: "group-[.toaster]:text-redA-9",
             })
       }
     >

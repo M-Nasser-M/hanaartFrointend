@@ -4,7 +4,7 @@ import { blogsSchema } from "@/types/blog";
 import { safeParse } from "valibot";
 import Image from "next/image";
 
-import { DataValidationError } from "@/lib/exceptions";
+import { DataValidationError } from "@/lib/utils/exceptions";
 
 type Props = { params: { slug: string } };
 

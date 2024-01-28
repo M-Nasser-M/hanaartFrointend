@@ -158,7 +158,10 @@ export const filterDefaultCheckStatus = [
       [key]: { checked: false, filter },
     };
   },
-  {} as Record<SubCategory | Category, { checked: boolean; filter: string }>
+  {} as Record<
+    SubCategory | Category,
+    { checked: boolean; filter: FilterableFields }
+  >
 );
 
 function createCategory(key: Category, subCategories: SubCategory[] = []) {

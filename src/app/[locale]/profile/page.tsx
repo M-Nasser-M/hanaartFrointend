@@ -1,7 +1,7 @@
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Avatar, Box, Flex, Separator, Text } from "@radix-ui/themes";
 import { options } from "@/app/api/auth/[...nextauth]/authOtions";
-import { AuthError, DataValidationError } from "@/lib/exceptions";
+import { AuthError, DataValidationError } from "@/lib/utils/exceptions";
 import { getUserProfile } from "@/services/server/profileServiceServer";
 import { SessionSchema } from "@/types/sharedTypes";
 import type { Locale } from "@/types/sharedTypes";

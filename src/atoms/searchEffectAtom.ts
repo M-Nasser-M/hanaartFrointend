@@ -1,6 +1,6 @@
 import { searchProducts } from "@/services/client/ProductServiceClient";
-import { atomEffect } from "jotai-effect";
 import type { Getter, Setter } from "jotai";
+import { atomEffect } from "jotai-effect";
 import {
   storeActiveFilterAtom,
   currentStorePageAtom,

@@ -1,10 +1,13 @@
 const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
   get: async <T>(url: string, requestInit?: RequestInit): Promise<T> => {
-    const response = await fetch(`${baseURL}${url}`, {
-      method: "GET",
-      ...defaultRequestInit,
-      ...requestInit,
-    });
+    const response = await fetch(
+      url.startsWith("http") ? url : `${baseURL}${url}`,
+      {
+        method: "GET",
+        ...defaultRequestInit,
+        ...requestInit,
+      }
+    );
 
     if (!response.ok)
       throw new Error(response.statusText, { cause: response.json() });
@@ -16,12 +19,15 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
     data: object,
     requestInit?: RequestInit
   ): Promise<T> => {
-    const response = await fetch(`${baseURL}${url}`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      ...defaultRequestInit,
-      ...requestInit,
-    });
+    const response = await fetch(
+      url.startsWith("http") ? url : `${baseURL}${url}`,
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        ...defaultRequestInit,
+        ...requestInit,
+      }
+    );
 
     if (!response.ok)
       throw new Error(response.statusText, { cause: response.json() });
@@ -33,12 +39,15 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
     data: object,
     requestInit?: RequestInit
   ): Promise<T> => {
-    const response = await fetch(`${baseURL}${url}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      ...defaultRequestInit,
-      ...requestInit,
-    });
+    const response = await fetch(
+      url.startsWith("http") ? url : `${baseURL}${url}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        ...defaultRequestInit,
+        ...requestInit,
+      }
+    );
 
     if (!response.ok)
       throw new Error(response.statusText, { cause: response.json() });
@@ -46,11 +55,14 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
     return response.json();
   },
   delete: async <T>(url: string, requestInit?: RequestInit): Promise<T> => {
-    const response = await fetch(`${baseURL}${url}`, {
-      method: "DELETE",
-      ...defaultRequestInit,
-      ...requestInit,
-    });
+    const response = await fetch(
+      url.startsWith("http") ? url : `${baseURL}${url}`,
+      {
+        method: "DELETE",
+        ...defaultRequestInit,
+        ...requestInit,
+      }
+    );
 
     if (!response.ok)
       throw new Error(response.statusText, { cause: response.json() });

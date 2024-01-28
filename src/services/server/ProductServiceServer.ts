@@ -6,7 +6,7 @@ import {
   defaultAttributesToRetrieve,
   defaultPageSize,
 } from "@/types/product";
-import { StoreMainPage } from "@/types/mainPages";
+import { type StoreMainPage } from "@/types/mainPages";
 import type { Locale } from "@/types/sharedTypes";
 import { meiliserverApiAuth, serverApiAuth } from "./ServerApi";
 import qs from "qs";

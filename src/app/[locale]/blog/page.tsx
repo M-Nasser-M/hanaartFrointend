@@ -1,5 +1,5 @@
 import { unstable_setRequestLocale } from "next-intl/server";
-import { DataValidationError } from "@/lib/exceptions";
+import { DataValidationError } from "@/lib/utils/exceptions";
 import { getBlogPage } from "@/services/server/BlogServiceServer";
 import { Locale } from "@/types/sharedTypes";
 import NextLink from "@/components/NextLink";

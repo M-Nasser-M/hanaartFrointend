@@ -1,11 +1,11 @@
 "use client";
 import type { storeTranslations } from "../../../../messages/messagesKeys";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
+import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import Pagination from "@/components/pagination/Pagination";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import AddToCartButton from "@/components/AddToCartButton";
-import { ProductSearchResponse } from "@/types/product";
+import type { FilterableFields, ProductSearchResponse } from "@/types/product";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import NextLink from "@/components/NextLink";
@@ -37,7 +37,7 @@ const FilterSort = dynamic(() => import("./FilterSort"));
 
 type Props = {
   products: ProductSearchResponse;
-  filter: string[];
+  filter: FilterableFields[];
   sort: string | null;
   searchQuery: string;
   page: number;

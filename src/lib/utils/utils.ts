@@ -1,4 +1,4 @@
-import type { Category, SubCategory } from "@/types/product";
+import type { Category, SubCategory } from "@/lib/types/product";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

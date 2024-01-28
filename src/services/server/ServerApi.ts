@@ -1,4 +1,4 @@
-import createFetchApi from "@/lib/CreateFetchApi";
+import createFetchApi from "@/lib/utils/CreateFetchApi";
 import { serverEnv } from "@/serverEnv";
 
 export const serverApiAuth = createFetchApi(serverEnv.STRAPI_API_URL, {

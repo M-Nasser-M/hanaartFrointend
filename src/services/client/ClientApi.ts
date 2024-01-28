@@ -1,5 +1,5 @@
 import { clientEnv } from "@/clientEnv";
-import createFetchApi from "@/lib/CreateFetchApi";
+import createFetchApi from "@/lib/utils/CreateFetchApi";
 
 export const meiliClientApi = createFetchApi(clientEnv.NEXT_PUBLIC_MEILI_HOST, {
   headers: {
@@ -8,6 +8,6 @@ export const meiliClientApi = createFetchApi(clientEnv.NEXT_PUBLIC_MEILI_HOST, {
   },
 });
 
-export const clienthApi = createFetchApi(clientEnv.NEXT_PUBLIC_STRAPI_API_URL, {
+export const clientApi = createFetchApi(clientEnv.NEXT_PUBLIC_STRAPI_API_URL, {
   headers: { "Content-Type": "application/json" },
 });

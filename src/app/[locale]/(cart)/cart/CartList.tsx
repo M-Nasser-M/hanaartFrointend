@@ -10,9 +10,9 @@ import {
 } from "@radix-ui/themes";
 import { useCart } from "@/lib/hooks/useCart";
 import Image from "next/image";
-import { arrayRange } from "@/lib/utils";
+import { arrayRange } from "@/lib/utils/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import type { cartTranslations } from "../../../../messages/messagesKeys";
+import type { cartTranslations } from "../../../../../messages/messagesKeys";
 import NextLink from "@/components/NextLink";
 
 type Props = { translations: cartTranslations };

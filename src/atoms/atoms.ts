@@ -1,6 +1,6 @@
-import type { ProductSearchResponse } from "@/types/product";
+import type { FilterableFields, ProductSearchResponse } from "@/types/product";
 import type { localStorageCartItem } from "@/types/user";
-import { changeFilterCheckPure } from "@/lib/utils";
+import { changeFilterCheckPure } from "@/lib/utils/utils";
 import type { Session } from "@/types/sharedTypes";
 import atomWithDebounce from "./atomWithDebounce";
 import { atomWithStorage } from "jotai/utils";
@@ -33,7 +33,7 @@ export const sessionAtom = atom<Session | null>(null);
 
 export const currentStorePageAtom = atom<number>(1);
 
-export const storeActiveFilterAtom = atom<string[]>([]);
+export const storeActiveFilterAtom = atom<FilterableFields[]>([]);
 
 export const storeSelectedFiltersAtom = atom(filterDefaultCheckStatus);
 

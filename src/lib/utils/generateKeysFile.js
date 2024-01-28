@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const en = require("../../messages/en.json");
+const en = require("../../../messages/en.json");
 const path = require("path");
 const fs = require("fs");
 

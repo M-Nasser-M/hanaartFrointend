@@ -1,7 +1,7 @@
 "use client";
 import { Button, Flex, ScrollArea, Select, Text } from "@radix-ui/themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { handleAddClientParamsRoute } from "@/lib/handleClientParams";
+import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import { Category, SubCategory, categories } from "@/types/product";
 import { searchEffectAtom } from "@/atoms/searchEffectAtom";
 import { Check, ListFilter, XCircle } from "lucide-react";
@@ -14,7 +14,7 @@ import {
   storeSelectedFiltersAtom,
   storeSortAtom,
 } from "@/atoms/atoms";
-import { changeFilterCheckPure } from "@/lib/utils";
+import { changeFilterCheckPure } from "@/lib/utils/utils";
 
 const FilterSort = () => {
   useAtom(searchEffectAtom);

@@ -10,3 +10,5 @@ export const profileKeys = ["addresses","apartmentno","building","city","details
 export type profileTranslations = Record<typeof profileKeys[number],string>
 export const cartKeys = ["cartempty","checkout","continueshopping","instock","outofstock","quantity","remove","reviewitems","shoppingcart"] as const;
 export type cartTranslations = Record<typeof cartKeys[number],string>
+export const checkoutKeys = ["ordersummary","paymentdetails","placeorder","shipping","shippingdetails","subtotal","tax","total"] as const;
+export type checkoutTranslations = Record<typeof checkoutKeys[number],string>
