@@ -1,6 +1,6 @@
-import { searchProducts } from "@/services/client/ProductServiceClient";
+import { searchProducts } from "@/lib/services/client/ProductServiceClient";
 import SearchComponent from "./SearchComponent";
-import { Locale } from "@/types/sharedTypes";
+import { Locale } from "@/lib/types/sharedTypes";
 import { safeParse } from "valibot";
 
 import {
@@ -8,7 +8,7 @@ import {
   ProductSearchResponseSchema,
   defaultAttributesToRetrieve,
   defaultPageSize,
-} from "@/types/product";
+} from "@/lib/types/product";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import {
   storeKeys,

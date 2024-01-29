@@ -1,7 +1,7 @@
 import { navbarKeys, navbarTranslations } from "../../../messages/messagesKeys";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { options } from "../api/auth/[...nextauth]/authOtions";
-import { Locale, SessionSchema } from "@/types/sharedTypes";
+import { Locale, SessionSchema } from "@/lib/types/sharedTypes";
 import Providers from "@/components/providers/Providers";
 import Navbar from "@/components/navbar/Navbar";
 import { Container } from "@radix-ui/themes";

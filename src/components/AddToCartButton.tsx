@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProductSearchResponseElement } from "@/types/product";
+import type { ProductSearchResponseElement } from "@/lib/types/product";
 import { useCart } from "@/lib/hooks/useCart";
 import { Button } from "@radix-ui/themes";
 import { toast } from "sonner";

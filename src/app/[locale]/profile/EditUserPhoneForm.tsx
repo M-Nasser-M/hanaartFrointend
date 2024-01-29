@@ -1,11 +1,11 @@
 "use client";
 
-import { updatePhone } from "@/services/client/ProfileServiceClinet";
+import { updatePhone } from "@/lib/services/client/ProfileServiceClinet";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Edit, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { sessionAtom } from "@/atoms/atoms";
-import { PhoneSchema } from "@/types/user";
+import { sessionAtom } from "@/lib/atoms/atoms";
+import { PhoneSchema } from "@/lib/types/user";
 import { useForm } from "react-hook-form";
 import { Output, object } from "valibot";
 import { useAtomValue } from "jotai";

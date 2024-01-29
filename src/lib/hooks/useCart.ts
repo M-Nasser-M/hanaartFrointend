@@ -1,11 +1,14 @@
-import type { localStorageCartItem, localStorageCartItems } from "@/types/user";
+import type {
+  localStorageCartItem,
+  localStorageCartItems,
+} from "@/lib/types/user";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
-import { cartAtom, sessionAtom } from "@/atoms/atoms";
+import { cartAtom, sessionAtom } from "@/lib/atoms/atoms";
 import {
   addCartItem,
   removeCartItemUsingProductId,
-} from "@/services/serverActions/CartActions";
+} from "@/lib/services/serverActions/CartActions";
 
 export const useCart = () => {
   const cartValue = useAtomValue(cartAtom);

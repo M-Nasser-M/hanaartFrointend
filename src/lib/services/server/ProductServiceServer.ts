@@ -5,9 +5,9 @@ import {
   type Products,
   defaultAttributesToRetrieve,
   defaultPageSize,
-} from "@/types/product";
-import { type StoreMainPage } from "@/types/mainPages";
-import type { Locale } from "@/types/sharedTypes";
+} from "@/lib/types/product";
+import { type StoreMainPage } from "@/lib/types/mainPages";
+import type { Locale } from "@/lib/types/sharedTypes";
 import { meiliserverApiAuth, serverApiAuth } from "./ServerApi";
 import qs from "qs";
 

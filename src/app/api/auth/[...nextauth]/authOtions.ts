@@ -5,8 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import type { AdapterUser } from "next-auth/adapters";
 
 import type { JWT } from "next-auth/jwt";
-import { serverApi } from "@/services/server/ServerApi";
-import type { CartData, UserData } from "@/types/user";
+import { serverApi } from "@/lib/services/server/ServerApi";
+import type { CartData, UserData } from "@/lib/types/user";
 import { serverEnv } from "@/serverEnv";
 
 export const options: AuthOptions = {

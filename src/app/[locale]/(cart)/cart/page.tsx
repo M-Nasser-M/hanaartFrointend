@@ -1,5 +1,5 @@
 import { unstable_setRequestLocale } from "next-intl/server";
-import type { Locale } from "@/types/sharedTypes";
+import type { Locale } from "@/lib/types/sharedTypes";
 import { useTranslations } from "next-intl";
 import { Flex } from "@radix-ui/themes";
 import dynamic from "next/dynamic";

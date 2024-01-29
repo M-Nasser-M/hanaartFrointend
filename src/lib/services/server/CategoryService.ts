@@ -1,4 +1,4 @@
-import { Categories } from "@/types/categories";
+import { Categories } from "@/lib/types/categories";
 import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 

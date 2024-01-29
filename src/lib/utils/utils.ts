@@ -1,4 +1,8 @@
-import type { Category, SubCategory } from "@/lib/types/product";
+import type {
+  Category,
+  FilterableFields,
+  SubCategory,
+} from "@/lib/types/product";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -11,7 +15,7 @@ export const changeFilterCheckPure = (
     SubCategory | Category,
     {
       checked: boolean;
-      filter: string;
+      filter: FilterableFields;
     }
   >,
   filter: Category | SubCategory | null,

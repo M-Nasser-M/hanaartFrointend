@@ -1,5 +1,5 @@
-import type { Session } from "@/types/sharedTypes";
-import type { Email, Phone } from "@/types/user";
+import type { Session } from "@/lib/types/sharedTypes";
+import type { Email, Phone } from "@/lib/types/user";
 import { clientApi } from "./ClientApi";
 
 export const updateEmail = async (email: Email, session: Session) => {

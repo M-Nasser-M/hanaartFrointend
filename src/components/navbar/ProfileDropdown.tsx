@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, Box, Button, DropdownMenu } from "@radix-ui/themes";
-import { sessionAtom } from "@/atoms/atoms";
+import { sessionAtom } from "@/lib/atoms/atoms";
 import { signOut } from "next-auth/react";
 import { useAtomValue } from "jotai";
 import NextLink from "../NextLink";

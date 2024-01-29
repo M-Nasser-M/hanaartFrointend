@@ -1,7 +1,7 @@
 "use client";
 import { AspectRatio, Box, Button } from "@radix-ui/themes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Image } from "@/types/sharedTypes";
+import type { Image } from "@/lib/types/sharedTypes";
 import { useHydrateAtoms } from "jotai/utils";
 import React, { ReactNode, useCallback, useRef, useState } from "react";
 import { atom, useAtom } from "jotai";

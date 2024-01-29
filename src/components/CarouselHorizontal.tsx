@@ -1,5 +1,5 @@
 "use client";
-import type { ProductSearchResponseElement } from "@/types/product";
+import type { ProductSearchResponseElement } from "@/lib/types/product";
 import { ReactNode, useCallback, useRef, useState } from "react";
 import { Box, Button, Flex, Text } from "@radix-ui/themes";
 import { ChevronLeft, ChevronRight } from "lucide-react";

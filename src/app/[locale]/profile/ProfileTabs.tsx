@@ -1,5 +1,5 @@
 "use client";
-import { UserProfile } from "@/types/user";
+import { UserProfile } from "@/lib/types/user";
 import {
   Box,
   Flex,

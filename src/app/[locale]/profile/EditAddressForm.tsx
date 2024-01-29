@@ -2,7 +2,7 @@
 
 import { useGetLocalFromPathname } from "@/lib/hooks/useGetLocaleFromPathname";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import type { Governorates } from "@/types/city-governorate";
+import type { Governorates } from "@/lib/types/city-governorate";
 import { Controller, useForm } from "react-hook-form";
 import { atom, useAtom } from "jotai";
 import { useEffect } from "react";

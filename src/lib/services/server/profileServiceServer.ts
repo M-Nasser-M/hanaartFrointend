@@ -1,4 +1,4 @@
-import type { UserProfile } from "@/types/user";
+import type { UserProfile } from "@/lib/types/user";
 import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 

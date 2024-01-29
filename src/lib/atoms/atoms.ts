@@ -1,7 +1,10 @@
-import type { FilterableFields, ProductSearchResponse } from "@/types/product";
-import type { localStorageCartItem } from "@/types/user";
+import type {
+  FilterableFields,
+  ProductSearchResponse,
+} from "@/lib/types/product";
+import type { localStorageCartItem } from "@/lib/types/user";
 import { changeFilterCheckPure } from "@/lib/utils/utils";
-import type { Session } from "@/types/sharedTypes";
+import type { Session } from "@/lib/types/sharedTypes";
 import atomWithDebounce from "./atomWithDebounce";
 import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
@@ -10,7 +13,7 @@ import {
   defaultPageSize,
   filterDefaultCheckStatus,
   Category,
-} from "@/types/product";
+} from "@/lib/types/product";
 
 export const cartAtom = atomWithStorage<localStorageCartItem[]>("cart", []);
 

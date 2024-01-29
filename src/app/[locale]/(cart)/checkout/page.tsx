@@ -5,7 +5,7 @@ import {
   AccordionContent,
 } from "@/components/Accordion/AccordionStyled";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
-import type { Locale } from "@/types/sharedTypes";
+import type { Locale } from "@/lib/types/sharedTypes";
 import { Button, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import {
   checkoutKeys,

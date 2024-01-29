@@ -1,4 +1,4 @@
-import { Locale } from "@/types/sharedTypes";
+import { Locale } from "@/lib/types/sharedTypes";
 import { usePathname } from "next/navigation";
 
 export const useGetLocalFromPathname = (): Locale => {

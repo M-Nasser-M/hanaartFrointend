@@ -1,4 +1,4 @@
-import { searchProducts } from "@/services/client/ProductServiceClient";
+import { searchProducts } from "@/lib/services/client/ProductServiceClient";
 import type { Getter, Setter } from "jotai";
 import { atomEffect } from "jotai-effect";
 import {

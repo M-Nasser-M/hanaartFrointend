@@ -1,9 +1,9 @@
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
-import { getProductUsingSlug } from "@/services/server/ProductServiceServer";
+import { getProductUsingSlug } from "@/lib/services/server/ProductServiceServer";
 import { Badge, Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { DataValidationError } from "@/lib/utils/exceptions";
-import type { Locale } from "@/types/sharedTypes";
-import { ProductsSchema } from "@/types/product";
+import type { Locale } from "@/lib/types/sharedTypes";
+import { ProductsSchema } from "@/lib/types/product";
 import { safeParse } from "valibot";
 import Carousel from "./Carousel";
 

@@ -3,7 +3,7 @@ import {
   ProductSearchResponse,
   defaultAttributesToRetrieve,
   defaultPageSize,
-} from "@/types/product";
+} from "@/lib/types/product";
 import { meiliClientApi } from "./ClientApi";
 
 const defaultReqBody: ProductSearchRequestBody = {

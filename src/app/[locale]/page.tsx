@@ -1,19 +1,19 @@
 import { unstable_setRequestLocale } from "next-intl/server";
-import { MainPageDataSchema } from "@/types/mainPages";
-import { getHomeData } from "@/services/server/HomeServiceServer";
-import type { Locale } from "@/types/sharedTypes";
+import { MainPageDataSchema } from "@/lib/types/mainPages";
+import { getHomeData } from "@/lib/services/server/HomeServiceServer";
+import type { Locale } from "@/lib/types/sharedTypes";
 import { AspectRatio, Card, Flex, Heading, Inset } from "@radix-ui/themes";
 import { parse, safeParse } from "valibot";
 import { Metadata } from "next";
 import NextImage from "next/image";
-import { getCategoriesData } from "@/services/server/CategoryService";
-import { getFeaturedProducts } from "@/services/server/ProductServiceServer";
-import { CategoriesSchema } from "@/types/categories";
+import { getCategoriesData } from "@/lib/services/server/CategoryService";
+import { getFeaturedProducts } from "@/lib/services/server/ProductServiceServer";
+import { CategoriesSchema } from "@/lib/types/categories";
 import CarouselHorizontal from "../../components/CarouselHorizontal";
 import {
   type ProductSearchResponseElement,
   ProductSearchResponseSchema,
-} from "@/types/product";
+} from "@/lib/types/product";
 import NextLink from "@/components/NextLink";
 
 export const revalidate = 3600;

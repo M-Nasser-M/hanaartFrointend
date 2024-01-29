@@ -1,6 +1,6 @@
-import type { Session } from "@/types/sharedTypes";
+import type { Session } from "@/lib/types/sharedTypes";
 import { serverApiAuth } from "./ServerApi";
-import type { Cart } from "@/types/user";
+import type { Cart } from "@/lib/types/user";
 import qs from "qs";
 
 export const getCart = async (session: Session) => {

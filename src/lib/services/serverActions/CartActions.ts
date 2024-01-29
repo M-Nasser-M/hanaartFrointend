@@ -1,7 +1,7 @@
 "use server";
 
 import { serverApiAuth } from "../server/ServerApi";
-import type { Session } from "@/types/sharedTypes";
+import type { Session } from "@/lib/types/sharedTypes";
 import { CreateCartError } from "@/lib/utils/exceptions";
 import {
   createCart,

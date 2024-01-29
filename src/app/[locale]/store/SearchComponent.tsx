@@ -5,7 +5,10 @@ import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import Pagination from "@/components/pagination/Pagination";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import AddToCartButton from "@/components/AddToCartButton";
-import type { FilterableFields, ProductSearchResponse } from "@/types/product";
+import type {
+  FilterableFields,
+  ProductSearchResponse,
+} from "@/lib/types/product";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import NextLink from "@/components/NextLink";
@@ -31,7 +34,7 @@ import {
   storeNumberOfPagesAtom,
   storeActiveFilterAtom,
   writeStoreSelectedFiltersAtom,
-} from "@/atoms/atoms";
+} from "@/lib/atoms/atoms";
 
 const FilterSort = dynamic(() => import("./FilterSort"));
 

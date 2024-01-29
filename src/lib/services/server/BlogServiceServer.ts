@@ -1,6 +1,6 @@
-import { BlogMainPage } from "@/types/mainPages";
-import { Locale } from "@/types/sharedTypes";
-import { Blog, Blogs } from "@/types/blog";
+import { BlogMainPage } from "@/lib/types/mainPages";
+import { Locale } from "@/lib/types/sharedTypes";
+import { Blog, Blogs } from "@/lib/types/blog";
 import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 
