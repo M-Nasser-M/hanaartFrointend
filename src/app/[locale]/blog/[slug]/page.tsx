@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Flex, Heading } from "@radix-ui/themes";
+import { AspectRatio, Flex, Heading } from "@radix-ui/themes";
 import { getBlogPostUsingSlug } from "@/lib/services/server/BlogServiceServer";
 import { blogsSchema } from "@/lib/types/blog";
 import { safeParse } from "valibot";
