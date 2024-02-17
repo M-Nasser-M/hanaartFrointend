@@ -7,7 +7,7 @@ import NextImage from "next/image";
 import Glider from "react-glider";
 
 import "glider-js/glider.min.css";
-import NextLink from "./NextLink";
+import NextLink from "../NextLink";
 
 type Props = { products: ProductSearchResponseElement[] };
 

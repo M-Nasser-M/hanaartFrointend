@@ -2,9 +2,9 @@
 import type { storeTranslations } from "../../../../messages/messagesKeys";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
-import Pagination from "@/components/pagination/Pagination";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import AddToCartButton from "@/components/AddToCartButton";
+import Pagination from "@/components/pagination/Pagination";
 import type {
   FilterableFields,
   ProductSearchResponse,
@@ -28,13 +28,13 @@ import {
 } from "@radix-ui/themes";
 import {
   currentStorePageAtom,
+  storeActiveFilterAtom,
+  storeNumberOfPagesAtom,
   storeProductListAtom,
   storeSearchQueryAtom,
   storeSortAtom,
-  storeNumberOfPagesAtom,
-  storeActiveFilterAtom,
   writeStoreSelectedFiltersAtom,
-} from "@/lib/atoms/atoms";
+} from "@/lib/atoms/storeAtoms";
 
 const FilterSort = dynamic(() => import("./FilterSort"));
 

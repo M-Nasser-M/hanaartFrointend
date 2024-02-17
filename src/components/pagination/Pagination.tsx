@@ -1,4 +1,4 @@
-import { currentStorePageAtom } from "@/lib/atoms/atoms";
+import { currentStorePageAtom } from "@/lib/atoms/storeAtoms";
 import { Button, Flex } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
 

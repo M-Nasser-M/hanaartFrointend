@@ -4,6 +4,7 @@ import {
   array,
   boolean,
   coerce,
+  date,
   null_,
   number,
   object,
@@ -76,7 +77,7 @@ export type ShippingDetails = Output<typeof ShippingDetailsSchema>;
 
 export const CollectorSchema = object({
   id: number(),
-  created_at: coerce(string(), Date),
+  created_at: coerce(date(), (input) => new Date(input as string)),
   phones: array(string()),
   company_emails: array(string()),
   company_name: string(),
@@ -90,7 +91,7 @@ export type Collector = Output<typeof CollectorSchema>;
 
 export const OrderSchema = object({
   id: number(),
-  created_at: coerce(string(), Date),
+  created_at: coerce(date(), (input) => new Date(input as string)),
   delivery_needed: boolean(),
   merchant: CollectorSchema,
   collector: CollectorSchema,
@@ -134,7 +135,7 @@ export const DataSchema = object({
   avs_result_code: string(),
   card_type: string(),
   merchant: string(),
-  created_at: coerce(string(), Date),
+  created_at: coerce(date(), (input) => new Date(input as string)),
   merchant_txn_ref: string(),
   authorize_id: string(),
   currency: string(),
@@ -160,7 +161,7 @@ export const ObjSchema = object({
   profile_id: number(),
   has_parent_transaction: boolean(),
   order: OrderSchema,
-  created_at: coerce(string(), Date),
+  created_at: coerce(date(), (input) => new Date(input as string)),
   transaction_processed_callback_responses: array(any()),
   currency: string(),
   source_data: SourceDataSchema,

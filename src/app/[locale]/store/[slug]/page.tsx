@@ -2,6 +2,7 @@ import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { getProductUsingSlug } from "@/lib/services/server/ProductServiceServer";
 import { Badge, Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { DataValidationError } from "@/lib/utils/exceptions";
+import { unstable_noStore as noStore } from "next/cache";
 import type { Locale } from "@/lib/types/sharedTypes";
 import { ProductsSchema } from "@/lib/types/product";
 import { safeParse } from "valibot";
@@ -10,8 +11,9 @@ import Carousel from "./Carousel";
 type Props = { params: { slug: string; locale: Locale } };
 
 const Page = async ({ params: { slug, locale } }: Props) => {
-  const product = await getProductUsingSlug(slug);
+  noStore();
   unstable_setRequestLocale(locale);
+  const product = await getProductUsingSlug(slug);
   const validatedData = safeParse(ProductsSchema, product);
   if (!validatedData.success) throw new DataValidationError(`Product ${slug}`);
 

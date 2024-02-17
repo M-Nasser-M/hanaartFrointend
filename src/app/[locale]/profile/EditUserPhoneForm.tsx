@@ -5,7 +5,6 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Edit, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { sessionAtom } from "@/lib/atoms/atoms";
-import { PhoneSchema } from "@/lib/types/user";
 import { useForm } from "react-hook-form";
 import { Output, object } from "valibot";
 import { useAtomValue } from "jotai";
@@ -20,6 +19,7 @@ import {
   TextFieldInput,
 } from "@radix-ui/themes";
 import type { profileTranslations } from "../../../../messages/messagesKeys";
+import { PhoneSchema } from "@/lib/types/sharedTypes";
 
 type Props = { translations: profileTranslations };
 
@@ -41,8 +41,8 @@ const EditUserPhoneForm = ({ translations }: Props) => {
   const session = useAtomValue(sessionAtom);
 
   const onSubmit = async (data: PhoneForm) => {
-    const res = await updatePhone(data.phone, session!);
-    if (!res) {
+    const response = await updatePhone(data.phone, session!);
+    if (!response) {
       if (closeRef.current) closeRef.current.click();
       toast("error updating your phone", {
         description: " pls try again later",

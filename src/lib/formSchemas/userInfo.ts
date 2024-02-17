@@ -1,5 +1,5 @@
-import { EmailSchema, PhoneSchema } from "@/lib/types/user";
 import { Output, object } from "valibot";
+import { EmailSchema, PhoneSchema } from "../types/sharedTypes";
 
 export const EditUserInfoFormSchema = object({
   email: EmailSchema,

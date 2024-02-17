@@ -15,6 +15,7 @@ const serverEnvSchema = object({
   INSTAGRAM_CLIENT_SECRET: string(),
   MEILI_HOST: string(),
   MEILI_MASTER_KEY: string(),
+  PAYMOB_HMAC_SECRET: string(),
 });
 
 const parsedEnv = parse(serverEnvSchema, process.env);

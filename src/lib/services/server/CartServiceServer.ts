@@ -1,9 +1,9 @@
 import type { Session } from "@/lib/types/sharedTypes";
 import { serverApiAuth } from "./ServerApi";
-import type { Cart } from "@/lib/types/user";
 import qs from "qs";
+import type { Cart } from "@/lib/types/cart";
 
-export const getCart = async (session: Session) => {
+export async function getCart(session: Session) {
   const queryString = qs.stringify({
     populate: { cart_items: { populate: "product" } },
   });
@@ -16,9 +16,9 @@ export const getCart = async (session: Session) => {
     if (error instanceof Error) console.error(error.message);
     return null;
   }
-};
+}
 
-export const updateCartItem = async (cartItemId: number, quantity: number) => {
+export async function updateCartItem(cartItemId: number, quantity: number) {
   try {
     const response = await serverApiAuth.put(`/cart-items/${cartItemId}`, {
       quantity,
@@ -28,13 +28,13 @@ export const updateCartItem = async (cartItemId: number, quantity: number) => {
     if (error instanceof Error) console.error(error.message);
     return null;
   }
-};
+}
 
-export const createCartItem = async (
+export async function createCartItem(
   cartId: number,
   productId: number,
   quantity: number
-) => {
+) {
   try {
     const response = await serverApiAuth.post(`/cart-items`, {
       cart: cartId,
@@ -46,9 +46,9 @@ export const createCartItem = async (
     if (error instanceof Error) console.error(error.message);
     return null;
   }
-};
+}
 
-export const createCart = async (userId: number) => {
+export async function createCart(userId: number) {
   try {
     const response = await serverApiAuth.post<Cart>("/carts", {
       users_permissions_user: userId,
@@ -58,4 +58,4 @@ export const createCart = async (userId: number) => {
     if (error instanceof Error) console.error(error.message);
     return null;
   }
-};
+}

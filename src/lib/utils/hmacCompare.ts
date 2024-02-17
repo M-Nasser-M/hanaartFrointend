@@ -1,5 +1,5 @@
 import { HmacSHA512 } from "crypto-js";
-import {
+import type {
   PaymobHmacTransactionObjectBackend,
   PaymobHmacTransactionObjectFrontend,
 } from "../types/paymob";

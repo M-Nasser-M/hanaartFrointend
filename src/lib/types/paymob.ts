@@ -10,8 +10,18 @@ import {
   union,
   literal,
   url,
-  coerce,
+  enum_,
 } from "valibot";
+
+export enum PaymentTypeEnum {
+  CARD = "CARD",
+  MOBILEWALLET = "MOBILEWALLET",
+  CASH = "CASH",
+}
+
+export const PaymentTypeSchema = enum_(PaymentTypeEnum);
+
+export type PaymentType = Output<typeof PaymentTypeSchema>;
 
 export const PaymobUserSchema = object({
   id: number(),
@@ -27,6 +37,7 @@ export const PaymobUserSchema = object({
   groups: array(string()),
   user_permissions: array(number()),
 });
+
 export type PaymobUser = Output<typeof PaymobUserSchema>;
 
 export const profileSchema = object({
@@ -176,11 +187,11 @@ const itemsSchema = union([array(itemSchema), array(itemSchema)]);
 
 export const PaymobCreateOrderPayloadSchema = object({
   auth_token: string(),
-  delivery_needed: string(),
-  amount_cents: string(),
-  currency: string(),
-  merchant_order_id: number(),
-  items: itemsSchema,
+  delivery_needed: boolean(),
+  amount_cents: number(),
+  currency: literal("EGP"),
+  merchant_order_id: optional(number()),
+  items: optional(itemsSchema),
   shipping_data: optional(shippingDataSchema),
   shipping_details: optional(shippingDetailsSchema),
 });
@@ -243,12 +254,12 @@ export const BillingDataSchema = object({
   street: string(),
   building: string(),
   phone_number: string(),
-  shipping_method: string(),
-  postal_code: string(),
+  shipping_method: optional(string()),
+  postal_code: optional(string()),
   city: string(),
   country: string(),
   last_name: string(),
-  state: string(),
+  state: optional(string()),
 });
 
 export type BillingData = Output<typeof BillingDataSchema>;
@@ -434,39 +445,39 @@ export type PaymobMobileWalletResponse = Output<
 >;
 
 export const PaymobHmacTransactionObjectFrontendSchema = object({
-  id: number(),
-  pending: boolean(),
-  amount_cents: number(),
-  success: boolean(),
-  is_auth: boolean(),
-  is_capture: boolean(),
-  is_standalone_payment: boolean(),
-  is_voided: boolean(),
-  is_refunded: boolean(),
-  is_3d_secure: boolean(),
-  integration_id: number(),
-  profile_id: number(),
-  has_parent_transaction: boolean(),
-  order: number(),
-  created_at: coerce(string(), Date),
-  currency: literal("EGP"),
-  merchant_commission: number(),
+  id: string(),
+  pending: string(),
+  amount_cents: string(),
+  success: string(),
+  is_auth: string(),
+  is_capture: string(),
+  is_standalone_payment: string(),
+  is_voided: string(),
+  is_refunded: string(),
+  is_3d_secure: string(),
+  integration_id: string(),
+  profile_id: string(),
+  has_parent_transaction: string(),
+  order: string(),
+  created_at: string(),
+  currency: string(),
+  merchant_commission: string(),
   discount_details: string(),
-  is_void: boolean(),
-  is_refund: boolean(),
-  error_occured: boolean(),
-  refunded_amount_cents: number(),
-  captured_amount: number(),
-  updated_at: coerce(string(), Date),
-  is_settled: boolean(),
-  bill_balanced: boolean(),
-  is_bill: boolean(),
-  owner: number(),
+  is_void: string(),
+  is_refund: string(),
+  error_occured: string(),
+  refunded_amount_cents: string(),
+  captured_amount: string(),
+  updated_at: string(),
+  is_settled: string(),
+  bill_balanced: string(),
+  is_bill: string(),
+  owner: string(),
   "data.message": string(),
   "source_data.type": string(),
   "source_data.pan": string(),
   "source_data.sub_type": string(),
-  txn_response_code: number(),
+  txn_response_code: string(),
   hmac: string(),
 });
 
@@ -505,18 +516,22 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
         postal_code: string(),
         street: string(),
       }),
-      collector: object({
-        id: number(),
-        created_at: string(),
-        phones: array(string()),
-        company_emails: array(string()),
-        company_name: string(),
-        state: string(),
-        country: string(),
-        city: string(),
-        postal_code: string(),
-        street: string(),
-      }),
+      collector: optional(
+        nullable(
+          object({
+            id: number(),
+            created_at: string(),
+            phones: array(string()),
+            company_emails: array(string()),
+            company_name: string(),
+            state: string(),
+            country: string(),
+            city: string(),
+            postal_code: string(),
+            street: string(),
+          })
+        )
+      ),
       amount_cents: number(),
       shipping_data: object({
         id: number(),
@@ -536,24 +551,26 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
         shipping_method: string(),
         order_id: number(),
       }),
-      shipping_details: object({
-        id: number(),
-        cash_on_delivery_amount: number(),
-        cash_on_delivery_type: string(),
-        latitude: nullable(string()),
-        longitude: nullable(string()),
-        is_same_day: boolean(),
-        number_of_packages: number(),
-        weight: number(),
-        weight_unit: string(),
-        length: number(),
-        width: number(),
-        height: number(),
-        delivery_type: string(),
-        return_type: nullable(string()),
-        order_id: number(),
-        notes: string(),
-      }),
+      shipping_details: optional(
+        object({
+          id: number(),
+          cash_on_delivery_amount: number(),
+          cash_on_delivery_type: string(),
+          latitude: nullable(string()),
+          longitude: nullable(string()),
+          is_same_day: boolean(),
+          number_of_packages: number(),
+          weight: number(),
+          weight_unit: string(),
+          length: number(),
+          width: number(),
+          height: number(),
+          delivery_type: string(),
+          return_type: nullable(string()),
+          order_id: number(),
+          notes: string(),
+        })
+      ),
       currency: string(),
       is_payment_locked: boolean(),
       is_return: boolean(),
@@ -564,7 +581,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
       wallet_notification: nullable(object({})),
       paid_amount_cents: number(),
       notify_user_with_email: boolean(),
-      items: array(object({})),
+      items: union([array(itemSchema), array(itemSchema)]),
       order_url: string(),
       commission_fees: number(),
       delivery_fees_cents: number(),
@@ -572,11 +589,14 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
       payment_method: string(),
       merchant_staff_tag: nullable(string()),
       api_source: string(),
-      pickup_data: nullable(object({})),
-      delivery_status: array(object({})),
+      pickup_data: optional(nullable(object({}))),
+      delivery_status: optional(array(object({}))),
     }),
     created_at: string(),
-    transaction_processed_callback_responses: array(object({})),
+    transaction_processed_callback_responses: union([
+      array(object({})),
+      array(object({})),
+    ]),
     currency: string(),
     source_data: object({
       pan: string(),
@@ -614,21 +634,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
     payment_key_claims: object({
       lock_order_when_paid: boolean(),
       integration_id: number(),
-      billing_data: object({
-        email: string(),
-        building: string(),
-        apartment: string(),
-        street: string(),
-        country: string(),
-        state: string(),
-        last_name: string(),
-        first_name: string(),
-        postal_code: string(),
-        extra_description: string(),
-        phone_number: string(),
-        floor: string(),
-        city: string(),
-      }),
+      billing_data: BillingDataSchema,
       order_id: number(),
       user_id: number(),
       pmk_ip: string(),

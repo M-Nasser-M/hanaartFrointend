@@ -105,9 +105,9 @@ const defaultReqBodyFeatured: ProductSearchRequestBody = {
   page: 1,
 };
 
-export const getFeaturedProducts = async (
+export async function getFeaturedProducts(
   reqObject?: ProductSearchRequestBody
-) => {
+) {
   const reqBody: ProductSearchRequestBody = {
     ...defaultReqBodyFeatured,
     ...reqObject,
@@ -123,4 +123,4 @@ export const getFeaturedProducts = async (
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;
   }
-};
+}

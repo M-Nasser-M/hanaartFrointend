@@ -9,14 +9,12 @@ import NextImage from "next/image";
 import { getCategoriesData } from "@/lib/services/server/CategoryService";
 import { getFeaturedProducts } from "@/lib/services/server/ProductServiceServer";
 import { CategoriesSchema } from "@/lib/types/categories";
-import CarouselHorizontal from "../../components/CarouselHorizontal";
+import CarouselHorizontal from "../../components/carousel/CarouselHorizontal";
 import {
   type ProductSearchResponseElement,
   ProductSearchResponseSchema,
 } from "@/lib/types/product";
 import NextLink from "@/components/NextLink";
-
-export const revalidate = 3600;
 
 type Props = {
   params: { locale: Locale };

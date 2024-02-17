@@ -1,4 +1,10 @@
 "use client";
+import type { cartTranslations } from "../../../../../messages/messagesKeys";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { arrayRange } from "@/lib/utils/utils";
+import { useCart } from "@/lib/hooks/useCart";
+import NextLink from "@/components/NextLink";
+import Image from "next/image";
 import {
   Button,
   Card,
@@ -8,17 +14,11 @@ import {
   Separator,
   Text,
 } from "@radix-ui/themes";
-import { useCart } from "@/lib/hooks/useCart";
-import Image from "next/image";
-import { arrayRange } from "@/lib/utils/utils";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import type { cartTranslations } from "../../../../../messages/messagesKeys";
-import NextLink from "@/components/NextLink";
 
 type Props = { translations: cartTranslations };
 
 const CartList = ({ translations }: Props) => {
-  const { cartValue, removeFromCart, changeQuantity, total } = useCart();
+  const { cartValue, removeFromCart, changeQuantity, cartTotal } = useCart();
 
   const [parent] = useAutoAnimate();
 
@@ -97,7 +97,7 @@ const CartList = ({ translations }: Props) => {
             })}
             <Flex direction="row" justify="between" gap="4">
               <Text as="label">Total:</Text>
-              <Text>{total} L.E</Text>
+              <Text>{cartTotal} L.E</Text>
             </Flex>
             <NextLink className="self-center" href="/checkout">
               <Button>Proceed To Checkout</Button>

@@ -1,7 +1,3 @@
-import type {
-  localStorageCartItem,
-  localStorageCartItems,
-} from "@/lib/types/user";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import { cartAtom, sessionAtom } from "@/lib/atoms/atoms";
@@ -9,11 +5,16 @@ import {
   addCartItem,
   removeCartItemUsingProductId,
 } from "@/lib/services/serverActions/CartActions";
+import type {
+  localStorageCartItem,
+  localStorageCartItems,
+} from "../types/cart";
+import { orderSubtotalAtom } from "../atoms/orderCheckoutAtoms";
 
 export const useCart = () => {
   const cartValue = useAtomValue(cartAtom);
-  const setCart = useSetAtom(cartAtom);
   const session = useAtomValue(sessionAtom);
+  const setCart = useSetAtom(cartAtom);
 
   const useHydrateCart = (HydrateValue: localStorageCartItems) =>
     useHydrateAtoms([[cartAtom, HydrateValue]]);
@@ -40,15 +41,7 @@ export const useCart = () => {
     setCart(cartValue.filter((cartItem) => cartItem.product.id !== productId));
   };
 
-  const total = cartValue.reduce((acc, item) => {
-    return (
-      acc +
-      (item.product.offer_price
-        ? +item.product.offer_price
-        : +item.product.price) *
-        +item.quantity
-    );
-  }, 0);
+  const cartTotal = useAtomValue(orderSubtotalAtom);
 
   return {
     cartValue,
@@ -57,6 +50,6 @@ export const useCart = () => {
     removeFromCart,
     changeQuantity,
     setCart,
-    total,
+    cartTotal,
   };
 };

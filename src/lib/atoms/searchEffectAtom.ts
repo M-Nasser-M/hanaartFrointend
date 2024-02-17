@@ -2,13 +2,13 @@ import { searchProducts } from "@/lib/services/client/ProductServiceClient";
 import type { Getter, Setter } from "jotai";
 import { atomEffect } from "jotai-effect";
 import {
-  storeActiveFilterAtom,
   currentStorePageAtom,
-  pageSizeAtom,
+  readStoreSortAtom,
+  storeActiveFilterAtom,
   storeProductListAtom,
   storeSearchQueryAtom,
-  readStoreSortAtom,
-} from "./atoms";
+} from "./storeAtoms";
+import { pageSizeAtom } from "./atoms";
 
 export const searchEffectAtom = atomEffect((get: Getter, set: Setter) => {
   const searchQuery = get(storeSearchQueryAtom.debouncedValueAtom);

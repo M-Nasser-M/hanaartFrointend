@@ -9,12 +9,12 @@ import * as Checkbox from "@radix-ui/react-checkbox";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useAtom } from "jotai";
 
+import { changeFilterCheckPure } from "@/lib/utils/utils";
 import {
   storeActiveFilterAtom,
   storeSelectedFiltersAtom,
   storeSortAtom,
-} from "@/lib/atoms/atoms";
-import { changeFilterCheckPure } from "@/lib/utils/utils";
+} from "@/lib/atoms/storeAtoms";
 
 const FilterSort = () => {
   useAtom(searchEffectAtom);

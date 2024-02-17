@@ -9,8 +9,7 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
       }
     );
 
-    if (!response.ok)
-      throw new Error(response.statusText, { cause: response.json() });
+    if (!response.ok) throw new Error(response.statusText, { cause: response });
 
     return response.json();
   },
@@ -29,8 +28,7 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
       }
     );
 
-    if (!response.ok)
-      throw new Error(response.statusText, { cause: response.json() });
+    if (!response.ok) throw new Error(response.statusText, { cause: response });
 
     return response.json();
   },
@@ -49,8 +47,7 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
       }
     );
 
-    if (!response.ok)
-      throw new Error(response.statusText, { cause: response.json() });
+    if (!response.ok) throw new Error(response.statusText, { cause: response });
 
     return response.json();
   },
@@ -64,8 +61,7 @@ const createFetchApi = (baseURL: string, defaultRequestInit?: RequestInit) => ({
       }
     );
 
-    if (!response.ok)
-      throw new Error(response.statusText, { cause: response.json() });
+    if (!response.ok) throw new Error(response.statusText, { cause: response });
 
     return response.json();
   },

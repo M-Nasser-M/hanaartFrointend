@@ -2,6 +2,7 @@ import {
   Output,
   array,
   coerce,
+  date,
   nullable,
   number,
   object,
@@ -24,9 +25,9 @@ export const BlogDataSchema = object({
   seo: optional(nullable(SeoSchema)),
   slug: string(),
   categories: nullable(string()),
-  createdAt: coerce(string(), Date),
-  updatedAt: coerce(string(), Date),
-  publishedAt: coerce(string(), Date),
+  createdAt: coerce(date(), (input) => new Date(input as string)),
+  updatedAt: coerce(date(), (input) => new Date(input as string)),
+  publishedAt: coerce(date(), (input) => new Date(input as string)),
   locale: LocaleSchema,
 });
 

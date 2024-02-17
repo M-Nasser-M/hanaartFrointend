@@ -1,11 +1,12 @@
+import { cachedGetGovrenorates } from "@/lib/services/server/GovernoratesServiceServer";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getUserProfile } from "@/lib/services/server/profileServiceServer";
+import { AuthError, DataValidationError } from "@/lib/utils/exceptions";
 import { Avatar, Box, Flex, Separator, Text } from "@radix-ui/themes";
 import { options } from "@/app/api/auth/[...nextauth]/authOtions";
-import { AuthError, DataValidationError } from "@/lib/utils/exceptions";
-import { getUserProfile } from "@/lib/services/server/profileServiceServer";
+import { GovernoratesSchema } from "@/lib/types/city-governorate";
 import { SessionSchema } from "@/lib/types/sharedTypes";
 import type { Locale } from "@/lib/types/sharedTypes";
-import { UserProfileSchema } from "@/lib/types/user";
 import { getServerSession } from "next-auth";
 import ProfileTabs from "./ProfileTabs";
 import { safeParse } from "valibot";
@@ -14,6 +15,7 @@ import {
   profileKeys,
   type profileTranslations,
 } from "../../../../messages/messagesKeys";
+import { UserProfileSchema } from "@/lib/types/userProfile";
 
 const EditUserEmailForm = dynamic(() => import("./EditUserEmailForm"));
 const EditUserPhoneForm = dynamic(() => import("./EditUserPhoneForm"));
@@ -23,19 +25,30 @@ type Props = {
 };
 
 const Page = async ({ params: { locale } }: Props) => {
+  unstable_setRequestLocale(locale);
+
   const sesssion = await getServerSession(options);
 
   const validateSession = safeParse(SessionSchema, sesssion);
 
   if (!validateSession.success) throw new AuthError();
 
-  const UserData = await getUserProfile(validateSession.output.user.id);
+  const [UserDataResponse, governoratesResponse] = await Promise.all([
+    getUserProfile(validateSession.output.user.id),
+    cachedGetGovrenorates(),
+  ]);
 
-  const validateData = safeParse(UserProfileSchema, UserData);
+  const validateUserData = safeParse(UserProfileSchema, UserDataResponse);
 
-  if (!validateData.success) throw new DataValidationError("User Profile");
+  const validatedGovernoratesData = safeParse(
+    GovernoratesSchema,
+    governoratesResponse
+  );
 
-  unstable_setRequestLocale(locale);
+  if (!validateUserData.success) throw new DataValidationError("User Profile");
+
+  if (!validatedGovernoratesData.success)
+    throw new DataValidationError("Governorates");
 
   const t = await getTranslations("profile");
 
@@ -54,7 +67,7 @@ const Page = async ({ params: { locale } }: Props) => {
         <Text color="crimson" as="label" size="4">
           {t("username")}
         </Text>
-        <Text size="4">{validateData.output.username}</Text>
+        <Text size="4">{validateUserData.output.username}</Text>
         <Flex direction="row" justify="between">
           <Text color="crimson" as="label" size="4">
             {t("email")}
@@ -62,9 +75,9 @@ const Page = async ({ params: { locale } }: Props) => {
           <EditUserEmailForm translations={translations} />
         </Flex>
         <Text size="4">
-          {validateData.output.primaryEmail
-            ? validateData.output.primaryEmail
-            : validateData.output.email}
+          {validateUserData.output.primaryEmail
+            ? validateUserData.output.primaryEmail
+            : validateUserData.output.email}
         </Text>
         <Flex direction="row" justify="between">
           <Text color="crimson" as="label" size="4">
@@ -72,13 +85,17 @@ const Page = async ({ params: { locale } }: Props) => {
           </Text>
           <EditUserPhoneForm translations={translations} />
         </Flex>
-        <Text size="4">{validateData.output.phone}</Text>
+        <Text size="4">{validateUserData.output.phone}</Text>
       </Flex>
       <Flex grow="1">
         <Separator size="4" color="crimson" orientation="vertical" />
       </Flex>
       <Box width="100%">
-        <ProfileTabs translations={translations} user={validateData.output} />
+        <ProfileTabs
+          governorates={validatedGovernoratesData.output.data}
+          translations={translations}
+          user={validateUserData.output}
+        />
       </Box>
     </Flex>
   );

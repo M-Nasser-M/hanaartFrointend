@@ -2,6 +2,7 @@ import {
   Output,
   array,
   coerce,
+  date,
   number,
   object,
   optional,
@@ -14,8 +15,8 @@ export const SubCategorySchema = object({
   id: number(),
   name_en: string(),
   name_ar: string(),
-  createdAt: coerce(string(), Date),
-  updatedAt: coerce(string(), Date),
+  createdAt: coerce(date(), (input) => new Date(input as string)),
+  updatedAt: coerce(date(), (input) => new Date(input as string)),
 });
 
 export type Subcategory = Output<typeof SubCategorySchema>;
@@ -28,8 +29,8 @@ export const CategorySchema = object({
   subcategories: optional(
     union([array(SubCategorySchema), array(SubCategorySchema)])
   ),
-  createdAt: coerce(string(), Date),
-  updatedAt: coerce(string(), Date),
+  createdAt: coerce(date(), (input) => new Date(input as string)),
+  updatedAt: coerce(date(), (input) => new Date(input as string)),
 });
 
 export type Category = Output<typeof CategorySchema>;

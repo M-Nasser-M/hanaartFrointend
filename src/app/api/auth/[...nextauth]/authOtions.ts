@@ -6,8 +6,9 @@ import type { AdapterUser } from "next-auth/adapters";
 
 import type { JWT } from "next-auth/jwt";
 import { serverApi } from "@/lib/services/server/ServerApi";
-import type { CartData, UserData } from "@/lib/types/user";
+import type { UserData } from "@/lib/types/user";
 import { serverEnv } from "@/serverEnv";
+import type { CartData } from "@/lib/types/cart";
 
 export const options: AuthOptions = {
   providers: [
@@ -43,7 +44,7 @@ export const options: AuthOptions = {
         }>(
           `/auth/${account?.provider}/callback?access_token=${account?.access_token}`
         );
-        const userData = await serverApi.get<UserData & { cart: CartData }>(
+        const userData = await serverApi.get<UserData & { cart?: CartData }>(
           "/users/me?populate=cart",
           {
             headers: {
@@ -55,7 +56,7 @@ export const options: AuthOptions = {
 
         token.jwt = response.jwt;
         token.id = response.user.id;
-        token.cartId = userData.cart.id;
+        token.cartId = userData.cart?.id;
       }
       return token;
     },

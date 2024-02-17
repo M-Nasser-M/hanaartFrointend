@@ -7,6 +7,7 @@ import {
   cartKeys,
   type cartTranslations,
 } from "../../../../../messages/messagesKeys";
+import { unstable_noStore as noStore } from "next/cache";
 
 const CartList = dynamic(() => import("./CartList"));
 
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const Page = ({ params: { locale } }: Props) => {
+  noStore();
   unstable_setRequestLocale(locale);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

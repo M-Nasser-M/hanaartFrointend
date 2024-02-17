@@ -1,11 +1,11 @@
-import { Input, coerce, number, object, string } from "valibot";
+import { Input, coerce, date, number, object, string } from "valibot";
 import { MetaSchema, SeoSchema } from "./sharedTypes";
 
 export const MainPageDataSchema = object({
   id: number(),
-  createdAt: coerce(string(), Date),
-  updatedAt: coerce(string(), Date),
-  publishedAt: coerce(string(), Date),
+  createdAt: coerce(date(), (input) => new Date(input as string)),
+  updatedAt: coerce(date(), (input) => new Date(input as string)),
+  publishedAt: coerce(date(), (input) => new Date(input as string)),
   locale: string(),
   seo: SeoSchema,
 });
@@ -30,9 +30,9 @@ export const HomePageDataSchema = object({
   id: number(),
   header: string(),
   subheader: string(),
-  createdAt: coerce(string(), Date),
-  updatedAt: coerce(string(), Date),
-  publishedAt: coerce(string(), Date),
+  createdAt: coerce(date(), (input) => new Date(input as string)),
+  updatedAt: coerce(date(), (input) => new Date(input as string)),
+  publishedAt: coerce(date(), (input) => new Date(input as string)),
   locale: string(),
   seo: SeoSchema,
 });

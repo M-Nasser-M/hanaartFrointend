@@ -1,22 +1,28 @@
 "use client";
+import { useGetLocalFromPathname } from "@/lib/hooks/useGetLocaleFromPathname";
+import type { profileTranslations } from "../../../../messages/messagesKeys";
+import type { GovernorateData } from "@/lib/types/city-governorate";
 import { UserProfile } from "@/lib/types/user";
+import dynamic from "next/dynamic";
 import {
   Box,
   Flex,
   Grid,
+  Heading,
   Separator,
   Table,
   Tabs,
   Text,
 } from "@radix-ui/themes";
-import dynamic from "next/dynamic";
-import type { profileTranslations } from "../../../../messages/messagesKeys";
 
 const EditAddressForm = dynamic(() => import("./EditAddressForm"));
+const AddAddressForm = dynamic(() => import("./AddAddressForm"));
+const DeleteAddressButton = dynamic(() => import("./DeleteAddressButton"));
 
 type Props = {
   translations: profileTranslations;
   user: UserProfile;
+  governorates: GovernorateData[];
 };
 
 const AddressInfo = ({ label, info }: { label: string; info: string }) => {
@@ -30,7 +36,9 @@ const AddressInfo = ({ label, info }: { label: string; info: string }) => {
   );
 };
 
-const ProfileTabs = ({ translations, user }: Props) => {
+const ProfileTabs = ({ translations, user, governorates }: Props) => {
+  const locale = useGetLocalFromPathname();
+
   return (
     <Tabs.Root defaultValue="orders">
       <Tabs.List>
@@ -69,6 +77,14 @@ const ProfileTabs = ({ translations, user }: Props) => {
             </Table.Body>
           </Table.Root>
         )}
+        {!user.orders ||
+          (user.orders.length === 0 && (
+            <Flex justify="center" align="center">
+              <Heading as="h3" mt="4">
+                Waiting for your fabulous orders
+              </Heading>
+            </Flex>
+          ))}
       </Tabs.Content>
 
       <Tabs.Content value="addresses">
@@ -91,7 +107,11 @@ const ProfileTabs = ({ translations, user }: Props) => {
                   />
                   <AddressInfo
                     label={translations.governorate}
-                    info={address.governorate}
+                    info={
+                      locale === "en"
+                        ? address.governorate.governorate_name_en
+                        : address.governorate.governorate_name_en
+                    }
                   />
                   <AddressInfo
                     label={translations.street}
@@ -103,7 +123,7 @@ const ProfileTabs = ({ translations, user }: Props) => {
                   />
                   <AddressInfo
                     label={translations.floor}
-                    info={`${address.floor}`}
+                    info={address.floor ? `${address.floor}` : ""}
                   />
                   <AddressInfo
                     label={translations.apartmentno}
@@ -114,7 +134,17 @@ const ProfileTabs = ({ translations, user }: Props) => {
                     info={address.details || ""}
                   />
 
-                  <EditAddressForm translations={translations} />
+                  <Flex justify="between">
+                    <EditAddressForm
+                      governorates={governorates}
+                      address={address}
+                      translations={translations}
+                    />
+                    <DeleteAddressButton
+                      translations={translations}
+                      address={address}
+                    />
+                  </Flex>
                 </Grid>
                 <Separator
                   my="4"
@@ -124,6 +154,21 @@ const ProfileTabs = ({ translations, user }: Props) => {
                 />
               </Box>
             ))}
+          </Flex>
+        )}
+        {!user.addresses?.length && (
+          <Flex
+            direction="column"
+            justify="center"
+            align="center"
+            gap="4"
+            mt="4"
+          >
+            <Heading as="h3">you have no addresses saved add Address</Heading>
+            <AddAddressForm
+              governorates={governorates}
+              translations={translations}
+            />
           </Flex>
         )}
       </Tabs.Content>

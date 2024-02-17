@@ -5,7 +5,6 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Edit, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { sessionAtom } from "@/lib/atoms/atoms";
-import { EmailSchema } from "@/lib/types/user";
 import { useForm } from "react-hook-form";
 import { Output, object } from "valibot";
 import { useAtomValue } from "jotai";
@@ -20,6 +19,7 @@ import {
   TextFieldInput,
 } from "@radix-ui/themes";
 import type { profileTranslations } from "../../../../messages/messagesKeys";
+import { EmailSchema } from "@/lib/types/sharedTypes";
 
 type Props = { translations: profileTranslations };
 

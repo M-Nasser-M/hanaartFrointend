@@ -3,12 +3,15 @@ import {
   Output,
   array,
   coerce,
+  date,
   email,
   enum_,
+  length,
   nullable,
   number,
   object,
   optional,
+  regex,
   startsWith,
   string,
   union,
@@ -91,8 +94,12 @@ export const ImageSchema = object({
   previewUrl: optional(nullable(string())),
   provider: optional(nullable(string())),
   provider_metadata: optional(nullable(ProviderMetadataSchema)),
-  updatedAt: optional(nullable(coerce(string(), Date))),
-  createdAt: optional(nullable(coerce(string(), Date))),
+  updatedAt: optional(
+    nullable(coerce(date(), (input) => new Date(input as string)))
+  ),
+  createdAt: optional(
+    nullable(coerce(date(), (input) => new Date(input as string)))
+  ),
   placeholder: placeholderValueSchema,
 });
 export type Image = Input<typeof ImageSchema>;
@@ -140,7 +147,7 @@ export const SessionUserSchema = object({
   name: string(),
   email: string([email()]),
   image: string(),
-  cartId: number(),
+  cartId: optional(number()),
   id: number(),
 });
 
@@ -152,3 +159,15 @@ export const SessionSchema = object({
 });
 
 export type Session = Output<typeof SessionSchema>;
+
+export const EmailSchema = string("invalid email", [email("invalid email")]);
+
+export type Email = Output<typeof EmailSchema>;
+
+export const PhoneSchema = string("phone is required", [
+  length(11, "phone should be 11 number long"),
+  startsWith("0", "phone number should start with 0"),
+  regex(/^[0-9]+$/, "should be all numbers"),
+]);
+
+export type Phone = Output<typeof PhoneSchema>;

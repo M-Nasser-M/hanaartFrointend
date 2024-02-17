@@ -16,7 +16,7 @@ export const addCartItem = async (
   session: Session
 ) => {
   const cart = await getCart(session);
-  if (!cart) {
+  if (!cart || !session.user.cartId) {
     const newCart = await createCart(session.user.id);
     if (!newCart) throw new CreateCartError();
     return createCartItem(newCart.data.id, productId, quantity);

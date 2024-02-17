@@ -1,6 +1,7 @@
 import { searchProducts } from "@/lib/services/client/ProductServiceClient";
-import SearchComponent from "./SearchComponent";
+import { unstable_noStore as noStore } from "next/cache";
 import { Locale } from "@/lib/types/sharedTypes";
+import SearchComponent from "./SearchComponent";
 import { safeParse } from "valibot";
 
 import {
@@ -26,6 +27,7 @@ type Props = {
 };
 
 const Page = async ({ params: { locale }, searchParams }: Props) => {
+  noStore();
   unstable_setRequestLocale(locale);
   const searchQuery = searchParams.searchquery ? searchParams.searchquery : "";
   const sort: string[] =

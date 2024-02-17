@@ -16,7 +16,7 @@ const fileContent = rootObjectsKeys.join("\n");
 
 const fileName = "messagesKeys.ts";
 
-const absolutePath = path.resolve(__dirname, `../../messages/${fileName}`);
+const absolutePath = path.resolve(__dirname, `../../../messages/${fileName}`);
 
 fs.writeFile(absolutePath, fileContent, (err) => {
   if (err) console.error(err);
