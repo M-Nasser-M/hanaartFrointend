@@ -2,7 +2,7 @@
 import { useGetLocalFromPathname } from "@/lib/hooks/useGetLocaleFromPathname";
 import type { profileTranslations } from "../../../../messages/messagesKeys";
 import type { GovernorateData } from "@/lib/types/city-governorate";
-import { UserProfile } from "@/lib/types/user";
+import { UserProfile } from "@/lib/types/userProfile";
 import dynamic from "next/dynamic";
 import {
   Box,
