@@ -1,20 +1,17 @@
-import {
-  type PaymobHmacTransactionObjectFrontend,
-  PaymobHmacTransactionObjectFrontendSchema,
-} from "@/lib/types/paymob";
+import { PaymobHmacTransactionObjectFrontendSchema } from "@/lib/types/paymob";
 import { compareHmacFrontEnd } from "@/lib/utils/hmacCompare";
 import { redirect } from "next/navigation";
 import { clientEnv } from "@/clientEnv";
 import { safeParse } from "valibot";
 
 type Props = {
-  searchparams: PaymobHmacTransactionObjectFrontend | undefined;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-const Page = ({ searchparams }: Props) => {
+const Page = ({ searchParams }: Props) => {
   const validatedObject = safeParse(
     PaymobHmacTransactionObjectFrontendSchema,
-    searchparams
+    searchParams
   );
   if (!validatedObject.success) {
     return redirect("/paymobdataerror");
