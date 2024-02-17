@@ -1,16 +1,20 @@
-"use client";
-import { PaymobHmacTransactionObjectFrontendSchema } from "@/lib/types/paymob";
+import {
+  type PaymobHmacTransactionObjectFrontend,
+  PaymobHmacTransactionObjectFrontendSchema,
+} from "@/lib/types/paymob";
 import { compareHmacFrontEnd } from "@/lib/utils/hmacCompare";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import { clientEnv } from "@/clientEnv";
 import { safeParse } from "valibot";
 
-const Page = () => {
-  const searchParams = useSearchParams();
-  const paramsObject = Object.fromEntries(searchParams.entries());
+type Props = {
+  searchparams: PaymobHmacTransactionObjectFrontend | undefined;
+};
+
+const Page = ({ searchparams }: Props) => {
   const validatedObject = safeParse(
     PaymobHmacTransactionObjectFrontendSchema,
-    paramsObject
+    searchparams
   );
   if (!validatedObject.success) {
     return redirect("/paymobdataerror");
