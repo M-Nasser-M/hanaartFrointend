@@ -3,8 +3,7 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { locales } from "./i18n";
 
-// const protectedRoutes = ["cart", "checkout", "profile"];
-const protectedRoutes = [""];
+const protectedRoutes = ["checkout", "profile"];
 
 const intlMiddleware = createMiddleware({
   locales: locales,
