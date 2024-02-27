@@ -1,9 +1,13 @@
 "use client";
 import type { cartTranslations } from "../../../../../messages/messagesKeys";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import type { Locale } from "@/lib/types/sharedTypes";
+import { sessionAtom } from "@/lib/atoms/atoms";
 import { arrayRange } from "@/lib/utils/utils";
 import { useCart } from "@/lib/hooks/useCart";
-import NextLink from "@/components/NextLink";
+import { useRouter } from "next/navigation";
+import { useAtomValue } from "jotai";
+import { toast } from "sonner";
 import Image from "next/image";
 import {
   Button,
@@ -15,10 +19,27 @@ import {
   Text,
 } from "@radix-ui/themes";
 
-type Props = { translations: cartTranslations };
+type Props = { translations: cartTranslations; locale: Locale };
 
-const CartList = ({ translations }: Props) => {
+const CartList = ({ translations, locale }: Props) => {
+  const session = useAtomValue(sessionAtom);
+  const router = useRouter();
+
   const { cartValue, removeFromCart, changeQuantity, cartTotal } = useCart();
+
+  const handleGoToCheckout = () => {
+    if (!session) {
+      toast(translations.notloggedin, {
+        description: translations.pleaselogintoproceedwithyourorder,
+        action: { label: "dismiss", onClick: () => toast.dismiss() },
+      });
+      return;
+    }
+    if (session) {
+      router.push(`/${locale}/checkout`);
+      return;
+    }
+  };
 
   const [parent] = useAutoAnimate();
 
@@ -80,15 +101,15 @@ const CartList = ({ translations }: Props) => {
               return (
                 <Flex key={item.product.id} direction="column" gap="4">
                   <Flex direction="row" justify="between" gap="4">
-                    <Text as="label">Name:</Text>
+                    <Text as="label">{translations.name}:</Text>
                     <Text>{item.product.name}</Text>
                   </Flex>
                   <Flex direction="row" justify="between" gap="4">
-                    <Text as="label">Quantity:</Text>
+                    <Text as="label">{translations.quantity}:</Text>
                     <Text>{item.quantity}</Text>
                   </Flex>
                   <Flex direction="row" justify="between" gap="4">
-                    <Text as="label">Price:</Text>
+                    <Text as="label">{translations.price}:</Text>
                     <Text>{item.product.price * item.quantity} L.E</Text>
                   </Flex>
                   <Separator className="w-full" />
@@ -96,12 +117,12 @@ const CartList = ({ translations }: Props) => {
               );
             })}
             <Flex direction="row" justify="between" gap="4">
-              <Text as="label">Total:</Text>
+              <Text as="label">{translations.total}:</Text>
               <Text>{cartTotal} L.E</Text>
             </Flex>
-            <NextLink className="self-center" href="/checkout">
-              <Button>Proceed To Checkout</Button>
-            </NextLink>
+            <Button onClick={handleGoToCheckout}>
+              {translations.proceedtocheckout}
+            </Button>
           </Flex>
         </Card>
       </>

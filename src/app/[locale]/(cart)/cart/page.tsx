@@ -27,7 +27,7 @@ const Page = ({ params: { locale } }: Props) => {
   }, {} as cartTranslations);
   return (
     <Flex gap="4" direction={{ initial: "column", md: "row" }}>
-      <CartList translations={translations} />
+      <CartList locale={locale} translations={translations} />
     </Flex>
   );
 };

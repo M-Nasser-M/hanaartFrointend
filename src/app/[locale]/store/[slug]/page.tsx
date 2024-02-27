@@ -1,6 +1,7 @@
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { getProductUsingSlug } from "@/lib/services/server/ProductServiceServer";
-import { Badge, Button, Flex, Heading, Text } from "@radix-ui/themes";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import AddToCartButton from "@/components/cart/AddToCartButton";
+import { Badge, Flex, Heading, Text } from "@radix-ui/themes";
 import { DataValidationError } from "@/lib/utils/exceptions";
 import { unstable_noStore as noStore } from "next/cache";
 import type { Locale } from "@/lib/types/sharedTypes";
@@ -49,9 +50,11 @@ const Page = async ({ params: { slug, locale } }: Props) => {
           </Badge>
           <Text>{`${validatedData.output.data[0].availableStock} items remaining`}</Text>
         </Flex>
-        <Button size="4" variant="outline" className="w-full">
-          {t("addtocart")}
-        </Button>
+        <AddToCartButton
+          translation={t("addtocart")}
+          quantity={1}
+          product={validatedData.output.data[0]}
+        />
         <Text
           suppressHydrationWarning
           dangerouslySetInnerHTML={{

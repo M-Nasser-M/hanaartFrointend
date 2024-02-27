@@ -27,9 +27,10 @@ import {
 type Props = {
   translations: profileTranslations;
   governorates: GovernorateData[];
+  big?: boolean;
 };
 
-const AddAddressForm = ({ translations, governorates }: Props) => {
+const AddAddressForm = ({ translations, governorates, big }: Props) => {
   const session = useAtomValue(sessionAtom);
   const locale = useGetLocalFromPathname();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -66,7 +67,11 @@ const AddAddressForm = ({ translations, governorates }: Props) => {
     <Dialog.Root>
       <Dialog.Trigger>
         <Box>
-          <Button className="cursor-pointer" size="1" variant="outline">
+          <Button
+            className="cursor-pointer"
+            size={big ? "4" : "1"}
+            variant="outline"
+          >
             {translations.addaddress}
             <Plus />
           </Button>

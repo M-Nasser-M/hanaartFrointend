@@ -31,7 +31,7 @@ export const AddressFormSchema = object({
     minLength(3, "must be at least 3 charaters"),
   ]),
   building: string("building is required", [
-    minLength(3, "must be at least 3 charaters"),
+    minLength(1, "must be at least 1 charaters"),
   ]),
   floor: optional(
     nullable(

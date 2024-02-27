@@ -39,7 +39,7 @@ export const ProductDataSchema = object({
   price: number(),
   description: string(),
   details: optional(nullable(string())),
-  offer_price: optional(nullable(number())),
+  offer_price: nullable(number()),
   availableStock: string(),
   onholdStock: optional(nullable(string())),
   soldStock: optional(nullable(string())),
