@@ -1,7 +1,7 @@
 "use client";
+import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import { Button, Flex, ScrollArea, Select, Text } from "@radix-ui/themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import { Category, SubCategory, categories } from "@/lib/types/product";
 import { searchEffectAtom } from "@/lib/atoms/searchEffectAtom";
 import { Check, ListFilter, XCircle } from "lucide-react";

@@ -1,6 +1,6 @@
 import { AspectRatio, Flex, Heading } from "@radix-ui/themes";
 import { getBlogPostUsingSlug } from "@/lib/services/server/BlogServiceServer";
-import { blogsSchema } from "@/lib/types/blog";
+import { blogSchema } from "@/lib/types/blog";
 import { safeParse } from "valibot";
 import Image from "next/image";
 
@@ -10,7 +10,7 @@ type Props = { params: { slug: string } };
 
 const Page = async ({ params: { slug } }: Props) => {
   const blog = await getBlogPostUsingSlug(slug);
-  const validatedDate = safeParse(blogsSchema, blog);
+  const validatedDate = safeParse(blogSchema, blog);
   if (!validatedDate.success) throw new DataValidationError(`blog ${slug}`);
 
   return (
@@ -18,20 +18,20 @@ const Page = async ({ params: { slug } }: Props) => {
       <AspectRatio ratio={16 / 9}>
         <Image
           fill
-          src={validatedDate.output.data[0].cover.url}
-          alt={validatedDate.output.data[0].cover.alternativeText || ""}
+          src={validatedDate.output.data.cover.url}
+          alt={validatedDate.output.data.cover.alternativeText || ""}
           priority
           quality={100}
           sizes="100vw"
           placeholder="blur"
-          blurDataURL={validatedDate.output.data[0].cover.placeholder}
+          blurDataURL={validatedDate.output.data.cover.placeholder}
         />
       </AspectRatio>
-      <Heading size="7">{validatedDate.output.data[0].title}</Heading>
+      <Heading size="7">{validatedDate.output.data.title}</Heading>
       <article
         className="p-4"
         dangerouslySetInnerHTML={{
-          __html: validatedDate.output.data[0].article,
+          __html: validatedDate.output.data.article,
         }}
       />
     </Flex>

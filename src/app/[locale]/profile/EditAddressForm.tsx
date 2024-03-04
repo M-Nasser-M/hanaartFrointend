@@ -9,6 +9,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { type AddressData } from "@/lib/types/address";
 import { Controller, useForm } from "react-hook-form";
 import { sessionAtom } from "@/lib/atoms/atoms";
+import * as Form from "@radix-ui/react-form";
 import { Edit, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
@@ -82,7 +83,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <XCircle />
           </Button>
         </Dialog.Close>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Root onSubmit={handleSubmit(onSubmit)}>
           <Flex gap="2" direction="column">
             <Text as="label" size="4" color="crimson">
               {translations.addressname}
@@ -215,7 +216,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
               Save
             </Button>
           </Flex>
-        </form>
+        </Form.Root>
       </Dialog.Content>
     </Dialog.Root>
   );

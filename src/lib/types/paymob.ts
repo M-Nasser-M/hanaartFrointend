@@ -11,6 +11,7 @@ import {
   literal,
   url,
   enum_,
+  nullish,
 } from "valibot";
 
 export enum PaymentTypeEnum {
@@ -550,6 +551,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
         extra_description: string(),
         shipping_method: string(),
         order_id: number(),
+        order: optional(number()),
       }),
       shipping_details: optional(
         object({
@@ -558,7 +560,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
           cash_on_delivery_type: string(),
           latitude: nullable(string()),
           longitude: nullable(string()),
-          is_same_day: boolean(),
+          is_same_day: number(),
           number_of_packages: number(),
           weight: number(),
           weight_unit: string(),
@@ -569,6 +571,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
           return_type: nullable(string()),
           order_id: number(),
           notes: string(),
+          order: optional(number()),
         })
       ),
       currency: string(),
@@ -602,6 +605,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
       pan: string(),
       type: string(),
       sub_type: string(),
+      tenure: nullable(string()),
     }),
     api_source: string(),
     terminal_id: nullable(number()),
@@ -615,7 +619,7 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
       order_info: string(),
       message: string(),
       gateway_integration_pk: number(),
-      batch_no: string(),
+      batch_no: number(),
       card_num: nullable(string()),
       secure_hash: string(),
       avs_result_code: string(),
@@ -625,10 +629,10 @@ export const PaymobHmacTransactionObjectBackendSchema = object({
       merchant_txn_ref: string(),
       authorize_id: string(),
       currency: string(),
-      amount: string(),
+      amount: number(),
       transaction_no: string(),
       txn_response_code: string(),
-      command: string(),
+      command: nullish(string()),
     }),
     is_hidden: boolean(),
     payment_key_claims: object({

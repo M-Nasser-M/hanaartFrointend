@@ -1,20 +1,43 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+import type { Locale } from "@/lib/types/sharedTypes";
 import { Select } from "@radix-ui/themes";
 import { useLocale } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
   const currentPathname = usePathname();
   const currentLocale = useLocale();
 
-  const handleChange = (value: string) => {
-    const newLocale = value;
+  const handleChange = (newLocale: Locale) => {
+    if (
+      !currentPathname.includes("store/") ||
+      !currentPathname.includes("blog/")
+    ) {
+      router.push(
+        currentPathname.replace(`/${currentLocale}`, `/${newLocale}`)
+      );
 
-    router.push(currentPathname.replace(`/${currentLocale}`, `/${newLocale}`));
+      router.refresh();
+      return;
+    }
 
+    if (newLocale !== "en") {
+      router.push(
+        `${currentPathname.replace(`/${currentLocale}`, `/${newLocale}`)}-${newLocale}`
+      );
+      router.refresh();
+      return;
+    }
+
+    router.push(
+      currentPathname
+        .replace(`/${currentLocale}`, `/${newLocale}`)
+        .slice(0, currentLocale.length * -1)
+    );
     router.refresh();
+    return;
   };
 
   return (

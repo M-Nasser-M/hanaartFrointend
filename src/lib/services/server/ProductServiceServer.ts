@@ -70,25 +70,8 @@ export async function getProductUsingID(id: number) {
 }
 
 export async function getProductUsingSlug(slug: string) {
-  const queryString = qs.stringify({
-    filters: {
-      slug: {
-        $eq: slug,
-      },
-    },
-    populate: {
-      seo: { populate: ["metaImage"] },
-      images: true,
-      cover: true,
-      categories: true,
-      subcategories: true,
-    },
-  });
-
   try {
-    const response = await serverApiAuth.get<Products>(
-      `/products?${queryString}`
-    );
+    const response = await serverApiAuth.get<Product>(`/products/slug/${slug}`);
 
     return response;
   } catch (error) {

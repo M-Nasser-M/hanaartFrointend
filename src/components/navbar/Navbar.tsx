@@ -2,11 +2,11 @@
 import type { navbarTranslations } from "../../../messages/messagesKeys";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Box, Button, Flex } from "@radix-ui/themes";
+import { Session } from "@/lib/types/sharedTypes";
+import { sessionAtom } from "@/lib/atoms/atoms";
 import ProfileDropdown from "./ProfileDropdown";
 import { useHydrateAtoms } from "jotai/utils";
-import { Session } from "@/lib/types/sharedTypes";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { sessionAtom } from "@/lib/atoms/atoms";
 import MobileMenu from "./MobileMenu";
 import NextLink from "../NextLink";
 import dynamic from "next/dynamic";

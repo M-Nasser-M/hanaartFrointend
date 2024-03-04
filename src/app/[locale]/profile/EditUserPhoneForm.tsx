@@ -1,10 +1,13 @@
 "use client";
 
 import { updatePhone } from "@/lib/services/client/ProfileServiceClinet";
+import type { profileTranslations } from "../../../../messages/messagesKeys";
 import { valibotResolver } from "@hookform/resolvers/valibot";
+import { PhoneSchema } from "@/lib/types/sharedTypes";
+import { sessionAtom } from "@/lib/atoms/atoms";
+import * as Form from "@radix-ui/react-form";
 import { Edit, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { sessionAtom } from "@/lib/atoms/atoms";
 import { useForm } from "react-hook-form";
 import { Output, object } from "valibot";
 import { useAtomValue } from "jotai";
@@ -18,8 +21,6 @@ import {
   Text,
   TextFieldInput,
 } from "@radix-ui/themes";
-import type { profileTranslations } from "../../../../messages/messagesKeys";
-import { PhoneSchema } from "@/lib/types/sharedTypes";
 
 type Props = { translations: profileTranslations };
 
@@ -75,7 +76,7 @@ const EditUserPhoneForm = ({ translations }: Props) => {
             <XCircle />
           </Button>
         </Dialog.Close>
-        <form color="red" onSubmit={handleSubmit(onSubmit)}>
+        <Form.Root color="red" onSubmit={handleSubmit(onSubmit)}>
           <Flex direction="column" gap="2">
             <Text as="label" size="4" color="crimson">
               {translations.phone}
@@ -86,7 +87,7 @@ const EditUserPhoneForm = ({ translations }: Props) => {
               Submit
             </Button>
           </Flex>
-        </form>
+        </Form.Root>
       </Dialog.Content>
     </Dialog.Root>
   );

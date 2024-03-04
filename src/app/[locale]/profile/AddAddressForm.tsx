@@ -6,9 +6,10 @@ import type { profileTranslations } from "../../../../messages/messagesKeys";
 import { addAddress } from "@/lib/services/client/ProfileServiceClinet";
 import type { GovernorateData } from "@/lib/types/city-governorate";
 import { valibotResolver } from "@hookform/resolvers/valibot";
+import { Loader2, Plus, XCircle } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { sessionAtom } from "@/lib/atoms/atoms";
-import { Plus, XCircle } from "lucide-react";
+import * as Form from "@radix-ui/react-form";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import { toast } from "sonner";
@@ -39,7 +40,7 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<AddressForm>({
     resolver: valibotResolver(AddressFormSchema),
@@ -87,7 +88,7 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
             <XCircle />
           </Button>
         </Dialog.Close>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Root onSubmit={handleSubmit(onSubmit)}>
           <Flex gap="2" direction="column">
             <Text as="label" size="4" color="crimson">
               {translations.addressname}
@@ -182,10 +183,11 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
             {errors.details && errors.details.message}
 
             <Button mt="4" type="submit" variant="outline">
-              Save
+              {!isSubmitting && "Save"}
+              {isSubmitting && <Loader2 className="animate-spin" />}
             </Button>
           </Flex>
-        </form>
+        </Form.Root>
       </Dialog.Content>
     </Dialog.Root>
   );

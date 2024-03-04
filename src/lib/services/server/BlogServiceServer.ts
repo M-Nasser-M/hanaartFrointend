@@ -61,20 +61,8 @@ export async function getBlogPostUsingID(id: number) {
 }
 
 export async function getBlogPostUsingSlug(slug: string) {
-  const queryString = qs.stringify({
-    filters: {
-      slug: {
-        $eq: slug,
-      },
-    },
-    populate: {
-      seo: { populate: ["metaImage"] },
-      cover: true,
-    },
-  });
-
   try {
-    const response = await serverApiAuth.get<Blogs>(`/blogs?${queryString}`);
+    const response = await serverApiAuth.get<Blog>(`/blogs/slug/${slug}`);
 
     return response;
   } catch (error) {
